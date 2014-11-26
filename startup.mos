@@ -1,0 +1,4 @@
+openModel("C:\Users\lpier\Documents\MyWork\TU_Delft\VIP\ExternalMedia\Modelica\ExternalMedia 3.2.1\package.mo")
+openModel("C:\Users\lpier\Documents\MyWork\TU_Delft\VIP\VirtualPrototyping\VIP.mo")
+
+cd ../Temp
