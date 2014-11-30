@@ -11,7 +11,6 @@ package VIP "I am a package for the Virtual Prototyping Environment"
           "Nusselt number tubes ";
           output Modelica.SIunits.CoefficientOfHeatTransfer ht[Ncell]
           "Heat transfer coefficient tubes";
-      protected
           input Modelica.SIunits.Length Dhyd "Hydraulic Diameter (single tube)";
           input Medium.ThermodynamicState state[Ncell];
           input Modelica.SIunits.ReynoldsNumber Re[Ncell]
@@ -39,7 +38,6 @@ package VIP "I am a package for the Virtual Prototyping Environment"
           "Nusselt number tubes ";
           output Modelica.SIunits.CoefficientOfHeatTransfer ht[Ncell]
           "Heat transfer coefficient tubes";
-      protected
           input Modelica.SIunits.Length Dhyd "Hydraulic Diameter (single tube)";
           input Medium.ThermodynamicState state[Ncell];
           input Modelica.SIunits.ReynoldsNumber Re[Ncell]
@@ -69,7 +67,6 @@ package VIP "I am a package for the Virtual Prototyping Environment"
           "Nusselt number tubes ";
           output Modelica.SIunits.CoefficientOfHeatTransfer ht[Ncell]
           "Heat transfer coefficient tubes";
-      protected
           input Modelica.SIunits.Length Dhyd "Hydraulic Diameter (single tube)";
           input Medium.ThermodynamicState state[Ncell];
           input Modelica.SIunits.ReynoldsNumber Re[Ncell]
@@ -96,7 +93,6 @@ package VIP "I am a package for the Virtual Prototyping Environment"
           parameter Modelica.SIunits.Length l "Lenght (single tube)";
           output Modelica.SIunits.NusseltNumber Nu[Ncell]
           "Nusselt number tubes ";
-      protected
           input Modelica.SIunits.Length Dhyd "Hydraulic Diameter (single tube)";
           input Modelica.SIunits.Velocity u[Ncell](start=ones(Ncell))
           "Velocity (average)";
@@ -119,7 +115,6 @@ package VIP "I am a package for the Virtual Prototyping Environment"
           "Medium model";
           parameter Integer Ncell(start=3) "Number of cell elements";
           parameter Modelica.SIunits.Length l "Lenght (single tube)";
-      protected
           input Modelica.SIunits.Length Dhyd "Hydraulic Diameter (single tube)";
           input Medium.ThermodynamicState state[Ncell];
       end basic_ht;
@@ -192,8 +187,6 @@ package VIP "I am a package for the Virtual Prototyping Environment"
 
       end Frank;
 
-
-
       class basic_dp "Basic pressure drop correlation"
           replaceable package Medium = VIP.Media.OneRandomOrganicFluid
           "Medium model";
@@ -247,85 +240,6 @@ package VIP "I am a package for the Virtual Prototyping Environment"
   end Pressure_drops;
 
   package Objects "Package containing all the objects of the VIP"
-    class cell "I am a cell element for the discretization of heat exchangers "
-       parameter Integer Ncell(start=3) "Number of cell elements";
-       Modelica.SIunits.HeatFlowRate qdot[Ncell] "Heat rates";
-       Modelica.SIunits.Temperature T_hot[Ncell](start=ones(Ncell)*400);
-       Modelica.SIunits.Temperature T_cold[Ncell](start=ones(Ncell)*300);
-       Modelica.SIunits.SpecificEnthalpy h_hot[2*Ncell]
-        "Hot stream 2*Ncell enthalpies";
-       Modelica.SIunits.SpecificEnthalpy h_cold[2*Ncell]
-        "Cold stream 2*Ncell enthalpies";
-       Modelica.SIunits.AbsolutePressure p_hot
-        "Hot pressure for now no pressure drops";
-       Modelica.SIunits.AbsolutePressure p_cold
-        "Cold pressure for now no pressure drops";
-       Modelica.SIunits.MassFlowRate mdot_hot "Hot mass flows";
-       Modelica.SIunits.MassFlowRate mdot_cold "Cold mass flows";
-       Integer pin_hot[Ncell]
-        "Pins to tell the direction of heat of the hot stream";
-       Integer pin_cold[Ncell]
-        "Pins to tell the direction of heat of the cold stream";
-       Modelica.SIunits.ThermalConductance htA_hot[Ncell]
-        "Thermal conductance hot side";
-       Modelica.SIunits.ThermalConductance htA_cold[Ncell]
-        "Thermal conductance cold side";
-       Modelica.SIunits.ThermalConductance G_wall[Ncell](start=ones(Ncell)*1e9)
-        "Thermal conductance of the tube wall";
-
-    equation
-      for j in 1:Ncell loop
-           qdot[j]   = pin_hot[j]*mdot_hot*(h_hot[2*j - 1] - h_hot[2*j])
-          "heat balance hot side";
-           qdot[j]   = pin_cold[j]*mdot_cold*(h_cold[2*j] - h_cold[2*j - 1])
-          "heat balance cold side";
-           qdot[j]   = 1/(1/htA_hot[j] + 1/G_wall[j] + 1/htA_cold[j])*(T_hot[j] - T_cold[j])
-          "heat transfer equation";
-           assert(T_hot[j] > T_cold[j], "Check II principle of Thermodynamics", AssertionLevel.warning);
-           //Here I get the sign of the heat across the cold cells
-      end for;
-
-      annotation (experiment(__Dymola_NumberOfIntervals=1, Tolerance=0.001),
-          __Dymola_experimentSetupOutput,
-        Icon(graphics={
-            Rectangle(extent={{-100,100},{100,-100}}, lineColor={0,0,0}),
-            Ellipse(
-              extent={{-94,-6},{-106,6}},
-              lineColor={0,0,0},
-              fillPattern=FillPattern.Solid),
-            Ellipse(
-              extent={{106,-6},{94,6}},
-              lineColor={0,0,0},
-              fillPattern=FillPattern.Solid),
-            Ellipse(
-              extent={{6,94},{-6,106}},
-              lineColor={0,0,0},
-              fillPattern=FillPattern.Solid),
-            Ellipse(
-              extent={{6,-106},{-6,-94}},
-              lineColor={0,0,0},
-              fillPattern=FillPattern.Solid),
-            Line(
-              points={{-40,0},{40,0},{40,0}},
-              color={0,0,0},
-              smooth=Smooth.None),
-            Line(
-              points={{32,8},{40,0},{32,-8}},
-              color={0,0,0},
-              smooth=Smooth.None),
-            Line(
-              points={{0,40},{0,-40},{0,-40},{0,-40}},
-              color={0,0,0},
-              smooth=Smooth.None),
-            Line(
-              points={{0,-40},{8,-32}},
-              color={0,0,0},
-              smooth=Smooth.None),
-            Line(
-              points={{0,-40},{-8,-32}},
-              color={0,0,0},
-              smooth=Smooth.None)}));
-    end cell;
 
     class tube_bundle
       "I am a tube bundle and I contain all the my relevant informations"
@@ -369,7 +283,6 @@ package VIP "I am a package for the Virtual Prototyping Environment"
         Modelica.SIunits.Velocity u[Ncell](start=ones(Ncell))
         "Velocity (average)";
         Modelica.SIunits.MassFlowRate m(start=1) "Mass flow shell side";
-    protected
         Medium.ThermodynamicState state[Ncell];
         Modelica.SIunits.ReynoldsNumber Re[Ncell]
         "Reynolds number tubes (average)";
@@ -404,6 +317,84 @@ package VIP "I am a package for the Virtual Prototyping Environment"
             Ellipse(extent={{54,20},{64,-40}}, lineColor={0,0,0}),
             Ellipse(extent={{-66,20},{-56,-40}}, lineColor={0,0,0})}));
     end tubes;
+
+    class cell "I am a cell element for the discretization of heat exchangers "
+       parameter Integer Ncell "Number of cell elements";
+       Modelica.SIunits.MassFlowRate mdot_hot "Hot mass flows";
+       Modelica.SIunits.MassFlowRate mdot_cold "Cold mass flows";
+       Modelica.SIunits.SpecificEnthalpy h_hot[2*Ncell]
+        "Hot stream 2*Ncell enthalpies";
+       Modelica.SIunits.SpecificEnthalpy h_cold[2*Ncell]
+        "Cold stream 2*Ncell enthalpies";
+       Integer pin_hot[Ncell]
+        "Pins to tell the direction of heat of the hot stream";
+       Integer pin_cold[Ncell]
+        "Pins to tell the direction of heat of the cold stream";
+       Modelica.SIunits.Temperature  T_hot[Ncell]
+        "Temperatures of the shell cells";
+       Modelica.SIunits.Temperature  T_cold[Ncell]
+        "Temperatures of the tube cells";
+       Modelica.SIunits.HeatFlowRate qdot[Ncell] "Heat rates";
+       Modelica.SIunits.ThermalConductance htA_1[Ncell]
+        "Thermal conductance shell side";
+       Modelica.SIunits.ThermalConductance htA_2[Ncell]
+        "Thermal conductance tube side";
+       Modelica.SIunits.ThermalConductance G_wall[Ncell]
+        "Thermal conductance of the tube wall";
+
+    equation
+      for j in 1:Ncell loop
+           qdot[j]   = pin_hot[j]*mdot_hot*(h_hot[2*j - 1] - h_hot[2*j])
+          "heat balance shell side";
+           qdot[j]   = pin_cold[j]*mdot_cold*(h_cold[2*j] - h_cold[2*j - 1])
+          "heat balance tube side";
+           qdot[j]   = 1/(1/htA_1[j] + 1/G_wall[j] + 1/htA_2[j])*(T_hot[j] - T_cold[j])
+          "heat transfer equation";
+           assert(T_hot[j] > T_cold[j], "Check II principle of Thermodynamics", AssertionLevel.warning);
+           //Here I get the sign of the heat across the tube cells
+      end for;
+
+      annotation (experiment(__Dymola_NumberOfIntervals=1, Tolerance=0.001),
+          __Dymola_experimentSetupOutput,
+        Icon(graphics={
+            Rectangle(extent={{-100,100},{100,-100}}, lineColor={0,0,0}),
+            Ellipse(
+              extent={{-94,-6},{-106,6}},
+              lineColor={0,0,0},
+              fillPattern=FillPattern.Solid),
+            Ellipse(
+              extent={{106,-6},{94,6}},
+              lineColor={0,0,0},
+              fillPattern=FillPattern.Solid),
+            Ellipse(
+              extent={{6,94},{-6,106}},
+              lineColor={0,0,0},
+              fillPattern=FillPattern.Solid),
+            Ellipse(
+              extent={{6,-106},{-6,-94}},
+              lineColor={0,0,0},
+              fillPattern=FillPattern.Solid),
+            Line(
+              points={{-40,0},{40,0},{40,0}},
+              color={0,0,0},
+              smooth=Smooth.None),
+            Line(
+              points={{32,8},{40,0},{32,-8}},
+              color={0,0,0},
+              smooth=Smooth.None),
+            Line(
+              points={{0,40},{0,-40},{0,-40},{0,-40}},
+              color={0,0,0},
+              smooth=Smooth.None),
+            Line(
+              points={{0,-40},{8,-32}},
+              color={0,0,0},
+              smooth=Smooth.None),
+            Line(
+              points={{0,-40},{-8,-32}},
+              color={0,0,0},
+              smooth=Smooth.None)}));
+    end cell;
   end Objects;
 
   package Useful_functions "Package containing useful functions"
@@ -545,62 +536,99 @@ package VIP "I am a package for the Virtual Prototyping Environment"
 
   package Topologies
     "This package contains different topologies for heat exchangers"
-    class U_type__hot_up_cold_down
-      "Shell and tube U-type the hot fluid enters at the top and the cold enters at the bottom"
-      parameter Integer N_baffles_d;
-      parameter Integer Ncell;
-      replaceable VIP.Objects.cell cells(Ncell=Ncell);
+
+    class shell_tube
+      "Shell and tube topology. The shell fluid enters at the top and the tube enters at the bottom"
+      parameter Integer N_baffles_d(start=3);
+      parameter Integer Ncell(start=6);
+      parameter Integer N_passes(start=2) "Number of tube passes";
+      parameter Modelica.SIunits.SpecificEnthalpy h_s_in;
+      parameter Modelica.SIunits.SpecificEnthalpy h_t_in;
+      parameter Modelica.SIunits.SpecificEnthalpy h_s_out;
+      output Modelica.SIunits.SpecificEnthalpy h_tube[2*Ncell]
+        "Tube enthalpies";
+      output Modelica.SIunits.SpecificEnthalpy h_shell[2*Ncell]
+        "Shell enthalpies";
+      output Integer pin_tube[Ncell]
+        "Pins to tell the direction of heat of the tubes";
+      output Integer pin_shell[Ncell]
+        "Pins to tell the direction of heat of the shell";
 
     equation
-          for j in N_baffles_d:-2:1 loop
-              cells.pin_hot[j] = 1;
-              cells.pin_hot[j + N_baffles_d] = 1;
-          end for;
-          for j in N_baffles_d-1:-2:1 loop
-              cells.pin_hot[j] = -1;
-              cells.pin_hot[j + N_baffles_d] = -1;
-          end for;
+          h_shell[2*N_baffles_d - 1]            = h_s_in;
+          h_shell[2*Ncell - 2*N_baffles_d + 2]  = h_s_out;
 
-          //Connecting the cells on the cold side
-          for j in 2:2:2*Ncell-1 loop
-            if (j == Ncell) then
-              cells.h_cold[Ncell] = cells.h_cold[2*Ncell];
-            else
-              cells.h_cold[j] = cells.h_cold[j + 1];
+          if (N_passes <> 1) then
+            h_tube[2*Ncell - 2*N_baffles_d + 1] = h_t_in;
+          else
+            h_tube[2*N_baffles_d]               = h_t_in;
+          end if;
+
+          //Connecting the cells on the tube side (ok confirmed for all config.)
+           for j in 2*N_baffles_d:4*N_baffles_d:2*Ncell - 2*N_baffles_d loop
+               h_tube[j] = h_tube[j + 2*N_baffles_d];
+           end for;
+
+           for j in 2*N_baffles_d + 1:4*N_baffles_d:2*Ncell - 2*N_baffles_d loop
+               h_tube[j] = h_tube[j + 2*N_baffles_d];
+           end for;
+
+          //Connecting the cells on the shell side (ok confirmed for all config.)
+          for i in 1:N_passes loop
+            for j in 2 + 2*N_baffles_d*(i-1):2:2*N_baffles_d*i-1 loop
+              h_tube[j] = h_tube[j + 1];
+              if (i <> N_passes) then
+                h_shell[j] = h_shell[j + 2*N_baffles_d - 1];
+              end if;
+            end for;
+            if (i <> N_passes) then
+              h_shell[2*N_baffles_d*i] = h_shell[2*N_baffles_d*i + 2*N_baffles_d - 1];
             end if;
           end for;
 
-          //Connecting the cells on the hot side
-          for j in 2:2:Ncell loop
-            cells.h_hot[j] = cells.h_hot[j + Ncell - 1];
+           for j in 2*Ncell:-4:2*(Ncell - N_baffles_d) + 3 loop
+             h_shell[j] = h_shell[j - 2];
+           end for;
+
+          for j in 2*N_baffles_d-3:-4:2 loop
+            h_shell[j] = h_shell[j - 2];
           end for;
 
-          for j in 2*Ncell:-4:Ncell+4 loop
-            cells.h_hot[j] = cells.h_hot[j - 2];
+          for i in 1:N_passes loop
+            for j in 1 + N_baffles_d*(i-1):N_baffles_d*i loop
+              if mod(i,2) == 0 then
+                pin_tube[j] = 1;
+              else
+                pin_tube[j] = -1;
+              end if;
+            end for;
+          end for;
+    //       for j in 1:2*N_baffles_d:Ncell loop
+    //         for i in 1:N_baffles_d loop
+    //             pin_tube[j + i - 1]               = -1;
+    //             pin_tube[j + i - 1 + N_baffles_d] = 1;
+    //         end for;
+    //       end for;
+
+          for i in N_baffles_d:-2:1 loop
+            for j in N_passes:-1:1 loop
+                pin_shell[i+N_baffles_d*(j-1)]   = 1;
+            end for;
           end for;
 
-          for j in Ncell - 3:-4:2 loop
-            cells.h_hot[j] = cells.h_hot[j - 2];
+          for i in N_baffles_d-1:-2:1 loop
+            for j in N_passes:-1:1 loop
+                pin_shell[i+N_baffles_d*(j-1)]   = -1;
+            end for;
           end for;
 
-          for j in 1:Ncell loop
-            if (j <= N_baffles_d) then
-               cells.pin_cold[j] = -1;
-             else
-               cells.pin_cold[j] = 1;
-            end if;
-          end for;
-
-    end U_type__hot_up_cold_down;
+    end shell_tube;
   end Topologies;
 
-
-
-  annotation (uses(Modelica(version="3.2")), Icon(coordinateSystem(
-          preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics));
   package Components "Library with the design of the components "
     package Shell_and_tubes "Shell and tube heat exchangers"
-      model U_type_hot_shell
+
+      model shell_and_tube
         "U_type heat exchanger where the hot fluid flows on the shell and enters from the top. The cold fluid enters at the bottom."
         import constants = Modelica.Constants;
         //THE WORKING FLUIDS
@@ -612,8 +640,6 @@ package VIP "I am a package for the Virtual Prototyping Environment"
           "Hydraulic Diameter (single tube)";
         parameter Modelica.SIunits.Length thick = 2e-3 "Thickness of the tube";
         parameter Modelica.SIunits.Length l = 4.83 "Lenght (single tube)";
-      //   parameter Modelica.SIunits.Length clearance = 68e-3
-      //     "Bundle - shell clearance";
         parameter Real pitch_f = 1.25
           "Tube pitch as a fraction of the outer tube diameter";
         parameter Modelica.SIunits.ThermalConductivity lambda_wall = 50
@@ -625,7 +651,8 @@ package VIP "I am a package for the Virtual Prototyping Environment"
           "Number of baffles which are actually discretized (it should be N_baffle/2 or /3";
         parameter Integer Ncell = N_baffles_d*N_passes
           "Number of cell elements";
-
+        parameter Integer allocation = 1
+          "allocation = 1 hot fluid on the shell side";
         Modelica.SIunits.HeatFlowRate qtot "Heat flow rate";
         Modelica.SIunits.Temperature t_s_out;
         Modelica.SIunits.Temperature t_t_out;
@@ -633,12 +660,13 @@ package VIP "I am a package for the Virtual Prototyping Environment"
         Modelica.SIunits.Length d_s_eq "Equivalent shell diameter";
         Modelica.SIunits.Length l_b "Baffle lenght";
         Real N_tubes(start = 600) "Number of tubes in the bundle";
-        Real N_t_p_p(start = N_tubes/N_passes) "Number of tubes per pass";
-        Real bs_f(start = 20)
-          "Baffle spacing as a fraction of the shell diameter";
+        Real N_t_p_p "Number of tubes per pass";
+        Real bs_f "Baffle spacing as a fraction of the shell diameter";
 
-        VIP.Objects.cell
-                   mycells(Ncell=Ncell);
+        VIP.Objects.cell     mycells(Ncell=Ncell);
+
+        VIP.Topologies.shell_tube topology(Ncell=Ncell,N_baffles_d=N_baffles_d,N_passes=N_passes,h_s_in=h_s_in, h_s_out=h_s_out, h_t_in=h_t_in,
+                                             h_tube(start=linspace(h_t_in, h_t_out, 2*Ncell)), h_shell(start=linspace(h_s_in, h_s_out, 2*Ncell)));
         VIP.Objects.tube_bundle
                     mytubes(redeclare package Medium = Medium_t,
                     h(start=linspace(h_t_in, h_t_out, 2*Ncell)),
@@ -648,9 +676,6 @@ package VIP "I am a package for the Virtual Prototyping Environment"
                     VIP.Useful_functions.Shell.SRFH,
                     Ncell=N_baffles_d*N_passes, Aflow = 0.25*constants.pi*Dhyd^2,
                     Dhyd=Dhyd, l=l, thick=thick, N_tubes=N_tubes, N_passes=N_passes, layout=layout);
-
-      //               redeclare VIP.Heat_transfer.Tubes.EagleFerguson heatTransfer(u=mytubes.u),
-      //              redeclare VIP.Heat_transfer.Tubes.Dittus_Boelter heatTransfer(Re=mytubes.Re, Pr=mytubes.Pr, alfa=0.4),
 
         VIP.Objects.tubes
                     myshell(redeclare package Medium = Medium_s,
@@ -665,92 +690,72 @@ package VIP "I am a package for the Virtual Prototyping Environment"
           "fouling heat transfer coefficient (tube side)";
         parameter Modelica.SIunits.CoefficientOfHeatTransfer ht_s_f[Ncell] = ones(Ncell)*5e3
           "fouling heat transfer coefficient (tube side)";
-        parameter Modelica.SIunits.MassFlowRate m_s = 1e5/3.6e3
+         parameter Modelica.SIunits.MassFlowRate m_s = 1e5/3.6e3
           "Mass flow shell side";
-        parameter Medium_s.SaturationProperties state_sat_s = Medium_s.setSat_T(368.15)
+         parameter Medium_s.SaturationProperties state_sat_s = Medium_s.setSat_T(368.15)
           "Thermodynamic state at the inlet of the hot side";
-        parameter Modelica.SIunits.AbsolutePressure p_s_in = state_sat_s.psat
+         parameter Modelica.SIunits.AbsolutePressure p_s_in = state_sat_s.psat
           "Inlet pressure shell side";
-        parameter Modelica.SIunits.SpecificEnthalpy h_s_in= Medium_s.bubbleEnthalpy(state_sat_s)
+         parameter Modelica.SIunits.SpecificEnthalpy h_s_in= Medium_s.bubbleEnthalpy(state_sat_s)
           "Inlet specific enthalpy shell side";
-        parameter Modelica.SIunits.AbsolutePressure p_s_out = p_s_in
+         parameter Modelica.SIunits.AbsolutePressure p_s_out = p_s_in
           "Outlet pressure shell side";
-        parameter Modelica.SIunits.SpecificEnthalpy h_s_out = Medium_s.specificEnthalpy_pT(p_s_out, 40 + 273.15)
+         parameter Modelica.SIunits.SpecificEnthalpy h_s_out = Medium_s.specificEnthalpy_pT(p_s_out, 40 + 273.15)
           "Outlet specific enthalpy shell side";
 
-        parameter Modelica.SIunits.MassFlowRate m_t = 68.9
+         parameter Modelica.SIunits.MassFlowRate m_t = 68.9
           "Mass flow tube side";
-        parameter Modelica.SIunits.AbsolutePressure p_t_in = 1.0e5
+         parameter Modelica.SIunits.AbsolutePressure p_t_in = 1.0e5
           "Inlet pressure tube side";
-        parameter Modelica.SIunits.SpecificEnthalpy h_t_in = Medium_t.specificEnthalpy_pT(p_t_in, 25 + 273.15)
+         parameter Modelica.SIunits.SpecificEnthalpy h_t_in = Medium_t.specificEnthalpy_pT(p_t_in, 25 + 273.15)
           "Inlet specific enthalpy tube side";
-        parameter Modelica.SIunits.SpecificEnthalpy h_t_out = Medium_t.specificEnthalpy_pT(p_t_out, 40 + 273.15)
+         parameter Modelica.SIunits.SpecificEnthalpy h_t_out = Medium_t.specificEnthalpy_pT(p_t_out, 40 + 273.15)
           "Outlet specific enthalpy tube side";
-        parameter Modelica.SIunits.AbsolutePressure p_t_out = 1.0e5
+         parameter Modelica.SIunits.AbsolutePressure p_t_out = 1.0e5
           "Outlet pressure tube side";
 
       equation
-          //Boundary conditions when projecting the heat exchanger
-          mycells.h_hot[Ncell - 1]  = h_s_in;
-          mycells.h_cold[Ncell + 1] = h_t_in;
-          mycells.h_hot[Ncell + 2]  = h_s_out;
-          mycells.mdot_cold         = m_t;
-          mycells.p_cold            = p_t_in;
-          mycells.mdot_hot          = m_s;
-          mycells.p_hot             = p_s_in;
-          qtot                      = m_s*(h_s_in - h_s_out);
-
           mytubes.p_in = p_t_in;
-          mytubes.m = m_t/N_t_p_p;
-
+          mytubes.m    = m_t/N_t_p_p;
           myshell.p_in = p_s_in;
-          myshell.m = m_s;
+          myshell.m    = m_s;
 
-            for j in 1:2*Ncell loop
-              myshell.h[j] = mycells.h_hot[j];
-              mytubes.h[j] = mycells.h_cold[j];
-            end for;
+          qtot       = m_s*(h_s_in - h_s_out);
 
-            for j in N_baffles_d:-2:1 loop
-                mycells.pin_hot[j] = 1;
-                mycells.pin_hot[j + N_baffles_d] = 1;
-            end for;
-            for j in N_baffles_d-1:-2:1 loop
-                mycells.pin_hot[j] = -1;
-                mycells.pin_hot[j + N_baffles_d] = -1;
-            end for;
+          if (allocation == 1) then
+            mycells.mdot_cold    = m_t;
+            mycells.mdot_hot     = m_s;
+          else
+             mycells.mdot_cold    = m_s;
+             mycells.mdot_hot     = m_t;
+          end if;
 
-            //Connecting the cells on the cold side
-            for j in 2:2:2*Ncell-1 loop
-              if (j == Ncell) then
-                mycells.h_cold[Ncell] = mycells.h_cold[2*Ncell];
-              else
-                mycells.h_cold[j] = mycells.h_cold[j + 1];
-              end if;
-            end for;
+          for j in 1:2*Ncell loop
+            myshell.h[j] = topology.h_shell[j];
+            mytubes.h[j] = topology.h_tube[j];
+             if (allocation == 1) then
+              mycells.h_cold[j]    = topology.h_tube[j];
+              mycells.h_hot[j]     = topology.h_shell[j];
+             else
+               mycells.h_cold[j]    = topology.h_shell[j];
+               mycells.h_hot[j]     = topology.h_tube[j];
+             end if;
+          end for;
 
-            //Connecting the cells on the hot side
-            for j in 2:2:Ncell loop
-              mycells.h_hot[j] = mycells.h_hot[j + Ncell - 1];
-            end for;
-
-            for j in 2*Ncell:-4:Ncell+4 loop
-              mycells.h_hot[j] = mycells.h_hot[j - 2];
-            end for;
-
-            for j in Ncell - 3:-4:2 loop
-              mycells.h_hot[j] = mycells.h_hot[j - 2];
-            end for;
-
-            for j in 1:Ncell loop
-              mycells.T_hot[j]   = myshell.state[j].T;
-              mycells.T_cold[j]  = mytubes.state[j].T;
-              if (j <= N_baffles_d) then
-                 mycells.pin_cold[j] = -1;
-               else
-                 mycells.pin_cold[j] = 1;
-              end if;
-            end for;
+          for j in 1:Ncell loop
+            mycells.T_hot[j]  = myshell.state[j].T;
+            mycells.T_cold[j] = mytubes.state[j].T;
+            mycells.htA_1[j]    = myshell.At/(1/myshell.heatTransfer.ht[j] + 1/ht_s_f[j]);
+            mycells.htA_2[j]    = mytubes.At/(1/mytubes.heatTransfer.ht[j] + 1/ht_t_f[j]);
+            mycells.G_wall[j]   = mytubes.At*mytubes.G_wall/mytubes.Dhyd;
+             if (allocation == 1) then
+              mycells.pin_cold[j]    = topology.pin_tube[j];
+              mycells.pin_hot[j]     = topology.pin_shell[j];
+             else
+               mycells.pin_cold[j]    = topology.pin_shell[j];
+               mycells.pin_hot[j]     = topology.pin_tube[j];
+             end if;
+          end for;
 
           d_s                     = mytubes.d_b + mytubes.clearance
           "Shell diameter";
@@ -773,16 +778,9 @@ package VIP "I am a package for the Virtual Prototyping Environment"
           myshell.At     = N_t_p_p*constants.pi*l/N_baffles_d*mytubes.Dhyd_o
           "I see this heat transfer area if I am outside the tubes";
 
-          for i in 1:Ncell loop
-            //All the heat transfer conductances here
-            mycells.htA_hot[i]    = myshell.At/(1/myshell.heatTransfer.ht[i] + 1/ht_s_f[i]);
-            mycells.htA_cold[i]   = mytubes.At/(1/mytubes.heatTransfer.ht[i] + 1/ht_t_f[i]);
-            mycells.G_wall[i]     = mytubes.At*mytubes.G_wall/mytubes.Dhyd;
-          end for;
-
-            //The outlet temperatures just to check the outlet conditions
-            t_s_out         = Medium_s.temperature_ph(p_s_out, mycells.h_hot[Ncell + 2]);
-            t_t_out         = Medium_t.temperature_ph(p_t_out, mycells.h_cold[1]);
+           //The outlet temperatures just to check the outlet conditions
+           t_s_out         = Medium_s.temperature_ph(p_s_out, myshell.h[Ncell + 2]);
+           t_t_out         = Medium_t.temperature_ph(p_t_out, mytubes.h[1]);
 
         annotation (experiment(
             __Dymola_NumberOfIntervals=1,
@@ -858,276 +856,27 @@ package VIP "I am a package for the Virtual Prototyping Environment"
                 smooth=Smooth.None,
                 origin={-32,-54},
                 rotation=90)}));
-      end U_type_hot_shell;
+      end shell_and_tube;
     end Shell_and_tubes;
   end Components;
 
   package Tests "I test the components here"
     model validation_Aspen "Verification with the results given by Aspen"
-      shell_and_tube_1D_Coulson shell_and_tube_1D_Coulson1(
+
+      VIP.Components.Shell_and_tubes.shell_and_tube U_type__hot_up_cold_down(
         N_baffles=24,
-        N_baffles_d=24,
-        l=4.32)
+        l=4.32,
+        N_tubes(fixed=true, start=800),
+        N_baffles_d=48)
         annotation (Placement(transformation(extent={{-108,-74},{88,66}})));
     end validation_Aspen;
 
-    model shell_and_tube_1D_Coulson
-      "Cell method to design a shell and tube heat exchanger (design)"
-      import constants = Modelica.Constants;
-      //THE WORKING FLUIDS
-      package Medium_s = VIP.Media.Methanol_CoolProp "Medium model";
-      package Medium_t = VIP.Media.Water_CoolProp "Medium model";
+    model validation_Coulson "Verification with the results given by Coulson"
 
-      //GEOMETRY OF THE HEAT EXCHANGER
-      parameter Modelica.SIunits.Length Dhyd = 16e-3
-        "Hydraulic Diameter (single tube)";
-      parameter Modelica.SIunits.Length thick = 2e-3 "Thickness of the tube";
-      parameter Modelica.SIunits.Length l = 4.83 "Lenght (single tube)";
-    //   parameter Modelica.SIunits.Length clearance = 68e-3
-    //     "Bundle - shell clearance";
-      parameter Real pitch_f = 1.25
-        "Tube pitch as a fraction of the outer tube diameter";
-      parameter Modelica.SIunits.ThermalConductivity lambda_wall = 50
-        "Thermal conductivity of the tube wall";
-      parameter Integer layout = 1 "Tube layout 1 = triangular, 2 = squared";
-      parameter Integer N_passes = 2 "Number of tube passes";
-      parameter Integer N_baffles = 27 "Number of baffles";
-      parameter Integer N_baffles_d = 9
-        "Number of baffles which are actually discretized (it should be N_baffle/2 or /3";
-      parameter Integer Ncell = N_baffles_d*N_passes "Number of cell elements";
-
-      Modelica.SIunits.HeatFlowRate qtot "Heat flow rate";
-      Modelica.SIunits.Temperature t_s_out;
-      Modelica.SIunits.Temperature t_t_out;
-      Modelica.SIunits.Length d_s "Shell diameter";
-      Modelica.SIunits.Length d_s_eq "Equivalent shell diameter";
-      Modelica.SIunits.Length l_b "Baffle lenght";
-      Real N_tubes(start = 600) "Number of tubes in the bundle";
-      Real N_t_p_p(start = N_tubes/N_passes) "Number of tubes per pass";
-      Real bs_f(start = 20)
-        "Baffle spacing as a fraction of the shell diameter";
-
-      VIP.Objects.cell
-                 mycells(Ncell=Ncell);
-      VIP.Objects.tube_bundle
-                  mytubes(redeclare package Medium = Medium_t,
-                  h(start=linspace(h_t_in, h_t_out, 2*Ncell)),
-                  redeclare VIP.Heat_transfer.Tubes.Sieder_Tate heatTransfer(Re=mytubes.Re, Pr=mytubes.Pr, eta_wall=mytubes.state[1].eta*ones(Ncell)),
-                  redeclare VIP.Pressure_drops.Tubes.Frank pressureDrop(l=l/N_baffles_d, Re=mytubes.Re, u=mytubes.u, heads = 2.5/Ncell),
-                  redeclare function bundle_clearance =
-                  VIP.Useful_functions.Shell.SRFH,
-                  Ncell=N_baffles_d*N_passes, Aflow = 0.25*constants.pi*Dhyd^2,
-                  Dhyd=Dhyd, l=l, thick=thick, N_tubes=N_tubes, N_passes=N_passes, layout=layout);
-
-    //               redeclare VIP.Heat_transfer.Tubes.EagleFerguson heatTransfer(u=mytubes.u),
-    //              redeclare VIP.Heat_transfer.Tubes.Dittus_Boelter heatTransfer(Re=mytubes.Re, Pr=mytubes.Pr, alfa=0.4),
-
-      VIP.Objects.tubes
-                  myshell(redeclare package Medium = Medium_s,
-                  h(start=linspace(h_s_in, h_s_out, 2*Ncell)),
-                  redeclare VIP.Heat_transfer.Shell.Kern heatTransfer(Re=myshell.Re, Pr=myshell.Pr),
-                  redeclare VIP.Pressure_drops.Shell.Kern pressureDrop(l=l/N_baffles_d/N_passes, d_s=d_s, Dhyd=d_s_eq, Re=mytubes.Re, u=myshell.u, l_b = l_b),
-                  Ncell=N_baffles_d*N_passes, Aflow = (1 - 1/pitch_f)*d_s*l_b,
-                  Dhyd=d_s_eq, l=l, thick=thick);
-
-    protected
-      parameter Modelica.SIunits.CoefficientOfHeatTransfer ht_t_f[Ncell] = ones(Ncell)*3e3
-        "fouling heat transfer coefficient (tube side)";
-      parameter Modelica.SIunits.CoefficientOfHeatTransfer ht_s_f[Ncell] = ones(Ncell)*5e3
-        "fouling heat transfer coefficient (tube side)";
-      parameter Modelica.SIunits.MassFlowRate m_s = 1e5/3.6e3
-        "Mass flow shell side";
-      parameter Medium_s.SaturationProperties state_sat_s = Medium_s.setSat_T(368.15)
-        "Thermodynamic state at the inlet of the hot side";
-      parameter Modelica.SIunits.AbsolutePressure p_s_in = state_sat_s.psat
-        "Inlet pressure shell side";
-      parameter Modelica.SIunits.SpecificEnthalpy h_s_in= Medium_s.bubbleEnthalpy(state_sat_s)
-        "Inlet specific enthalpy shell side";
-      parameter Modelica.SIunits.AbsolutePressure p_s_out = p_s_in
-        "Outlet pressure shell side";
-      parameter Modelica.SIunits.SpecificEnthalpy h_s_out = Medium_s.specificEnthalpy_pT(p_s_out, 40 + 273.15)
-        "Outlet specific enthalpy shell side";
-
-      parameter Modelica.SIunits.MassFlowRate m_t = 68.9 "Mass flow tube side";
-      parameter Modelica.SIunits.AbsolutePressure p_t_in = 1.0e5
-        "Inlet pressure tube side";
-      parameter Modelica.SIunits.SpecificEnthalpy h_t_in = Medium_t.specificEnthalpy_pT(p_t_in, 25 + 273.15)
-        "Inlet specific enthalpy tube side";
-      parameter Modelica.SIunits.SpecificEnthalpy h_t_out = Medium_t.specificEnthalpy_pT(p_t_out, 40 + 273.15)
-        "Outlet specific enthalpy tube side";
-      parameter Modelica.SIunits.AbsolutePressure p_t_out = 1.0e5
-        "Outlet pressure tube side";
-
-    equation
-        //Boundary conditions when projecting the heat exchanger
-        mycells.h_hot[Ncell - 1]  = h_s_in;
-        mycells.h_cold[Ncell + 1] = h_t_in;
-        mycells.h_hot[Ncell + 2]  = h_s_out;
-        mycells.mdot_cold         = m_t;
-        mycells.p_cold            = p_t_in;
-        mycells.mdot_hot          = m_s;
-        mycells.p_hot             = p_s_in;
-        qtot                      = m_s*(h_s_in - h_s_out);
-
-        mytubes.p_in = p_t_in;
-        mytubes.m = m_t/N_t_p_p;
-
-        myshell.p_in = p_s_in;
-        myshell.m = m_s;
-
-          for j in 1:2*Ncell loop
-            myshell.h[j] = mycells.h_hot[j];
-            mytubes.h[j] = mycells.h_cold[j];
-          end for;
-
-          for j in N_baffles_d:-2:1 loop
-              mycells.pin_hot[j] = 1;
-              mycells.pin_hot[j + N_baffles_d] = 1;
-          end for;
-          for j in N_baffles_d-1:-2:1 loop
-              mycells.pin_hot[j] = -1;
-              mycells.pin_hot[j + N_baffles_d] = -1;
-          end for;
-
-          //Connecting the cells on the cold side
-          for j in 2:2:2*Ncell-1 loop
-            if (j == Ncell) then
-              mycells.h_cold[Ncell] = mycells.h_cold[2*Ncell];
-            else
-              mycells.h_cold[j] = mycells.h_cold[j + 1];
-            end if;
-          end for;
-
-          //Connecting the cells on the hot side
-          for j in 2:2:Ncell loop
-            mycells.h_hot[j] = mycells.h_hot[j + Ncell - 1];
-          end for;
-
-          for j in 2*Ncell:-4:Ncell+4 loop
-            mycells.h_hot[j] = mycells.h_hot[j - 2];
-          end for;
-
-          for j in Ncell - 3:-4:2 loop
-            mycells.h_hot[j] = mycells.h_hot[j - 2];
-          end for;
-
-          for j in 1:Ncell loop
-            mycells.T_hot[j]   = myshell.state[j].T;
-            mycells.T_cold[j]  = mytubes.state[j].T;
-            if (j <= N_baffles_d) then
-               mycells.pin_cold[j] = -1;
-             else
-               mycells.pin_cold[j] = 1;
-            end if;
-          end for;
-
-        d_s                     = mytubes.d_b + mytubes.clearance
-        "Shell diameter";
-        l_b                     = l/N_baffles "Baffle spacing";
-        bs_f                    = 1e2*l_b/d_s
-        "Baffle spacing as a percentage og the shell diameter 20 - 100 per cent";
-
-        //Equivalent shell diameter
-        if layout == 1 then
-          d_s_eq  = 1.1*mytubes.Dhyd_o*(pitch_f^2 - 0.917);
-        elseif layout == 2 then
-          d_s_eq  = 1.27*mytubes.Dhyd_o*(pitch_f^2 - 0.785);
-        else
-          d_s_eq  = 1;
-        end if;
-
-        mytubes.At     = N_t_p_p*constants.pi*l/N_baffles_d*mytubes.Dhyd
-        "I see this heat transfer area if I am inside the tubes";
-        N_t_p_p        = floor(N_tubes/N_passes) "Number of tubes per pass";
-        myshell.At     = N_t_p_p*constants.pi*l/N_baffles_d*mytubes.Dhyd_o
-        "I see this heat transfer area if I am outside the tubes";
-
-        for i in 1:Ncell loop
-          //All the heat transfer conductances here
-          mycells.htA_hot[i]    = myshell.At/(1/myshell.heatTransfer.ht[i] + 1/ht_s_f[i]);
-          mycells.htA_cold[i]   = mytubes.At/(1/mytubes.heatTransfer.ht[i] + 1/ht_t_f[i]);
-          mycells.G_wall[i]     = mytubes.At*mytubes.G_wall/mytubes.Dhyd;
-        end for;
-
-          //The outlet temperatures just to check the outlet conditions
-          t_s_out         = Medium_s.temperature_ph(p_s_out, mycells.h_hot[Ncell + 2]);
-          t_t_out         = Medium_t.temperature_ph(p_t_out, mycells.h_cold[1]);
-
-      annotation (experiment(
-          __Dymola_NumberOfIntervals=1,
-          Tolerance=0.001,
-          __Dymola_Algorithm="Dassl"),
-          __Dymola_experimentSetupOutput,
-        Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
-                100,100}}),
-            graphics={
-            Rectangle(extent={{-60,-20},{66,-20}}, lineColor={85,170,255}),
-            Rectangle(extent={{-60,20},{66,20}}, lineColor={85,170,255}),
-            Rectangle(
-              extent={{-40,30},{80,-30}},
-              lineColor={0,0,0},
-              lineThickness=0.5),
-            Rectangle(
-              extent={{-36,-30},{-24,-42}},
-              lineColor={0,0,0},
-              lineThickness=0.5),
-            Rectangle(
-              extent={{64,42},{76,30}},
-              lineColor={0,0,0},
-              lineThickness=0.5),
-            Line(
-              points={{66,20},{66,-20}},
-              color={85,170,255},
-              smooth=Smooth.None),
-            Line(
-              points={{0,-20},{-4,-16}},
-              color={85,170,255},
-              smooth=Smooth.None),
-            Line(
-              points={{0,-20},{-4,-24}},
-              color={85,170,255},
-              smooth=Smooth.None),
-            Line(
-              points={{0,20},{4,24}},
-              color={85,170,255},
-              smooth=Smooth.None),
-            Line(
-              points={{0,20},{4,16}},
-              color={85,170,255},
-              smooth=Smooth.None),
-            Line(
-              points={{70,60},{70,36}},
-              color={255,0,0},
-              smooth=Smooth.None),
-            Line(
-              points={{2,-2},{-2,2}},
-              color={255,0,0},
-              smooth=Smooth.None,
-              origin={72,38},
-              rotation=90),
-            Line(
-              points={{2,2},{-2,-2}},
-              color={255,0,0},
-              smooth=Smooth.None,
-              origin={68,38},
-              rotation=90),
-            Line(
-              points={{-30,-32},{-30,-56}},
-              color={255,0,0},
-              smooth=Smooth.None),
-            Line(
-              points={{2,-2},{-2,2}},
-              color={255,0,0},
-              smooth=Smooth.None,
-              origin={-28,-54},
-              rotation=90),
-            Line(
-              points={{2,2},{-2,-2}},
-              color={255,0,0},
-              smooth=Smooth.None,
-              origin={-32,-54},
-              rotation=90)}));
-    end shell_and_tube_1D_Coulson;
+      VIP.Components.Shell_and_tubes.shell_and_tube U_type__hot_up_cold_down(N_tubes(
+            fixed=true, start=800), N_baffles_d=9)
+        annotation (Placement(transformation(extent={{-108,-74},{88,66}})));
+    end validation_Coulson;
 
     model cell_method_VDI_example
       "Cell method verified with an example from VDI C1 pag. 48"
@@ -1206,4 +955,6 @@ package VIP "I am a package for the Virtual Prototyping Environment"
             graphics));
     end cell_method_VDI_example;
   end Tests;
+  annotation (uses(Modelica(version="3.2")), Icon(coordinateSystem(
+          preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics));
 end VIP;
