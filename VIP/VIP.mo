@@ -5,95 +5,97 @@ package VIP "I am a package for the Virtual Prototyping Environment"
   import Modelica.Constants.*;
 
   package Icons "Icons for the virtual prototpying environment"
-    partial package shell_tube "Shell and tube icon"
-      extends VIP.Icons.tube;
-      extends VIP.Icons.shell;
+    partial model shell_tube "Shell and tube icon"
+
       annotation (Icon(graphics={
-            Rectangle(extent={{-80,-10},{46,-10}}, lineColor={85,170,255}),
-            Rectangle(extent={{-80,30},{46,30}}, lineColor={85,170,255}),
             Rectangle(
-              extent={{-56,-20},{-44,-32}},
+              extent={{-80,60},{90,-40}},
               lineColor={0,0,0}),
             Rectangle(
-              extent={{44,52},{56,40}},
+              extent={{-60,-40},{-40,-60}},
+              lineColor={0,0,0}),
+            Rectangle(
+              extent={{60,80},{80,60}},
               lineColor={0,0,0}),
             Line(
-              points={{46,30},{46,-10}},
-              color={85,170,255},
-              smooth=Smooth.None),
-            Line(
-              points={{-20,-10},{-24,-6}},
-              color={85,170,255},
-              smooth=Smooth.None),
-            Line(
-              points={{-20,-10},{-24,-14}},
-              color={85,170,255},
-              smooth=Smooth.None),
-            Line(
-              points={{-20,30},{-16,34}},
-              color={85,170,255},
-              smooth=Smooth.None),
-            Line(
-              points={{-20,30},{-16,26}},
-              color={85,170,255},
-              smooth=Smooth.None),
-            Line(
-              points={{50,70},{50,46}},
+              points={{70,90},{70,66}},
               color={255,0,0},
               smooth=Smooth.None),
             Line(
               points={{2,-2},{-2,2}},
               color={255,0,0},
               smooth=Smooth.None,
-              origin={52,48},
+              origin={72,68},
               rotation=90),
             Line(
               points={{2,2},{-2,-2}},
               color={255,0,0},
               smooth=Smooth.None,
-              origin={48,48},
+              origin={68,68},
               rotation=90),
             Line(
-              points={{-50,-22},{-50,-46}},
+              points={{-50,-42},{-50,-66}},
               color={255,0,0},
               smooth=Smooth.None),
             Line(
               points={{2,-2},{-2,2}},
               color={255,0,0},
               smooth=Smooth.None,
-              origin={-48,-44},
+              origin={-48,-64},
               rotation=90),
             Line(
               points={{2,2},{-2,-2}},
               color={255,0,0},
               smooth=Smooth.None,
-              origin={-52,-44},
-              rotation=90)}));
+              origin={-52,-64},
+              rotation=90),
+            Rectangle(extent={{-90,-20},{60,-20}}, lineColor={85,170,255}),
+            Rectangle(extent={{-90,40},{60,40}}, lineColor={85,170,255}),
+            Line(
+              points={{60,40},{60,-20}},
+              color={85,170,255},
+              smooth=Smooth.None),
+            Line(
+              points={{-20,-20},{-24,-16}},
+              color={85,170,255},
+              smooth=Smooth.None),
+            Line(
+              points={{-20,-20},{-24,-24}},
+              color={85,170,255},
+              smooth=Smooth.None),
+            Line(
+              points={{-20,40},{-16,44}},
+              color={85,170,255},
+              smooth=Smooth.None),
+            Line(
+              points={{-20,40},{-16,36}},
+              color={85,170,255},
+              smooth=Smooth.None)}));
     end shell_tube;
 
     partial package tube "tube icon"
 
       annotation (Icon(graphics={
-            Rectangle(extent={{-80,-10},{46,-10}}, lineColor={85,170,255}),
-            Rectangle(extent={{-80,30},{46,30}}, lineColor={85,170,255}),
+            Rectangle(extent={{-80,-20},{60,-20}}, lineColor={85,170,255}),
+            Rectangle(extent={{-80,40},{60,40}}, lineColor={85,170,255}),
             Line(
-              points={{46,30},{46,-10}},
+              points={{60,40},{60,-20}},
               color={85,170,255},
               smooth=Smooth.None),
             Line(
-              points={{-20,-10},{-24,-6}},
+              points={{-20,-20},{-24,-16}},
               color={85,170,255},
               smooth=Smooth.None),
             Line(
-              points={{-20,-10},{-24,-14}},
+              points={{-20,-20},{-24,-24}},
               color={85,170,255},
               smooth=Smooth.None),
             Line(
-              points={{-20,30},{-16,34}},
+              points={{-20,40},{-16,44}},
               color={85,170,255},
               smooth=Smooth.None),
             Line(
-              points={{-20,30},{-16,26}},
+              points={{-20,40},{-16,36}},
               color={85,170,255},
               smooth=Smooth.None)}));
     end tube;
@@ -102,45 +104,45 @@ package VIP "I am a package for the Virtual Prototyping Environment"
 
       annotation (Icon(graphics={
             Rectangle(
-              extent={{-60,40},{60,-20}},
+              extent={{-80,40},{80,-40}},
               lineColor={0,0,0}),
             Rectangle(
-              extent={{-56,-20},{-44,-32}},
+              extent={{-70,-40},{-50,-60}},
               lineColor={0,0,0}),
             Rectangle(
-              extent={{44,52},{56,40}},
+              extent={{50,60},{70,40}},
               lineColor={0,0,0}),
             Line(
-              points={{50,70},{50,46}},
+              points={{60,70},{60,46}},
               color={255,0,0},
               smooth=Smooth.None),
             Line(
               points={{2,-2},{-2,2}},
               color={255,0,0},
               smooth=Smooth.None,
-              origin={52,48},
+              origin={62,48},
               rotation=90),
             Line(
               points={{2,2},{-2,-2}},
               color={255,0,0},
               smooth=Smooth.None,
-              origin={48,48},
+              origin={58,48},
               rotation=90),
             Line(
-              points={{-50,-22},{-50,-46}},
+              points={{-60,-42},{-60,-66}},
               color={255,0,0},
               smooth=Smooth.None),
             Line(
               points={{2,-2},{-2,2}},
               color={255,0,0},
               smooth=Smooth.None,
-              origin={-48,-44},
+              origin={-58,-64},
               rotation=90),
             Line(
               points={{2,2},{-2,-2}},
               color={255,0,0},
               smooth=Smooth.None,
-              origin={-52,-44},
+              origin={-62,-64},
               rotation=90)}));
     end shell;
 
@@ -151,6 +153,37 @@ package VIP "I am a package for the Virtual Prototyping Environment"
                        graphics={Ellipse(extent={{-20,20},{20,-20}}, lineColor={0,0,
                   0}), Ellipse(extent={{60,-60},{-60,60}}, lineColor={0,0,0})}));
     end clearance;
+
+    partial package cost "cost icon"
+
+      annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},
+                {100,100}}),
+                       graphics={Text(
+              extent={{-126,-24},{129,-219}},
+              lineColor={0,0,0},
+              textString="$
+")}));
+    end cost;
+
+    partial package HEX "heat exchanger icon"
+
+      annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,
+                -100},{100,100}}),
+                       graphics={
+            Ellipse(extent={{-80,80},{80,-80}}, lineColor={0,0,0}),
+            Line(
+              points={{-40,40},{40,-40}},
+              color={0,0,0},
+              smooth=Smooth.None),
+            Line(
+              points={{-80,0},{-60,0},{-40,40}},
+              color={0,0,0},
+              smooth=Smooth.None),
+            Line(
+              points={{80,0},{60,0},{40,-40}},
+              color={0,0,0},
+              smooth=Smooth.None)}));
+    end HEX;
   end Icons;
 
   package Heat_transfer "A package containing heat transfer correlations"
@@ -903,6 +936,39 @@ package VIP "I am a package for the Virtual Prototyping Environment"
       LMTD :=((T1 - t2) - (T2 - t1))/log((T1 - t2)/(T2 - t1));
     end log_mean_delta_T;
 
+    package Shell_clearance
+      "Functions to evaluate the shell clearance based on the diameter of the tube bundle "
+      extends VIP.Icons.clearance;
+      function Fixed_Utube "Fixed_U_tube shape clearance shell-bundle diameter"
+         extends base_clearance(a = {10, 10, 0.2});
+      end Fixed_Utube;
+
+      function OPH "Outside packed head clearance shell-bundle diameter"
+         extends base_clearance(a = {38, 0, 0.2});
+      end OPH;
+
+      function SRFH "Split ring floating head clearance shell-bundle diameter"
+         extends base_clearance(a = {50, 28, 0.2});
+      end SRFH;
+
+      function PTFH
+        "Pull through floating head clearance shell-bundle diameter"
+         extends base_clearance(a = {88, 11, 0.2});
+      // algorithm
+      //   clearance :=1e-3*(88 + 11*(d_b - 0.2));
+      end PTFH;
+
+      function base_clearance "Base class for clearance shell-bundle diameter"
+        input Modelica.SIunits.Length d_b "bundle diameter";
+        output Modelica.SIunits.Length clearance
+          "Shell to bundle diameter clearance";
+      protected
+        parameter Real a[3] = {10, 0, 0};
+      algorithm
+          clearance :=1e-3*(a[1] + a[2]*(d_b - a[3]));
+      end base_clearance;
+    end Shell_clearance;
+
     function bundle_diameter "Function to calculate the bundle diameter"
 
       parameter Integer K_ind[8] = {1, 2, 0, 3, 0, 4, 0, 5};
@@ -957,38 +1023,6 @@ package VIP "I am a package for the Virtual Prototyping Environment"
       end if;
     end check_velocity;
 
-    package Shell_clearance
-      "Functions to evaluate the shell clearance based on the diameter of the tube bundle "
-      extends VIP.Icons.clearance;
-      function Fixed_Utube "Fixed_U_tube shape clearance shell-bundle diameter"
-         extends base_clearance(a = {10, 10, 0.2});
-      end Fixed_Utube;
-
-      function OPH "Outside packed head clearance shell-bundle diameter"
-         extends base_clearance(a = {38, 0, 0.2});
-      end OPH;
-
-      function SRFH "Split ring floating head clearance shell-bundle diameter"
-         extends base_clearance(a = {50, 28, 0.2});
-      end SRFH;
-
-      function PTFH
-        "Pull through floating head clearance shell-bundle diameter"
-         extends base_clearance(a = {88, 11, 0.2});
-      // algorithm
-      //   clearance :=1e-3*(88 + 11*(d_b - 0.2));
-      end PTFH;
-
-      function base_clearance "Base class for clearance shell-bundle diameter"
-        input Modelica.SIunits.Length d_b "bundle diameter";
-        output Modelica.SIunits.Length clearance
-          "Shell to bundle diameter clearance";
-      protected
-        parameter Real a[3] = {10, 0, 0};
-      algorithm
-          clearance :=1e-3*(a[1] + a[2]*(d_b - a[3]));
-      end base_clearance;
-    end Shell_clearance;
 
     package Pure_numbers "Package containing adimensional numbers"
       function Prandtl "Prandtl number"
@@ -1022,6 +1056,29 @@ package VIP "I am a package for the Virtual Prototyping Environment"
         Re := u*d*d_eq/mu;
       end Reynolds;
     end Pure_numbers;
+
+    package Cost "Functions to evaluate the cost of heat exchangers "
+      extends VIP.Icons.cost;
+      function CS_Hall "Carbon steel heat exchanger Hall et al."
+         extends base_cost(a = {30800, 750, 0.81});
+      end CS_Hall;
+
+      function base_cost
+        "Base class for the cost calculation of heat exchangers"
+        input Modelica.SIunits.Area A "heat transfer area";
+        output Real PEC "Purchased equipment cost";
+      protected
+        parameter Real a[3] = {30800, 1644, 0.81};
+      algorithm
+          PEC := a[1] + a[2]*A^a[3];
+      end base_cost;
+
+      function SS_Hall "Stainless steel heat exchanger Hall et al."
+         extends base_cost(a = {30800, 1644, 0.81});
+      end SS_Hall;
+      annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
+                -100},{100,100}}), graphics), Icon(graphics));
+    end Cost;
   end Miscellanea;
 
   package Media "I am the packag containing the definition of the fluids"
@@ -1080,6 +1137,7 @@ package VIP "I am a package for the Virtual Prototyping Environment"
   end Media;
 
   package Materials "Package containing the properties of different materials"
+    extends Modelica.Icons.MaterialPropertiesPackage;
     class S_AISI_1010 "S_AISI_1010"
         extends VIP.Materials.void_material( materialName = "S_AISI_1010",
         lambda = 65.2,
@@ -1108,7 +1166,7 @@ package VIP "I am a package for the Virtual Prototyping Environment"
 
   package Components "Library with the design of the components "
     package HEX "Heat exchangers"
-
+      extends VIP.Icons.HEX;
       model shell_and_tube
         "Shell and tube heat exchanger where the hot fluid flows on the shell and enters from the top. The cold fluid enters at the bottom."
         extends VIP.Icons.shell_tube;
@@ -1195,6 +1253,7 @@ package VIP "I am a package for the Virtual Prototyping Environment"
          Modelica.SIunits.Mass W_dry "Dry weight of the heat exchanger";
          Modelica.SIunits.Mass W_fluids "Weight of the fluids";
          Modelica.SIunits.Mass W_wet "Wet weight of the heat exchanger";
+         Real PEC "Purchases equipment cost";
 
         //Heat transfer and pressure drop correlations
         replaceable VIP.Heat_transfer.Tubes.Sieder_Tate hT_tube(Dhyd=Dhyd, eta_wall=bundle.state[1].eta*ones(Ncell))
@@ -1212,6 +1271,10 @@ package VIP "I am a package for the Virtual Prototyping Environment"
         replaceable function bundle_clearance =
             VIP.Miscellanea.Shell_clearance.base_clearance
                                               annotation(choicesAllMatching = true);
+
+        //Defining the model for the cost
+        replaceable function cost =
+            Miscellanea.Cost.base_cost        annotation(choicesAllMatching = true);
 
         //Definiing the tubes and the shell
         VIP.Objects.tube_bundle
@@ -1334,6 +1397,10 @@ package VIP "I am a package for the Virtual Prototyping Environment"
           W_dry          = 1.25*bundle.W_dry + 1.3*N_heads*shell.W_dry;
           W_fluids       = sum(bundle.W_wet) + sum(shell.W_wet);
           W_wet          = W_dry + W_fluids;
+
+          //Cost calculation
+          PEC            = cost(A);
+
         annotation (experiment(
             __Dymola_NumberOfIntervals=1,
             Tolerance=1e-006,
@@ -1509,10 +1576,13 @@ package VIP "I am a package for the Virtual Prototyping Environment"
         p_s_in=301435,
         p_s_out=301435,
         p_t_in=100000,
-        p_t_out=100000)
+        p_t_out=100000,
+        redeclare function cost = VIP.Miscellanea.Cost.CS_Hall)
         annotation (Placement(transformation(extent={{-80,-68},{68,58}})));
 
-     annotation (Placement(transformation(extent={{-108,-74},{88,66}})));
+     annotation (Placement(transformation(extent={{-108,-74},{88,66}})), Icon(
+            coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
+                100,100}}), graphics));
     end Aspen_Bell_Delaware;
 
     model Aspen_Bell_Delaware_upsidedown
