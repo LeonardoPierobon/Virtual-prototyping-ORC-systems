@@ -190,16 +190,18 @@ package VIP "I am a package for the Virtual Prototyping Environment"
     package Tubes "heat transfer correlations in tubes"
       extends VIP.Icons.tube;
       class Dittus_Boelter "Dittus Boelter correlation for tubes"
-          extends VIP.Heat_transfer.Tubes.basic_ht;
+          extends VIP.Heat_transfer.Tubes.Base_classes.base_ht;
           output Modelica.SIunits.NusseltNumber Nu[Ncell]
           "Nusselt number tubes ";
           output Modelica.SIunits.CoefficientOfHeatTransfer ht[Ncell]
           "Heat transfer coefficient tubes";
-          input Modelica.SIunits.Length Dhyd "Hydraulic Diameter (single tube)";
-          input Real alfa "exponent for the Prandtl number";
-          Modelica.SIunits.ReynoldsNumber Re[Ncell]
+          parameter Modelica.SIunits.Length Dhyd
+          "Hydraulic Diameter (single tube)";
+          parameter Real alfa "exponent for the Prandtl number";
+          Modelica.SIunits.ReynoldsNumber Re[Ncell](start=1e5*ones(Ncell))
           "Reynolds number tubes (average)";
-          Modelica.SIunits.PrandtlNumber Pr[Ncell] "Prandtl number tubes";
+          Modelica.SIunits.PrandtlNumber Pr[Ncell](start=4*ones(Ncell))
+          "Prandtl number tubes";
           Modelica.SIunits.Velocity u[Ncell](start=ones(Ncell))
           "Velocities inside the tubes";
       equation
@@ -220,17 +222,19 @@ package VIP "I am a package for the Virtual Prototyping Environment"
       end Dittus_Boelter;
 
       class Sieder_Tate "Sieder Tate correlation for tubes"
-          extends VIP.Heat_transfer.Tubes.basic_ht;
+          extends VIP.Heat_transfer.Tubes.Base_classes.base_ht;
           output Modelica.SIunits.NusseltNumber Nu[Ncell]
           "Nusselt number tubes ";
-          output Modelica.SIunits.CoefficientOfHeatTransfer ht[Ncell]
+          output Modelica.SIunits.CoefficientOfHeatTransfer ht[Ncell](start=1e3*ones(Ncell))
           "Heat transfer coefficient tubes";
-          input Modelica.SIunits.Length Dhyd "Hydraulic Diameter (single tube)";
+          parameter Modelica.SIunits.Length Dhyd
+          "Hydraulic Diameter (single tube)";
           input Modelica.SIunits.DynamicViscosity eta_wall[Ncell]
           "exponent for the viscosity correction";
-          Modelica.SIunits.ReynoldsNumber Re[Ncell]
+          Modelica.SIunits.ReynoldsNumber Re[Ncell](start=1e5*ones(Ncell))
           "Reynolds number tubes (average)";
-          Modelica.SIunits.PrandtlNumber Pr[Ncell] "Prandtl number tubes";
+          Modelica.SIunits.PrandtlNumber Pr[Ncell](start=4*ones(Ncell))
+          "Prandtl number tubes";
           Modelica.SIunits.Velocity u[Ncell](start=ones(Ncell))
           "Velocities inside the tubes";
       equation
@@ -252,16 +256,18 @@ package VIP "I am a package for the Virtual Prototyping Environment"
       end Sieder_Tate;
 
       class Gnielinski "Gnielinski correlation for tubes"
-          extends VIP.Heat_transfer.Tubes.basic_ht;
+          extends VIP.Heat_transfer.Tubes.Base_classes.base_ht;
           parameter Modelica.SIunits.Length l "Lenght (single tube)";
           output Modelica.SIunits.NusseltNumber Nu[Ncell]
           "Nusselt number tubes ";
           output Modelica.SIunits.CoefficientOfHeatTransfer ht[Ncell]
           "Heat transfer coefficient tubes";
-          input Modelica.SIunits.Length Dhyd "Hydraulic Diameter (single tube)";
-          Modelica.SIunits.ReynoldsNumber Re[Ncell]
+          parameter Modelica.SIunits.Length Dhyd
+          "Hydraulic Diameter (single tube)";
+          Modelica.SIunits.ReynoldsNumber Re[Ncell](start=1e5*ones(Ncell))
           "Reynolds number tubes (average)";
-          Modelica.SIunits.PrandtlNumber Pr[Ncell] "Prandtl number tubes";
+          Modelica.SIunits.PrandtlNumber Pr[Ncell](start=4*ones(Ncell))
+          "Prandtl number tubes";
           Modelica.SIunits.Velocity u[Ncell](start=ones(Ncell))
           "Velocities inside the tubes";
           Real csi[Ncell] "Friction factor";
@@ -284,10 +290,11 @@ package VIP "I am a package for the Virtual Prototyping Environment"
 
       class EagleFerguson
         "Eagle-Ferguson heat transfer correlation (only for liquid water)"
-          extends VIP.Heat_transfer.Tubes.basic_ht;
+          extends VIP.Heat_transfer.Tubes.Base_classes.base_ht;
           output Modelica.SIunits.NusseltNumber Nu[Ncell]
           "Nusselt number tubes ";
-          input Modelica.SIunits.Length Dhyd "Hydraulic Diameter (single tube)";
+          parameter Modelica.SIunits.Length Dhyd
+          "Hydraulic Diameter (single tube)";
           Modelica.SIunits.Velocity u[Ncell](start=ones(Ncell))
           "Velocity (average)";
           Modelica.SIunits.CoefficientOfHeatTransfer ht[Ncell]
@@ -304,49 +311,38 @@ package VIP "I am a package for the Virtual Prototyping Environment"
             end for;
       end EagleFerguson;
 
-      class basic_ht "Basic heat transfer correlation"
-          replaceable package Medium = VIP.Media.OneRandomOrganicFluid
-          "Medium model";
-          parameter Integer Ncell(start=3) "Number of cell elements";
-          input Modelica.SIunits.Area Aflow
-          "Cross-sectional area (single tube)";
-          input Modelica.SIunits.MassFlowRate mdot "Mass flow rate";
-          input Medium.ThermodynamicState state[Ncell];
-      end basic_ht;
+      package Base_classes "Base classes for the heat transfer"
+        class base_ht "Basic heat transfer correlation"
+            replaceable package Medium = VIP.Media.OneRandomOrganicFluid
+            "Medium model";
+            parameter Integer Ncell(start=3) "Number of cell elements";
+            input Modelica.SIunits.Area Aflow
+            "Cross-sectional area (single tube)";
+            input Modelica.SIunits.MassFlowRate mdot "Mass flow rate";
+            input Medium.ThermodynamicState state[Ncell];
+        end base_ht;
+      end Base_classes;
     end Tubes;
 
     package Shell "heat transfer correlations in shells"
       extends VIP.Icons.shell;
 
-      class Kern "Kern correlation for shell side"
-          extends VIP.Heat_transfer.Shell.basic_ht;
+      class single_phase_Kern
+        "Kern correlation for shell side for single phase to single phase"
+          extends VIP.Heat_transfer.Shell.Base_classes.base_Kern;
           output Modelica.SIunits.NusseltNumber Nu[Ncell]
           "Nusselt number tubes ";
-          output Modelica.SIunits.CoefficientOfHeatTransfer ht[Ncell]
+          output Modelica.SIunits.CoefficientOfHeatTransfer ht[Ncell](start=1e3*ones(Ncell))
           "Heat transfer coefficient tubes";
-          parameter Modelica.SIunits.Length Dhyd_o
-          "Outer Diameter (single tube)";
-          parameter Real pitch_f
-          "Tube pitch as a fraction of the outer tube diameter";
-          parameter Integer layout = 1
-          "Tube layout 1 = triangular, 2 = squared";
-          Modelica.SIunits.ReynoldsNumber Re[Ncell](start=10e6*ones(Ncell))
+          Modelica.SIunits.ReynoldsNumber Re[Ncell](start=1e5*ones(Ncell))
           "Reynolds number tubes (average)";
+          Modelica.SIunits.PrandtlNumber Pr[Ncell](start=4*ones(Ncell))
+          "Prandtl number tubes";
           Modelica.SIunits.Length d_s_eq "Equivalent shell diameter";
-          Modelica.SIunits.PrandtlNumber Pr[Ncell] "Prandtl number tubes";
           Modelica.SIunits.Velocity u[Ncell](start=ones(Ncell))
           "Velocities inside the tubes";
 
       equation
-          //Equivalent shell diameter
-          if layout == 1 then
-            d_s_eq  = 1.1*Dhyd_o*(pitch_f^2 - 0.917);
-          elseif layout == 2 then
-            d_s_eq  = 1.27*Dhyd_o*(pitch_f^2 - 0.785);
-          else
-            d_s_eq  = 1;
-          end if;
-
           for i in 1:Ncell loop
             u[i]              = mdot/state[i].d/Aflow "tube velocity";
             Re[i]             = Miscellanea.Pure_numbers.Reynolds(     u[i], state[i].d,  state[i].eta, d_s_eq)
@@ -358,107 +354,33 @@ package VIP "I am a package for the Virtual Prototyping Environment"
             ht[i]             = Miscellanea.Pure_numbers.Nusselt(     Nu[i], state[i].lambda, d_s_eq)
             "Heat transfer coefficient tube side";
             end for;
-      end Kern;
+      end single_phase_Kern;
 
-      class Bell_Delaware "Bell Delaware correlation for shell side"
-          extends VIP.Heat_transfer.Shell.basic_ht;
+      class single_phase_Bell_Delaware
+        "Bell Delaware correlation for shell side"
+          extends VIP.Heat_transfer.Shell.Base_classes.base_Bell_Delaware;
           output Modelica.SIunits.CoefficientOfHeatTransfer ht[Ncell]
           "Heat transfer coefficient tubes";
-          input Modelica.SIunits.Length Dhyd "Hydraulic Diameter (single tube)";
-          input Modelica.SIunits.Length Dhyd_o "Outer Diameter (single tube)";
-          parameter Real b_cut "Baffle cut";
-          final parameter Real ttb = 8e-4
-          "tube to baffle clearance (from Standards)";
-          final parameter Real bts = 4.8e-3
-          "baffle to shell clearance (from Standards)";
-          parameter Real pitch_f
-          "Tube pitch as a fraction of the outer tube diameter";
-          parameter Real N_ss
-          "The number of sealing strips (pairs) in one baffle spacing";
-          parameter Integer layout "Tube layout 1 = triangular, 2 = squared";
-          parameter Integer N_passes "Number of tube passes";
-          parameter Real ff "Fouling factor (=1 if clean)";
-          input Modelica.SIunits.Length d_s "shell diameter";
-          input Modelica.SIunits.Length d_b "bundle diameter";
-          input Real N_tubes "Number of tubes in the bundle";
-          input Modelica.SIunits.Length l_b "Baffle lenght";
           input Modelica.SIunits.DynamicViscosity eta_wall[Ncell]
           "exponent for the viscosity correction";
-          Modelica.SIunits.ReynoldsNumber Re[Ncell]
-          "Reynolds number shell (average)";
-          Modelica.SIunits.PrandtlNumber Pr[Ncell] "Prandtl number tubes";
+          Modelica.SIunits.ReynoldsNumber Re[Ncell](start=1e5*ones(Ncell))
+          "Reynolds number tubes (average)";
+          Modelica.SIunits.PrandtlNumber Pr[Ncell](start=4*ones(Ncell))
+          "Prandtl number tubes";
           Modelica.SIunits.Velocity u[Ncell](start=ones(Ncell))
           "Velocities inside the shell";
           Real csi[Ncell] "Friction factor";
-          Modelica.SIunits.Length tpv "vertical tube pitch";
-          Real N_tcc
-          "Number of constrictions crossed=number of tube rows between the baffle tips";
-          Real N_tcw
-          "The effective number of tube rows crossed in the baffle window";
-          Real F_sbp
-          "The ratio of the bypass area, Sb, to the overall crossflow area";
-          Real F_w "Fraction of number of tubes in the baffle window";
-          Real F_c "Fraction of number of tubes in pure crossflow";
-          Real J_c "Segmental baffle window correction factor";
-          Real J_l
-          "Correction factors for baffle leakage effects for heat transfer";
-          Real J_b
-          "Correction factors for bundle bypass effects for heat transfer";
-          Modelica.SIunits.Area S_w "Window area";
-          Modelica.SIunits.Area S_tb "The tube-to-baffle leakage area";
-          Modelica.SIunits.Area S_sb "The shell-to-baffle leakage area";
-          Modelica.SIunits.Area S_m "Reference normal area";
-          Modelica.SIunits.Area S_wg "The gross window flow area";
-          Modelica.SIunits.Area S_wt
-          "The segmental baffle window area occupied by the tubes";
-          Modelica.SIunits.Area S_b
-          "The bypass area between the shell and the tube bundle within one baffle";
-          Real r_s "Correlational parameter";
-          Real r_lm "Correlational parameter";
-          Modelica.SIunits.Angle teta_ds "The centriangle of baffle cut";
-          Modelica.SIunits.Angle teta_ctl "The upper centriangle of baffle cut";
-
       protected
            Real a1[Ncell];
            Real a2[Ncell];
            Real a[Ncell];
       equation
 
-        //Tube row correction factor F_n
-        if (layout == 1) then
-          tpv = 0.866*pitch_f*Dhyd_o;
-        else
-          tpv = pitch_f*Dhyd_o;
-        end if;
-
-        teta_ctl = 2*acos(d_s/(d_b - Dhyd_o)*(1 - 2*b_cut));
-        teta_ds  = 2*acos(1 - 2*b_cut);
-        N_tcc    = d_s*(1 - 2*b_cut)/tpv;
-        S_m      = l_b*(d_s - d_b + (d_b - Dhyd_o)*(1 - 1/pitch_f));
-        S_wg     = 0.25*pi*d_s^2*(teta_ds/(2*pi) - sin(teta_ds)/(2*pi));
-        F_w      = teta_ctl/(2*pi) - sin(teta_ctl)/(2*pi);
-        S_wt     = 0.25*N_tubes*F_w*pi*Dhyd_o^2;
-
-        S_tb     = 0.25*pi*((ttb + Dhyd_o)^2 - Dhyd_o^2)*N_tubes*(1 - F_w);
-        S_sb     = 0.5*bts*d_s*(1 - teta_ds/(2*pi));
-        r_s      = S_sb/(S_tb + S_sb);
-        r_lm     = (S_tb + S_sb)/S_m;
-        J_l      = 0.44*(1 - r_s) + (1 - 0.44*(1 - r_s))*exp(-2.2*r_lm);
-
-        S_b      = l_b*(d_s - d_b);
-        F_sbp    = S_b/S_m;
-        J_b      = exp(-1.35*F_sbp*(1 - (2/N_ss)^(1/3)));
-
-        F_c      = 1 - 2*F_w;
-        J_c      = F_c + 0.54*(1 - F_c)^0.345;
-        S_w      = S_wg - S_wt;
-        N_tcw    = 0.8*(d_s*b_cut - 0.5*(d_s - (d_b - Dhyd_o)))/tpv;
-
         for i in 1:Ncell loop
 
-          u[i]    = mdot/state[i].d/S_m;
-          Re[i]   = Miscellanea.Pure_numbers.Reynolds(     u[i], state[i].d,  state[i].eta, Dhyd_o);
-          Pr[i]   = Miscellanea.Pure_numbers.Prandtl(     state[i].cp, state[i].eta, state[i].lambda);
+          u[i]  = mdot/state[i].d/S_m;
+          Re[i] = Miscellanea.Pure_numbers.Reynolds(u[i], state[i].d,  state[i].eta, Dhyd_o);
+          Pr[i] = Miscellanea.Pure_numbers.Prandtl(state[i].cp, state[i].eta, state[i].lambda);
 
           if (Re[i] <= 1e1) then
             if (layout == 1) then
@@ -512,17 +434,183 @@ package VIP "I am a package for the Virtual Prototyping Environment"
           ht[i]  = J_l*J_b*J_c*csi[i]*state[i].cp*mdot/(S_m*Pr[i]^(2/3));
         end for;
 
-      end Bell_Delaware;
+      end single_phase_Bell_Delaware;
 
-      class basic_ht "Basic heat transfer correlation"
-          replaceable package Medium = VIP.Media.OneRandomOrganicFluid
-          "Medium model";
-          parameter Integer Ncell(start=3) "Number of cell elements";
-          input Modelica.SIunits.Area Aflow
-          "Cross-sectional area (single tube)";
-          input Modelica.SIunits.MassFlowRate mdot "Mass flow rate";
-          input Medium.ThermodynamicState state[Ncell];
-      end basic_ht;
+      class condensation_Kern
+        "Kern correlation for shell side for condensation"
+          extends VIP.Heat_transfer.Shell.Base_classes.base_Kern;
+          parameter Modelica.SIunits.Length l "Lenght (single tube)";
+          input Real N_tubes(start=300) "Number of tubes in the bundle";
+          input Modelica.SIunits.Length d_b "Bundle diameter";
+          input Modelica.SIunits.HeatFlux q_tilde[Ncell] "Heat flux";
+          output Modelica.SIunits.NusseltNumber Nu[Ncell]
+          "Nusselt number tubes ";
+          output Modelica.SIunits.NusseltNumber Nu_2[Ncell]
+          "Nusselt number tubes ";
+          output Modelica.SIunits.CoefficientOfHeatTransfer ht[Ncell]
+          "Heat transfer coefficient tubes";
+          Modelica.SIunits.Length d_s_eq "Equivalent shell diameter";
+          Modelica.SIunits.ReynoldsNumber Re[Ncell]
+          "Reynolds number tubes (average)";
+          Modelica.SIunits.PrandtlNumber Pr[Ncell] "Prandtl number tubes";
+          Modelica.SIunits.Velocity u[Ncell] "Velocities inside the tubes";
+          parameter Medium.SaturationProperties sat "Saturation properties";
+          parameter Medium.ThermodynamicState state_l
+          "Thermodynamic state in saturated liquid";
+          Real N_tr "Number of tubes in centre row";
+          Modelica.SIunits.TemperatureDifference  dT[Ncell](start=30*ones(Ncell))
+          "Driving temperature force";
+
+      equation
+      //       sat     =  Media.MM_RefProp.setSat_p(p_in);
+      //       state_l =  Media.MM_RefProp.setState_ph(p_in, sat.hl);
+            N_tr    =  d_b/(Dhyd_o*pitch_f);
+          for i in 1:Ncell loop
+            u[i]     = mdot/state[i].d/Aflow "tube velocity";
+            Re[i]    = Miscellanea.Pure_numbers.Reynolds(u[i], state[i].d,
+                         state[i].eta, d_s_eq) "Reynolds number tubes";
+            Pr[i]    = Miscellanea.Pure_numbers.Prandtl(state[i].cp, state[i].eta,
+                         state[i].lambda) "Prandtl number tubes";
+             if (state[i].h < sat.hl or state[i].h > sat.hv) then
+            Nu[i]    = 10^log10(2e-3/1e5^(-0.25*log10(1.98/2e-2)))
+            *Re[i]^(-0.25*log10(1.98/2e-2))*Re[i]*Pr[i]^(1/3)
+              "Nusselt number tubes";
+       Nu_2[i] = 0;
+             else
+            //   Nu[i]  = 10^log10(2e-3/1e5^(-0.25*log10(1.98/2e-2)))*Re[i]
+            //            ^(-0.25*log10(1.98/2e-2))*Re[i]*Pr[i]^(1/3)
+            //   "Nusselt number tubes";
+            //   ht[i]  = Miscellanea.Pure_numbers.Nusselt(Nu[i], state[i].lambda, d_s_eq)
+            //   "Heat transfer coefficient tube side";
+                Nu_2[i]  = 0.951*state_l.lambda*(g_n*sat.dl*l*N_tubes*(sat.dl
+                          - sat.dv)/(state_l.eta*mdot))^(1/3)*N_tr^(-1/6)*d_s_eq/state[i].lambda
+              "Heat transfer coefficient tube side";
+
+              Nu[i] = 0.725*(state_l.lambda^3*sat.dl*(sat.dl - sat.dv)*g_n*(sat.hv - sat.hl)
+              /(N_tubes*state_l.eta*dT[i]*Dhyd_o))^(1/4);
+
+             end if;
+               dT[i]  = q_tilde[i]/ht[i];
+               ht[i]  = Miscellanea.Pure_numbers.Nusselt(Nu[i], state[i].lambda, d_s_eq)
+            "Heat transfer coefficient tube side";
+            end for;
+      end condensation_Kern;
+
+      package Base_classes "Base classes for the heat transfer"
+        class base_Kern "Kern correlation for shell side base class"
+            extends VIP.Heat_transfer.Shell.Base_classes.base_ht;
+            input Modelica.SIunits.Length Dhyd_o "Outer Diameter (single tube)";
+            parameter Real pitch_f
+            "Tube pitch as a fraction of the outer tube diameter";
+            parameter Integer layout = 1
+            "Tube layout 1 = triangular, 2 = squared";
+            Modelica.SIunits.Length d_s_eq "Equivalent shell diameter";
+
+        equation
+            //Equivalent shell diameter
+            if layout == 1 then
+              d_s_eq  = 1.1*Dhyd_o*(pitch_f^2 - 0.917);
+            elseif layout == 2 then
+              d_s_eq  = 1.27*Dhyd_o*(pitch_f^2 - 0.785);
+            else
+              d_s_eq  = 1;
+            end if;
+
+        end base_Kern;
+
+        class base_Bell_Delaware "Bell Delaware correlation for shell side"
+            extends VIP.Heat_transfer.Shell.Base_classes.base_ht;
+            input Modelica.SIunits.Length Dhyd
+            "Hydraulic Diameter (single tube)";
+            input Modelica.SIunits.Length Dhyd_o "Outer Diameter (single tube)";
+            parameter Real b_cut "Baffle cut";
+            final parameter Real ttb = 8e-4
+            "tube to baffle clearance (from Standards)";
+            final parameter Real bts = 4.8e-3
+            "baffle to shell clearance (from Standards)";
+            parameter Real pitch_f
+            "Tube pitch as a fraction of the outer tube diameter";
+            parameter Real N_ss
+            "The number of sealing strips (pairs) in one baffle spacing";
+            parameter Integer layout "Tube layout 1 = triangular, 2 = squared";
+            parameter Integer N_passes "Number of tube passes";
+            parameter Real ff "Fouling factor (=1 if clean)";
+            input Modelica.SIunits.Length d_s "shell diameter";
+            input Modelica.SIunits.Length d_b "bundle diameter";
+            input Real N_tubes "Number of tubes in the bundle";
+            input Modelica.SIunits.Length l_b "Baffle lenght";
+            Modelica.SIunits.Length tpv "vertical tube pitch";
+            Real N_tcc
+            "Number of constrictions crossed=number of tube rows between the baffle tips";
+            Real N_tcw
+            "The effective number of tube rows crossed in the baffle window";
+            Real F_sbp
+            "The ratio of the bypass area, Sb, to the overall crossflow area";
+            Real F_w "Fraction of number of tubes in the baffle window";
+            Real F_c "Fraction of number of tubes in pure crossflow";
+            Real J_c "Segmental baffle window correction factor";
+            Real J_l
+            "Correction factors for baffle leakage effects for heat transfer";
+            Real J_b
+            "Correction factors for bundle bypass effects for heat transfer";
+            Modelica.SIunits.Area S_w "Window area";
+            Modelica.SIunits.Area S_tb "The tube-to-baffle leakage area";
+            Modelica.SIunits.Area S_sb "The shell-to-baffle leakage area";
+            Modelica.SIunits.Area S_m "Reference normal area";
+            Modelica.SIunits.Area S_wg "The gross window flow area";
+            Modelica.SIunits.Area S_wt
+            "The segmental baffle window area occupied by the tubes";
+            Modelica.SIunits.Area S_b
+            "The bypass area between the shell and the tube bundle within one baffle";
+            Real r_s "Correlational parameter";
+            Real r_lm "Correlational parameter";
+            Modelica.SIunits.Angle teta_ds "The centriangle of baffle cut";
+            Modelica.SIunits.Angle teta_ctl
+            "The upper centriangle of baffle cut";
+
+        equation
+          //Tube row correction factor F_n
+          if (layout == 1) then
+            tpv = 0.866*pitch_f*Dhyd_o;
+          else
+            tpv = pitch_f*Dhyd_o;
+          end if;
+
+          teta_ctl = 2*acos(d_s/(d_b - Dhyd_o)*(1 - 2*b_cut));
+          teta_ds  = 2*acos(1 - 2*b_cut);
+          N_tcc    = d_s*(1 - 2*b_cut)/tpv;
+          S_m      = l_b*(d_s - d_b + (d_b - Dhyd_o)*(1 - 1/pitch_f));
+          S_wg     = 0.25*pi*d_s^2*(teta_ds/(2*pi) - sin(teta_ds)/(2*pi));
+          F_w      = teta_ctl/(2*pi) - sin(teta_ctl)/(2*pi);
+          S_wt     = 0.25*N_tubes*F_w*pi*Dhyd_o^2;
+
+          S_tb     = 0.25*pi*((ttb + Dhyd_o)^2 - Dhyd_o^2)*N_tubes*(1 - F_w);
+          S_sb     = 0.5*bts*d_s*(1 - teta_ds/(2*pi));
+          r_s      = S_sb/(S_tb + S_sb);
+          r_lm     = (S_tb + S_sb)/S_m;
+          J_l      = 0.44*(1 - r_s) + (1 - 0.44*(1 - r_s))*exp(-2.2*r_lm);
+
+          S_b      = l_b*(d_s - d_b);
+          F_sbp    = S_b/S_m;
+          J_b      = exp(-1.35*F_sbp*(1 - (2/N_ss)^(1/3)));
+
+          F_c      = 1 - 2*F_w;
+          J_c      = F_c + 0.54*(1 - F_c)^0.345;
+          S_w      = S_wg - S_wt;
+          N_tcw    = 0.8*(d_s*b_cut - 0.5*(d_s - (d_b - Dhyd_o)))/tpv;
+
+        end base_Bell_Delaware;
+
+        class base_ht "Basic heat transfer correlation"
+            replaceable package Medium = VIP.Media.OneRandomOrganicFluid
+            "Medium model";
+            parameter Integer Ncell(start=3) "Number of cell elements";
+            input Modelica.SIunits.Area Aflow
+            "Cross-sectional area (single tube)";
+            input Modelica.SIunits.MassFlowRate mdot "Mass flow rate";
+            input Medium.ThermodynamicState state[Ncell];
+        end base_ht;
+      end Base_classes;
     end Shell;
   end Heat_transfer;
 
@@ -530,7 +618,7 @@ package VIP "I am a package for the Virtual Prototyping Environment"
     package Tubes "heat transfer correlations in tubes"
         extends VIP.Icons.tube;
       class Frank "Frank correlation for tubes"
-          extends VIP.Pressure_drops.Tubes.basic_dp;
+          extends VIP.Pressure_drops.Tubes.Base_classes.base_dp;
           output Modelica.SIunits.AbsolutePressure dp[Ncell]
           "Pressure drops cells";
           output Modelica.SIunits.AbsolutePressure dp_tot
@@ -563,27 +651,27 @@ package VIP "I am a package for the Virtual Prototyping Environment"
 
       end Frank;
 
-      class basic_dp "Basic pressure drop correlation"
-          replaceable package Medium = VIP.Media.OneRandomOrganicFluid
-          "Medium model";
-          parameter Integer Ncell(start=3) "Number of cell elements";
-          input Modelica.SIunits.Area Aflow
-          "Cross-sectional area (single tube)";
-          input Modelica.SIunits.MassFlowRate mdot "Mass flow rate";
-          input Medium.ThermodynamicState state[Ncell];
-      end basic_dp;
+      package Base_classes "Base classes for the pressure drops"
+        class base_dp "Basic pressure drop correlation"
+            replaceable package Medium = VIP.Media.OneRandomOrganicFluid
+            "Medium model";
+            parameter Integer Ncell(start=3) "Number of cell elements";
+            input Modelica.SIunits.Area Aflow
+            "Cross-sectional area (single tube)";
+            input Modelica.SIunits.MassFlowRate mdot "Mass flow rate";
+            input Medium.ThermodynamicState state[Ncell];
+        end base_dp;
+      end Base_classes;
     end Tubes;
 
     package Shell "heat transfer correlations in shells"
       extends VIP.Icons.shell;
-      class Kern "Kern correlation for shell"
-          extends VIP.Pressure_drops.Shell.basic_dp;
+
+      class single_phase_Kern
+        "Kern correlation for shell single phase to single phase"
+          extends VIP.Pressure_drops.Shell.Base_classes.base_Kern;
           Modelica.SIunits.AbsolutePressure dp[Ncell] "Pressure drops cells";
           Modelica.SIunits.AbsolutePressure dp_tot "Pressure drops tubes";
-          input Modelica.SIunits.Length l "Lenght (single tube)";
-          input Modelica.SIunits.Length Dhyd "Hydraulic Diameter (single tube)";
-          input Modelica.SIunits.Length d_s "Shell diameter";
-          input Modelica.SIunits.Length l_b "Baffle length";
           input Modelica.SIunits.DynamicViscosity eta_wall[Ncell]
           "exponent for the viscosity correction";
           Modelica.SIunits.ReynoldsNumber Re[Ncell](start=10e6*ones(Ncell))
@@ -608,18 +696,14 @@ package VIP "I am a package for the Virtual Prototyping Environment"
 
         dp_tot = sum(dp) "Total pressure drops";
 
-      end Kern;
+      end single_phase_Kern;
 
-      class Wills_Johnston "Wills and Johnston correlation for shell"
-          extends VIP.Pressure_drops.Shell.basic_dp;
+      class single_phase_Johnston "Wills and Johnston correlation for shell"
+          extends VIP.Pressure_drops.Shell.Base_classes.base_Kern;
           output Modelica.SIunits.AbsolutePressure dp[Ncell]
           "Pressure drops tubes";
           output Modelica.SIunits.AbsolutePressure dp_tot
           "Pressure drops tubes";
-          input Modelica.SIunits.Length l "Lenght (single tube)";
-          input Modelica.SIunits.Length Dhyd "Hydraulic Diameter (single tube)";
-          input Modelica.SIunits.Length d_s "Shell diameter";
-          input Modelica.SIunits.Length l_b "Baffle length";
           input Modelica.SIunits.DynamicViscosity eta_wall[Ncell]
           "exponent for the viscosity correction";
           Modelica.SIunits.ReynoldsNumber Re[Ncell](start=10e6*ones(Ncell))
@@ -641,31 +725,11 @@ package VIP "I am a package for the Virtual Prototyping Environment"
 
         dp_tot = sum(dp) "Total pressure drops";
 
-      end Wills_Johnston;
+      end single_phase_Johnston;
 
-      class Bell_Delaware "Bell Delaware correlation for shell side"
-          extends VIP.Pressure_drops.Shell.basic_dp;
-          input Modelica.SIunits.Length Dhyd "Hydraulic Diameter (single tube)";
-          input Modelica.SIunits.Length Dhyd_o "Outer Diameter (single tube)";
-          parameter Real b_cut "Baffle cut";
-          final parameter Real ttb = 0.8e-3
-          "tube to baffle clearance (from Standards)";
-          final parameter Real bts = 4e-3
-          "tube to baffle clearance (from Standards)";
-          parameter Real pitch_f
-          "Tube pitch as a fraction of the outer tube diameter";
-          parameter Real N_ss
-          "The number of sealing strips (pairs) in one baffle spacing";
-          parameter Integer layout "Tube layout 1 = triangular, 2 = squared";
-          parameter Integer N_passes "Number of tube passes";
-          parameter Real ff "Fouling factor (=1 if clean)";
-          parameter Integer N_baffles "Number of baffles";
-          parameter Integer N_baffles_d
-          "The number of discretization volumes is always N_baffles + 1";
-          input Modelica.SIunits.Length d_s "shell diameter";
-          input Modelica.SIunits.Length d_b "bundle diameter";
-          input Real N_tubes "Number of tubes in the bundle";
-          input Modelica.SIunits.Length l_b "Baffle lenght";
+      class single_phase_Bell_Delaware
+        "Bell Delaware correlation for shell side for single phase to single phase"
+          extends VIP.Pressure_drops.Shell.Base_classes.base_Bell_Delaware;
           input Modelica.SIunits.DynamicViscosity eta_wall[Ncell]
           "exponent for the viscosity correction";
           Modelica.SIunits.AbsolutePressure dp_c[Ncell]
@@ -688,70 +752,18 @@ package VIP "I am a package for the Virtual Prototyping Environment"
           Modelica.SIunits.Velocity u_w[Ncell](start=ones(Ncell))
           "Velocities inside the shell";
           Real csi[Ncell] "Friction factor";
-          Modelica.SIunits.Length tpv "vertical tube pitch";
-          Real N_tcc
-          "Number of constrictions crossed=number of tube rows between the baffle tips";
-          Real N_tcw
-          "The effective number of tube rows crossed in the baffle window";
-          Real F_sbp
-          "The ratio of the bypass area, Sb, to the overall crossflow area";
-          Real F_w "Fraction of number of tubes in the baffle window";
-          Real R_l
-          "Correction factors for baffle leakage effects for pressure drops";
-          Real R_b
-          "Correction factors for bundle bypass effects for pressure drops";
-          Modelica.SIunits.Area S_w "Window area";
-          Modelica.SIunits.Area S_tb "The tube-to-baffle leakage area";
-          Modelica.SIunits.Area S_sb "The shell-to-baffle leakage area";
-          Modelica.SIunits.Area S_m "Reference normal area";
-          Modelica.SIunits.Area S_wg "The gross window flow area";
-          Modelica.SIunits.Area S_wt
-          "The segmental baffle window area occupied by the tubes";
-          Modelica.SIunits.Area S_b
-          "The bypass area between the shell and the tube bundle within one baffle";
-          Real r_s "Correlational parameter";
-          Real r_lm "Correlational parameter";
-          Modelica.SIunits.Angle teta_ds "The centriangle of baffle cut";
-          Modelica.SIunits.Angle teta_ctl "The upper centriangle of baffle cut";
+
       protected
            Real b1[Ncell];
            Real b2[Ncell];
            Real b[Ncell];
       equation
 
-        //Tube row correction factor F_n
-        if (layout == 1) then
-          tpv = 0.866*pitch_f*Dhyd_o;
-        else
-          tpv = pitch_f*Dhyd_o;
-        end if;
-
-        teta_ctl = 2*acos(d_s/(d_b - Dhyd_o)*(1 - 2*b_cut));
-        teta_ds  = 2*acos(1 - 2*b_cut);
-        N_tcc    = d_s*(1 - 2*b_cut)/tpv;
-        S_m      = l_b*(d_s - d_b + (d_b - Dhyd_o)*(1 - 1/pitch_f));
-        S_wg     = 0.25*pi*d_s^2*(teta_ds/(2*pi) - sin(teta_ds)/(2*pi));
-        F_w      = teta_ctl/(2*pi) - sin(teta_ctl)/(2*pi);
-        S_wt     = 0.25*N_tubes*F_w*pi*Dhyd_o^2;
-
-        S_tb     = 0.25*pi*((ttb + Dhyd_o)^2 - Dhyd_o^2)*N_tubes*(1 - F_w);
-        S_sb     = 0.5*bts*d_s*(1 - teta_ds/(2*pi));
-        r_s      = S_sb/(S_tb + S_sb);
-        r_lm     = (S_tb + S_sb)/S_m;
-        R_l      = exp(-1.33*(1 + r_s)*r_lm^(-0.15*(1 + r_s) + 0.8));
-
-        S_b      = l_b*(d_s - d_b);
-        F_sbp    = S_b/S_m;
-        R_b      = exp(-3.7*F_sbp*(1 - (2/N_ss)^(1/3)));
-
-        S_w      = S_wg - S_wt;
-        N_tcw    = 0.8*(d_s*b_cut - 0.5*(d_s - (d_b - Dhyd_o)))/tpv;
-
         for i in 1:Ncell loop
 
           u[i]    = mdot/state[i].d/S_m;
           u_w[i]  = mdot/state[i].d/S_w;
-          Re[i]   = Miscellanea.Pure_numbers.Reynolds(     u[i], state[i].d,  state[i].eta, Dhyd_o);
+          Re[i]   = Miscellanea.Pure_numbers.Reynolds(u[i], state[i].d,  state[i].eta, Dhyd_o);
 
           if (Re[i] <= 1e1) then
             if (layout == 1) then
@@ -825,17 +837,110 @@ package VIP "I am a package for the Virtual Prototyping Environment"
 
         dp_tot = dp_w_tot + dp_c_tot + dp_e_tot "Total pressure drops";
 
-      end Bell_Delaware;
+      end single_phase_Bell_Delaware;
 
-      class basic_dp "Basic pressure drop correlation"
-          replaceable package Medium = VIP.Media.OneRandomOrganicFluid
-          "Medium model";
-          parameter Integer Ncell(start=3) "Number of cell elements";
-          input Modelica.SIunits.Area Aflow
-          "Cross-sectional area (single tube)";
-          input Modelica.SIunits.MassFlowRate mdot "Mass flow rate";
-          input Medium.ThermodynamicState state[Ncell];
-      end basic_dp;
+      package Base_classes "Base classes for the pressure drops"
+        class base_dp "Basic pressure drop correlation"
+            replaceable package Medium = VIP.Media.OneRandomOrganicFluid
+            "Medium model";
+            parameter Integer Ncell(start=3) "Number of cell elements";
+            input Modelica.SIunits.Area Aflow
+            "Cross-sectional area (single tube)";
+            input Modelica.SIunits.MassFlowRate mdot "Mass flow rate";
+            input Medium.ThermodynamicState state[Ncell];
+        end base_dp;
+
+        class base_Bell_Delaware
+          "Bell Delaware correlation for shell side base class"
+            extends VIP.Pressure_drops.Shell.Base_classes.base_dp;
+            input Modelica.SIunits.Length Dhyd
+            "Hydraulic Diameter (single tube)";
+            input Modelica.SIunits.Length Dhyd_o "Outer Diameter (single tube)";
+            parameter Real b_cut "Baffle cut";
+            final parameter Real ttb = 0.8e-3
+            "tube to baffle clearance (from Standards)";
+            final parameter Real bts = 4e-3
+            "tube to baffle clearance (from Standards)";
+            parameter Real pitch_f
+            "Tube pitch as a fraction of the outer tube diameter";
+            parameter Real N_ss
+            "The number of sealing strips (pairs) in one baffle spacing";
+            parameter Integer layout "Tube layout 1 = triangular, 2 = squared";
+            parameter Integer N_passes "Number of tube passes";
+            parameter Real ff "Fouling factor (=1 if clean)";
+            parameter Integer N_baffles "Number of baffles";
+            parameter Integer N_baffles_d
+            "The number of discretization volumes is always N_baffles + 1";
+            input Modelica.SIunits.Length d_s "shell diameter";
+            input Modelica.SIunits.Length d_b "bundle diameter";
+            input Real N_tubes "Number of tubes in the bundle";
+            input Modelica.SIunits.Length l_b "Baffle lenght";
+            Modelica.SIunits.Length tpv "vertical tube pitch";
+            Real N_tcc
+            "Number of constrictions crossed=number of tube rows between the baffle tips";
+            Real N_tcw
+            "The effective number of tube rows crossed in the baffle window";
+            Real F_sbp
+            "The ratio of the bypass area, Sb, to the overall crossflow area";
+            Real F_w "Fraction of number of tubes in the baffle window";
+            Real R_l
+            "Correction factors for baffle leakage effects for pressure drops";
+            Real R_b
+            "Correction factors for bundle bypass effects for pressure drops";
+            Modelica.SIunits.Area S_w "Window area";
+            Modelica.SIunits.Area S_tb "The tube-to-baffle leakage area";
+            Modelica.SIunits.Area S_sb "The shell-to-baffle leakage area";
+            Modelica.SIunits.Area S_m "Reference normal area";
+            Modelica.SIunits.Area S_wg "The gross window flow area";
+            Modelica.SIunits.Area S_wt
+            "The segmental baffle window area occupied by the tubes";
+            Modelica.SIunits.Area S_b
+            "The bypass area between the shell and the tube bundle within one baffle";
+            Real r_s "Correlational parameter";
+            Real r_lm "Correlational parameter";
+            Modelica.SIunits.Angle teta_ds "The centriangle of baffle cut";
+            Modelica.SIunits.Angle teta_ctl
+            "The upper centriangle of baffle cut";
+
+        equation
+          //Tube row correction factor F_n
+          if (layout == 1) then
+            tpv = 0.866*pitch_f*Dhyd_o;
+          else
+            tpv = pitch_f*Dhyd_o;
+          end if;
+
+          teta_ctl = 2*acos(d_s/(d_b - Dhyd_o)*(1 - 2*b_cut));
+          teta_ds  = 2*acos(1 - 2*b_cut);
+          N_tcc    = d_s*(1 - 2*b_cut)/tpv;
+          S_m      = l_b*(d_s - d_b + (d_b - Dhyd_o)*(1 - 1/pitch_f));
+          S_wg     = 0.25*pi*d_s^2*(teta_ds/(2*pi) - sin(teta_ds)/(2*pi));
+          F_w      = teta_ctl/(2*pi) - sin(teta_ctl)/(2*pi);
+          S_wt     = 0.25*N_tubes*F_w*pi*Dhyd_o^2;
+
+          S_tb     = 0.25*pi*((ttb + Dhyd_o)^2 - Dhyd_o^2)*N_tubes*(1 - F_w);
+          S_sb     = 0.5*bts*d_s*(1 - teta_ds/(2*pi));
+          r_s      = S_sb/(S_tb + S_sb);
+          r_lm     = (S_tb + S_sb)/S_m;
+          R_l      = exp(-1.33*(1 + r_s)*r_lm^(-0.15*(1 + r_s) + 0.8));
+
+          S_b      = l_b*(d_s - d_b);
+          F_sbp    = S_b/S_m;
+          R_b      = exp(-3.7*F_sbp*(1 - (2/N_ss)^(1/3)));
+
+          S_w      = S_wg - S_wt;
+          N_tcw    = 0.8*(d_s*b_cut - 0.5*(d_s - (d_b - Dhyd_o)))/tpv;
+
+        end base_Bell_Delaware;
+
+        class base_Kern "Kern correlation for shell base class"
+            extends VIP.Pressure_drops.Shell.Base_classes.base_dp;
+            parameter Modelica.SIunits.Length l "Lenght";
+            input Modelica.SIunits.Length Dhyd "Hydraulic Diameter";
+            input Modelica.SIunits.Length d_s "Shell diameter";
+            input Modelica.SIunits.Length l_b "Baffle length";
+        end base_Kern;
+      end Base_classes;
     end Shell;
   end Pressure_drops;
 
@@ -1023,7 +1128,6 @@ package VIP "I am a package for the Virtual Prototyping Environment"
       end if;
     end check_velocity;
 
-
     package Pure_numbers "Package containing adimensional numbers"
       function Prandtl "Prandtl number"
         input Real cp;
@@ -1091,49 +1195,152 @@ package VIP "I am a package for the Virtual Prototyping Environment"
         ThermoStates = Modelica.Media.Interfaces.PartialMedium.Choices.IndependentVariables.ph);
     end OneRandomOrganicFluid;
 
-    package Methanol_CoolProp "CoolProp model of Methanol"
-      extends ExternalMedia.Media.CoolPropMedium(
-        mediumName = "REFPROP-methanol",
-        substanceNames = {"REFPROP-methanol"},
-        ThermoStates = Modelica.Media.Interfaces.PartialMedium.Choices.IndependentVariables.ph);
-    end Methanol_CoolProp;
 
-    package Water_RefProp "Water"
+    package CoolProp "Media defined using CoolProp"
+      package MM "Hexamethyldisiloxane "
+          extends ExternalMedia.Media.CoolPropMedium(
+          mediumName = "MM",
+          substanceNames = {"MM"},
+          ThermoStates = Modelica.Media.Interfaces.PartialMedium.Choices.IndependentVariables.ph);
+      end MM;
+
+      package Pentane "CoolProp model of Pentane"
+        extends ExternalMedia.Media.CoolPropMedium(
+          mediumName = "Pentane",
+          substanceNames = {"Pentane|enable_TTSE=1|enable_EXTTP=1"},
+          ThermoStates = Modelica.Media.Interfaces.PartialMedium.Choices.IndependentVariables.ph);
+      end Pentane;
+
+      package Cyclopentane "CoolProp model of Cyclopentane"
+        extends ExternalMedia.Media.CoolPropMedium(
+          mediumName = "Cyclopentane",
+          substanceNames = {"Cyclopentane|enable_TTSE=1|enable_EXTTP=1"},
+          ThermoStates = Modelica.Media.Interfaces.PartialMedium.Choices.IndependentVariables.ph);
+      end Cyclopentane;
+
+
+      package Water "CoolProp model of Water"
+        extends ExternalMedia.Media.CoolPropMedium(
+          mediumName = "Water",
+          substanceNames = {"Water"},
+          ThermoStates = Modelica.Media.Interfaces.PartialMedium.Choices.IndependentVariables.ph);
+      end Water;
+
+      package Methanol "CoolProp model of Methanol"
+        extends ExternalMedia.Media.CoolPropMedium(
+          mediumName = "methanol",
+          substanceNames = {"methanol"},
+          ThermoStates = Modelica.Media.Interfaces.PartialMedium.Choices.IndependentVariables.ph);
+      end Methanol;
+
+      package Water_TTSE "CoolProp model of Water using tables"
+        extends ExternalMedia.Media.CoolPropMedium(
+          mediumName = "Water",
+          substanceNames = {"Water|enable_TTSE=1|enable_EXTTP=1"},
+          ThermoStates = Modelica.Media.Interfaces.PartialMedium.Choices.IndependentVariables.ph);
+      end Water_TTSE;
+    end CoolProp;
+
+    package RefProp "Media defined using RefProp (via CoolProp)"
+      package MM "Hexamethyldisiloxane "
+          extends ExternalMedia.Media.CoolPropMedium(
+          mediumName = "MM",
+          substanceNames = {"REFPROP-MM"},
+          ThermoStates = Modelica.Media.Interfaces.PartialMedium.Choices.IndependentVariables.ph);
+      end MM;
+
+      package Pentane "CoolProp model of Pentane"
+        extends ExternalMedia.Media.CoolPropMedium(
+          mediumName = "Pentane",
+          substanceNames = {"REFPROP-Pentane"},
+          ThermoStates = Modelica.Media.Interfaces.PartialMedium.Choices.IndependentVariables.ph);
+      end Pentane;
+
+      package Cyclopentane "CoolProp model of Cyclopentane"
+        extends ExternalMedia.Media.CoolPropMedium(
+          mediumName = "Cyclopentane",
+          substanceNames = {"REFPROP-Cyclopentane"},
+          ThermoStates = Modelica.Media.Interfaces.PartialMedium.Choices.IndependentVariables.ph);
+      end Cyclopentane;
+
+      package Water "CoolProp model of Water"
+        extends ExternalMedia.Media.CoolPropMedium(
+          mediumName = "Water",
+          substanceNames = {"REFPROP-Water"},
+          ThermoStates = Modelica.Media.Interfaces.PartialMedium.Choices.IndependentVariables.ph);
+      end Water;
+
+      package Methanol "methanol"
+          extends ExternalMedia.Media.CoolPropMedium(
+          mediumName = "methanol",
+          substanceNames = {"REFPROP-methanol"},
+          ThermoStates = Modelica.Media.Interfaces.PartialMedium.Choices.IndependentVariables.ph);
+      end Methanol;
+    end RefProp;
+
+    package FluidProp "Media defined using FluidProp"
+      package MM "Hexamethyldisiloxane "
+          extends ExternalMedia.Media.CoolPropMedium(
+          mediumName = "MM",
+          substanceNames = {"MM"},
+          ThermoStates = Modelica.Media.Interfaces.PartialMedium.Choices.IndependentVariables.ph);
+      end MM;
+
+      package Pentane "CoolProp model of Pentane"
+        extends ExternalMedia.Media.CoolPropMedium(
+          mediumName = "Pentane",
+          substanceNames = {"Pentane|enable_TTSE=1|enable_EXTTP=1"},
+          ThermoStates = Modelica.Media.Interfaces.PartialMedium.Choices.IndependentVariables.ph);
+      end Pentane;
+
+      package Cyclopentane "CoolProp model of Cyclopentane"
+        extends ExternalMedia.Media.CoolPropMedium(
+          mediumName = "Cyclopentane",
+          substanceNames = {"Cyclopentane|enable_TTSE=1|enable_EXTTP=1"},
+          ThermoStates = Modelica.Media.Interfaces.PartialMedium.Choices.IndependentVariables.ph);
+      end Cyclopentane;
+
+
+      package Water "CoolProp model of Water"
+        extends ExternalMedia.Media.CoolPropMedium(
+          mediumName = "Water",
+          substanceNames = {"Water"},
+          ThermoStates = Modelica.Media.Interfaces.PartialMedium.Choices.IndependentVariables.ph);
+      end Water;
+
+      package Methanol "CoolProp model of Methanol"
+        extends ExternalMedia.Media.CoolPropMedium(
+          mediumName = "methanol",
+          substanceNames = {"methanol"},
+          ThermoStates = Modelica.Media.Interfaces.PartialMedium.Choices.IndependentVariables.ph);
+      end Methanol;
+
+      package Water_TTSE "CoolProp model of Water using tables"
+        extends ExternalMedia.Media.CoolPropMedium(
+          mediumName = "Water",
+          substanceNames = {"Water|enable_TTSE=1|enable_EXTTP=1"},
+          ThermoStates = Modelica.Media.Interfaces.PartialMedium.Choices.IndependentVariables.ph);
+      end Water_TTSE;
+
+      package Mixture_pentane_ethane
+        "Refprop model of a mixture of pentane and ethane"
         extends ExternalMedia.Media.FluidPropMedium(
-        mediumName = "water",
-        libraryName = "FluidProp.Refprop",
-        substanceNames = {"water"},
-        ThermoStates = Modelica.Media.Interfaces.PartialMedium.Choices.IndependentVariables.ph);
-    end Water_RefProp;
+          mediumName = "Pentane-Hexane",
+          libraryName = "FluidProp.StanMix3",
+          substanceNames = {"Pentane-Hexane"},
+          ThermoStates = Modelica.Media.Interfaces.PartialMedium.Choices.IndependentVariables.ph);
+      //     libraryName = "FluidProp.StanMix",
+      end Mixture_pentane_ethane;
+    end FluidProp;
 
-    package Water_CoolProp "CoolProp model of Water"
-      extends ExternalMedia.Media.CoolPropMedium(
-        mediumName = "Water",
-        substanceNames = {"Water|enable_TTSE=1|enable_EXTTP=1"},
-        ThermoStates = Modelica.Media.Interfaces.PartialMedium.Choices.IndependentVariables.ph);
-    end Water_CoolProp;
+    model try
+      package medium = VIP.Media.FluidProp.Mixture_pentane_ethane;
+       medium.ThermodynamicState state;
+    equation
 
-    package Air_CoolProp "CoolProp model of Air"
-      extends ExternalMedia.Media.CoolPropMedium(
-        mediumName = "Water",
-        substanceNames = {"Water|enable_TTSE=1|enable_EXTTP=1"},
-        ThermoStates = Modelica.Media.Interfaces.PartialMedium.Choices.IndependentVariables.ph);
-    end Air_CoolProp;
+        state = VIP.Media.FluidProp.Mixture_pentane_ethane.setState_pT(1e5,500);
 
-    package Methanol_RefProp "methanol"
-        extends ExternalMedia.Media.FluidPropMedium(
-        mediumName = "methanol",
-        libraryName = "FluidProp.Refprop",
-        substanceNames = {"methanol"},
-        ThermoStates = Modelica.Media.Interfaces.PartialMedium.Choices.IndependentVariables.ph);
-    end Methanol_RefProp;
-
-    package Cyclopentane_CoolProp "CoolProp model of Cyclopentane"
-      extends ExternalMedia.Media.CoolPropMedium(
-        mediumName = "Cyclopentane",
-        substanceNames = {"Cyclopentane|enable_TTSE=1|enable_EXTTP=1"},
-        ThermoStates = Modelica.Media.Interfaces.PartialMedium.Choices.IndependentVariables.ph);
-    end Cyclopentane_CoolProp;
+    end try;
   end Media;
 
   package Materials "Package containing the properties of different materials"
@@ -1169,23 +1376,21 @@ package VIP "I am a package for the Virtual Prototyping Environment"
       extends VIP.Icons.HEX;
       model shell_and_tube
         "Shell and tube heat exchanger where the hot fluid flows on the shell and enters from the top. The cold fluid enters at the bottom."
-        extends VIP.Icons.shell_tube;
+        extends Icons.shell_tube;
 
         //THE WORKING FLUIDS
-        replaceable package Medium_s = VIP.Media.OneRandomOrganicFluid constrainedby
+        replaceable package Medium_s = Media.OneRandomOrganicFluid constrainedby
           Modelica.Media.Interfaces.PartialMedium "Medium model shell" annotation(choicesAllMatching = true);
-        replaceable package Medium_t = VIP.Media.OneRandomOrganicFluid constrainedby
+        replaceable package Medium_t = Media.OneRandomOrganicFluid constrainedby
           Modelica.Media.Interfaces.PartialMedium "Medium model tubes" annotation(choicesAllMatching = true);
-        replaceable VIP.Materials.void_material
-                                           Material_t "Material model shell"        annotation(choicesAllMatching = true);
-        replaceable VIP.Materials.void_material
-                                           Material_s "Material model shell"         annotation(choicesAllMatching = true);
+        replaceable Materials.void_material Material_t "Material model shell"       annotation(choicesAllMatching = true);
+        replaceable Materials.void_material Material_s "Material model shell"        annotation(choicesAllMatching = true);
 
         //GEOMETRY OF THE HEAT EXCHANGER
          parameter Modelica.SIunits.Length Dhyd
           "Hydraulic Diameter (single tube)";
          parameter Modelica.SIunits.Length thick_t "Thickness of the tube";
-         parameter Modelica.SIunits.Length thick_s "Thickness of the tube";
+         parameter Modelica.SIunits.Length thick_s "Thickness of the shell";
          parameter Modelica.SIunits.Length l "Lenght (single tube)";
          parameter Real pitch_f
           "Tube pitch as a fraction of the outer tube diameter";
@@ -1206,7 +1411,7 @@ package VIP "I am a package for the Virtual Prototyping Environment"
           "Number of cell elements";
          final parameter Modelica.SIunits.HeatFlowRate qdot = m_s*abs(h_s_in - h_s_out)
           "Heat flow rate";
-         parameter Modelica.SIunits.Temp_C  DTML = VIP.Miscellanea.log_mean_delta_T(t_s_in, t_s_out, t_t_in, t_t_out)
+         parameter Modelica.SIunits.Temp_C  DTML = Miscellanea.log_mean_delta_T(t_s_in, t_s_out, t_t_in, t_t_out)
           "Logarithmic mean temperature difference";
          //Boundary conditions at inlet and outlet
          parameter Modelica.SIunits.MassFlowRate m_s "Mass flow shell side";
@@ -1243,7 +1448,8 @@ package VIP "I am a package for the Virtual Prototyping Environment"
          Modelica.SIunits.Length l_b "Baffle lenght";
          Real N_tubes( start = qdot/(DTML*U_guess)/(pi*l*(Dhyd + 2*thick_t)))
           "Number of tubes in the bundle";
-         Real N_t_p_p "Number of tubes per pass";
+         Real N_t_p_p( start = qdot/(DTML*U_guess)/(pi*l*(Dhyd + 2*thick_t)/N_passes))
+          "Number of tubes per pass";
          Real bs_f "Baffle spacing as a fraction of the shell diameter";
          Modelica.SIunits.CoefficientOfHeatTransfer U
           "Global heat transfer coefficient";
@@ -1256,20 +1462,32 @@ package VIP "I am a package for the Virtual Prototyping Environment"
          Real PEC "Purchases equipment cost";
 
         //Heat transfer and pressure drop correlations
-        replaceable VIP.Heat_transfer.Tubes.Sieder_Tate hT_tube(Dhyd=Dhyd, eta_wall=bundle.state[1].eta*ones(Ncell))
-           constrainedby VIP.Heat_transfer.Tubes.basic_ht(Medium = Medium_t, Ncell = Ncell, state=bundle.state, mdot=m_t/N_t_p_p, Aflow=bundle.Aflow) annotation(choicesAllMatching = true);
-        replaceable VIP.Pressure_drops.Tubes.Frank dp_tube(Dhyd=Dhyd,l=l/N_baffles_d, heads = 2.5/Ncell)
-          constrainedby VIP.Pressure_drops.Tubes.basic_dp(Medium = Medium_t, Ncell = Ncell, state=bundle.state, mdot=m_t/N_t_p_p, Aflow=bundle.Aflow) annotation(choicesAllMatching = true);
+        replaceable Heat_transfer.Tubes.Sieder_Tate hT_tube(Dhyd=Dhyd, eta_wall=bundle.state[1].eta*ones(Ncell))
+           constrainedby Heat_transfer.Tubes.Base_classes.base_ht(
+                                                      Medium = Medium_t, Ncell = Ncell, state=bundle.state, mdot=m_t/N_t_p_p, Aflow=bundle.Aflow) annotation(choicesAllMatching = true);
+        replaceable Pressure_drops.Tubes.Frank dp_tube(Dhyd=Dhyd,l=l/N_baffles_d, heads = 2.5/Ncell)
+          constrainedby Pressure_drops.Tubes.Base_classes.base_dp(
+                                                      Medium = Medium_t, Ncell = Ncell, state=bundle.state, mdot=m_t/N_t_p_p, Aflow=bundle.Aflow) annotation(choicesAllMatching = true);
 
-        replaceable VIP.Heat_transfer.Shell.Kern hT_shell(Dhyd_o=Dhyd+2*thick_t, layout=layout, pitch_f = pitch_f)
-          constrainedby VIP.Heat_transfer.Shell.basic_ht(Medium = Medium_s, Ncell = Ncell, state=shell.state, mdot=m_s, Aflow=shell.Aflow) annotation(choicesAllMatching = true);
-        replaceable VIP.Pressure_drops.Shell.Wills_Johnston dp_shell(l=l/N_baffles_d/N_passes, d_s=d_s, Dhyd=hT_shell.d_s_eq, l_b = l_b,
-                      eta_wall=shell.state[1].eta*ones(Ncell))
-         constrainedby VIP.Pressure_drops.Shell.basic_dp(Medium = Medium_s, Ncell = Ncell, state=shell.state, mdot=m_s, Aflow=shell.Aflow) annotation(choicesAllMatching = true);
+        replaceable Heat_transfer.Shell.single_phase_Kern hT_shell(Dhyd_o=Dhyd+2*thick_t, layout=layout, pitch_f = pitch_f)
+          constrainedby Heat_transfer.Shell.Base_classes.base_ht(
+                                                    Medium = Medium_s, Ncell = Ncell, state=shell.state, mdot=m_s, Aflow=shell.Aflow) annotation(choicesAllMatching = true);
+        replaceable Pressure_drops.Shell.single_phase_Johnston dp_shell(
+          l=l/N_baffles_d/N_passes,
+          d_s=d_s,
+          Dhyd=hT_shell.d_s_eq,
+          l_b=l_b,
+          eta_wall=shell.state[1].eta*ones(Ncell)) constrainedby
+          Pressure_drops.Shell.Base_classes.base_dp(
+          Medium=Medium_s,
+          Ncell=Ncell,
+          state=shell.state,
+          mdot=m_s,
+          Aflow=shell.Aflow) annotation (choicesAllMatching=true);
 
         //Defining the model for the bundle clearance
         replaceable function bundle_clearance =
-            VIP.Miscellanea.Shell_clearance.base_clearance
+            Miscellanea.Shell_clearance.base_clearance
                                               annotation(choicesAllMatching = true);
 
         //Defining the model for the cost
@@ -1277,7 +1495,7 @@ package VIP "I am a package for the Virtual Prototyping Environment"
             Miscellanea.Cost.base_cost        annotation(choicesAllMatching = true);
 
         //Definiing the tubes and the shell
-        VIP.Objects.tube_bundle
+        Objects.tube_bundle
                     bundle(redeclare package Medium = Medium_t,
                     h_in = h_t_in,
                     h_out = h_t_out,
@@ -1287,7 +1505,7 @@ package VIP "I am a package for the Virtual Prototyping Environment"
                     mdot_pt = m_t/N_t_p_p,N_passes = N_passes, layout = layout,
                     pin = pin_t, pitch_f = pitch_f);
 
-        VIP.Objects.tubes
+        Objects.tubes
                     shell(redeclare package Medium = Medium_s,
                     h_in = h_s_in,
                     h_out = h_s_out,
@@ -1295,11 +1513,11 @@ package VIP "I am a package for the Virtual Prototyping Environment"
                     mdot_pt = m_s, Dhyd = d_s, thick = thick_s,
                     lambda = Material_s.lambda, rho = Material_s.rho, pin = pin_s);
 
-        VIP.Miscellanea.check_velocity check_shell(redeclare package Medium = Medium_s,
+        Miscellanea.check_velocity check_shell(redeclare package Medium = Medium_s,
                     T = shell.state[1].T, umin = min(hT_shell.u),
                     umax = max(hT_shell.u), geometry = "shell", op_p = p_s_in);
 
-        VIP.Miscellanea.check_velocity check_tube(redeclare package Medium = Medium_t,
+        Miscellanea.check_velocity check_tube(redeclare package Medium = Medium_t,
                     T = bundle.state[1].T, umin = min(hT_tube.u),
                     umax = max(hT_tube.u), geometry = "tube", op_p = p_t_in);
 
@@ -1348,7 +1566,7 @@ package VIP "I am a package for the Virtual Prototyping Environment"
                     if mod(N_baffles_d,2) <> 0 then
                       k[i]            = Ncell - (2*N_passes - 1) + (j-1) - N_passes*(i-(2+(j-1)*N_baffles_d));
                     else
-                      k[i]            = Ncell - N_passes + (j-1) - N_passes*(i-(2+(j-1)*N_baffles_d));
+                      k[i]            = Ncell - N_passes - (j-1) - N_passes*(i-(2+(j-1)*N_baffles_d));
                     end if;
                   else
                       k[i]            = N_passes + j + N_passes*(i-(2+(j-1)*N_baffles_d));
@@ -1388,7 +1606,7 @@ package VIP "I am a package for the Virtual Prototyping Environment"
           //Area, global heat transfer coefficient and corrected DMTL
           A              = N_tubes*pi*l*bundle.Dhyd_o;
           U              = sum(kA_tot)/A;
-          DTML_tilde     = qdot/(U*A);
+          qdot           = DTML_tilde*U*A;
 
           //Weight calculation
           bundle.W_dry = 0.25*pi*(bundle.Dhyd_o^2 - bundle.Dhyd^2)*l*N_tubes
@@ -1415,349 +1633,12 @@ package VIP "I am a package for the Virtual Prototyping Environment"
 
   package Tests "I test the components here"
   extends Modelica.Icons.ExamplesPackage;
-    model Coulson_Kern
-      "Verification with the results given by Coulson et al. using the Kern method"
-
-      replaceable package Medium_s = VIP.Media.Methanol_CoolProp "Medium model";
-      replaceable package Medium_t = VIP.Media.Water_CoolProp "Medium model";
-      parameter Modelica.SIunits.SpecificEnthalpy h_s_in= Medium_s.specificEnthalpy_pT(3.2e5,368.15)
-        "Inlet specific enthalpy shell side";
-      parameter Modelica.SIunits.SpecificEnthalpy h_s_out= Medium_s.specificEnthalpy_pT(3.2e5,313.15)
-        "Outlet specific enthalpy shell side";
-      parameter Modelica.SIunits.SpecificEnthalpy h_t_in = Medium_t.specificEnthalpy_pT(1e5,298.15)
-        "Inlet specific enthalpy tube side";
-      parameter Modelica.SIunits.SpecificEnthalpy h_t_out = Medium_t.specificEnthalpy_pT(1e5,313.15)
-        "Outlet specific enthalpy tube side";
-
-      Components.HEX.shell_and_tube             shell_and_tube(
-        Dhyd=16e-3,
-        l=4.83,
-        pitch_f=1.25,
-        layout=1,
-        N_passes=2,
-        N_baffles=27,
-        h_s_in=h_s_in,
-        h_s_out=h_s_out,
-        h_t_in=h_t_in,
-        h_t_out=h_t_out,
-        m_s=1e2/3.6,
-        m_t=68.9,
-        redeclare package Medium_s = VIP.Media.Methanol_CoolProp,
-        redeclare package Medium_t = VIP.Media.Water_CoolProp,
-        redeclare VIP.Materials.S_AISI_1040 Material_t,
-        redeclare VIP.Materials.S_AISI_1040 Material_s,
-        redeclare function bundle_clearance =
-            VIP.Miscellanea.Shell_clearance.SRFH,
-        pin_s=1,
-        pin_t=-1,
-        thick_t=2e-3,
-        thick_s=10e-3,
-        N_heads=1,
-        p_s_in=301435,
-        p_s_out=301435,
-        p_t_in=100000,
-        p_t_out=100000)
-        annotation (Placement(transformation(extent={{-80,-68},{68,58}})));
-
-     annotation (Placement(transformation(extent={{-108,-74},{88,66}})),
-        experiment,
-        __Dymola_experimentSetupOutput);
-    end Coulson_Kern;
-
-    model Coulson_Bell_Delaware
-      "Verification with the results given by Coulson using the Bell Delaware method."
-
-      replaceable package Medium_s = VIP.Media.Methanol_CoolProp "Medium model";
-      replaceable package Medium_t = VIP.Media.Water_CoolProp "Medium model";
-      parameter Modelica.SIunits.SpecificEnthalpy h_s_in= Medium_s.specificEnthalpy_pT(3.2e5,368.15)
-        "Inlet specific enthalpy shell side";
-      parameter Modelica.SIunits.SpecificEnthalpy h_s_out= Medium_s.specificEnthalpy_pT(3.2e5,313.15)
-        "Outlet specific enthalpy shell side";
-      parameter Modelica.SIunits.SpecificEnthalpy h_t_in = Medium_t.specificEnthalpy_pT(1e5,298.15)
-        "Inlet specific enthalpy tube side";
-      parameter Modelica.SIunits.SpecificEnthalpy h_t_out = Medium_t.specificEnthalpy_pT(1e5,313.15)
-        "Outlet specific enthalpy tube side";
-
-       Components.HEX.shell_and_tube  st(
-         redeclare package Medium_s = Medium_s,
-         redeclare package Medium_t = Medium_t,
-         Dhyd =        16e-3,
-         l =           4.83,
-         pitch_f =     1.25,
-         layout =      1,
-         N_passes =    2,
-         N_baffles =   12,
-         N_baffles_d = 25,
-         pin_t =       -1,
-         pin_s =       1,
-         h_s_in =      h_s_in,
-         h_s_out =     h_s_out,
-         h_t_in =      h_t_in,
-         h_t_out =     h_t_out,
-         m_s =         1e2/3.6,
-         m_t =         68.9,
-         redeclare VIP.Heat_transfer.Shell.Bell_Delaware hT_shell(pitch_f = st.pitch_f, Dhyd_o = st.bundle.Dhyd_o,
-         N_tubes = st.N_tubes, d_s = st.d_s, d_b = st.bundle.d_b, Dhyd = st.d_s,
-         layout = st.layout, l_b = st.l_b, N_ss = 5,
-         eta_wall=st.shell.state[1].eta*ones(st.Ncell),
-         N_passes = st.N_passes, ff =  1.0, b_cut = 0.25),
-         redeclare VIP.Pressure_drops.Shell.Bell_Delaware dp_shell(pitch_f = st.pitch_f, Dhyd_o = st.bundle.Dhyd_o,
-         N_tubes = st.N_tubes, d_s = st.d_s, d_b = st.bundle.d_b, Dhyd = st.d_s,
-         layout = st.layout, l_b = st.l_b, N_ss = 5,
-         eta_wall=st.shell.state[1].eta*ones(st.Ncell),
-         N_passes = st.N_passes, N_baffles_d = st.N_baffles_d,
-         N_baffles = st.N_baffles, ff =  1.0, b_cut = 0.25),
-        redeclare VIP.Materials.S_AISI_1040 Material_t,
-        redeclare VIP.Materials.S_AISI_1040 Material_s,
-        redeclare function bundle_clearance =
-            VIP.Miscellanea.Shell_clearance.SRFH,
-        thick_t=2e-3,
-        thick_s=10e-3,
-        N_heads=1,
-        p_s_in=301435,
-        p_s_out=301435,
-        p_t_in=100000,
-        p_t_out=100000)
-        annotation (Placement(transformation(extent={{-80,-68},{68,58}})));
-
-     annotation (Placement(transformation(extent={{-108,-74},{88,66}})));
-    end Coulson_Bell_Delaware;
-
-    model Aspen_Bell_Delaware
-      "Verification with the results given by Aspen using the Bell Delaware method."
-
-      replaceable package Medium_s = VIP.Media.Methanol_CoolProp "Medium model";
-      replaceable package Medium_t = VIP.Media.Water_CoolProp "Medium model";
-      parameter Modelica.SIunits.SpecificEnthalpy h_s_in= Medium_s.specificEnthalpy_pT(3.2e5,368.15)
-        "Inlet specific enthalpy shell side";
-      parameter Modelica.SIunits.SpecificEnthalpy h_s_out= Medium_s.specificEnthalpy_pT(3.2e5,313.15)
-        "Outlet specific enthalpy shell side";
-      parameter Modelica.SIunits.SpecificEnthalpy h_t_in = Medium_t.specificEnthalpy_pT(1e5,298.15)
-        "Inlet specific enthalpy tube side";
-      parameter Modelica.SIunits.SpecificEnthalpy h_t_out = Medium_t.specificEnthalpy_pT(1e5,313.15)
-        "Outlet specific enthalpy tube side";
-
-       Components.HEX.shell_and_tube  st(
-         redeclare package Medium_s = Medium_s,
-         redeclare package Medium_t = Medium_t,
-         Dhyd =        16e-3,
-         thick_t =     2e-3,
-         thick_s =     10e-3,
-         l =           4.65,
-         pitch_f =     1.25,
-         layout =      1,
-         N_passes =    2,
-         N_baffles =   24,
-         N_baffles_d = 25,
-         pin_t =       -1,
-         pin_s =       1,
-         h_s_in =      h_s_in,
-         h_s_out =     h_s_out,
-         h_t_in =      h_t_in,
-         h_t_out =     h_t_out,
-         m_s =         1e2/3.6,
-         m_t =         68.9,
-         redeclare VIP.Heat_transfer.Shell.Bell_Delaware hT_shell(pitch_f = st.pitch_f, Dhyd_o = st.bundle.Dhyd_o,
-         N_tubes = st.N_tubes, d_s = st.d_s, d_b = st.bundle.d_b, Dhyd = st.d_s,
-         layout = st.layout, l_b = st.l_b, N_ss = 5,
-         eta_wall=st.shell.state[1].eta*ones(st.Ncell),
-         N_passes = st.N_passes, ff =  1.0, b_cut = 0.1588),
-         redeclare VIP.Pressure_drops.Shell.Bell_Delaware dp_shell(pitch_f = st.pitch_f, Dhyd_o = st.bundle.Dhyd_o,
-         N_tubes = st.N_tubes, d_s = st.d_s, d_b = st.bundle.d_b, Dhyd = st.d_s,
-         layout = st.layout, l_b = st.l_b, N_ss = 5,
-         eta_wall=st.shell.state[1].eta*ones(st.Ncell),
-         N_passes = st.N_passes, N_baffles_d = st.N_baffles_d,
-         N_baffles = st.N_baffles, ff =  1.0, b_cut = 0.1588),
-        redeclare VIP.Materials.S_AISI_1040 Material_t,
-        redeclare VIP.Materials.S_AISI_1040 Material_s,
-        redeclare function bundle_clearance =
-            VIP.Miscellanea.Shell_clearance.Fixed_Utube,
-        N_heads=1,
-        p_s_in=301435,
-        p_s_out=301435,
-        p_t_in=100000,
-        p_t_out=100000,
-        redeclare function cost = VIP.Miscellanea.Cost.CS_Hall)
-        annotation (Placement(transformation(extent={{-80,-68},{68,58}})));
-
-     annotation (Placement(transformation(extent={{-108,-74},{88,66}})), Icon(
-            coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
-                100,100}}), graphics));
-    end Aspen_Bell_Delaware;
-
-    model Aspen_Bell_Delaware_upsidedown
-      "Verification with the results given by Aspen using the Bell Delaware method. We switch the fluid allocation here."
-
-      replaceable package Medium_t = VIP.Media.Methanol_CoolProp "Medium model";
-      replaceable package Medium_s = VIP.Media.Water_CoolProp "Medium model";
-      parameter Modelica.SIunits.SpecificEnthalpy h_t_in= Medium_t.specificEnthalpy_pT(3.2e5,368.15)
-        "Inlet specific enthalpy shell side";
-      parameter Modelica.SIunits.SpecificEnthalpy h_t_out= Medium_t.specificEnthalpy_pT(3.2e5,313.15)
-        "Outlet specific enthalpy shell side";
-      parameter Modelica.SIunits.SpecificEnthalpy h_s_in = Medium_s.specificEnthalpy_pT(1e5,298.15)
-        "Inlet specific enthalpy tube side";
-      parameter Modelica.SIunits.SpecificEnthalpy h_s_out = Medium_s.specificEnthalpy_pT(1e5,313.15)
-        "Outlet specific enthalpy tube side";
-
-       Components.HEX.shell_and_tube  st(
-         redeclare package Medium_s = Medium_s,
-         redeclare package Medium_t = Medium_t,
-         pin_t = 1,
-         pin_s = -1,
-         Dhyd = 16e-3,
-         l = 4.65,
-         pitch_f=1.25,
-         layout = 1,
-         N_passes = 4,
-         N_baffles = 24,
-         h_s_in = h_s_in,
-         h_s_out = h_s_out,
-         h_t_in = h_t_in,
-         h_t_out = h_t_out,
-         m_t = 1e2/3.6,
-         m_s = 68.9,
-         DTML = 50,
-         redeclare VIP.Heat_transfer.Shell.Bell_Delaware hT_shell(pitch_f = st.pitch_f, Dhyd_o = st.bundle.Dhyd_o,
-         N_tubes = st.N_tubes, d_s = st.d_s, d_b = st.bundle.d_b, Dhyd = st.d_s,
-         layout = st.layout, l_b = st.l_b, N_ss = 5,
-         eta_wall=st.shell.state[1].eta*ones(st.Ncell),
-         N_passes = st.N_passes, ff =  1.0, b_cut = 0.1588),
-         redeclare VIP.Pressure_drops.Shell.Bell_Delaware dp_shell(pitch_f = st.pitch_f, Dhyd_o = st.bundle.Dhyd_o,
-         N_tubes = st.N_tubes, d_s = st.d_s, d_b = st.bundle.d_b, Dhyd = st.d_s,
-         layout = st.layout, l_b = st.l_b, N_ss = 5,
-         eta_wall=st.shell.state[1].eta*ones(st.Ncell),
-         N_passes = st.N_passes, N_baffles_d = st.N_baffles_d,
-         N_baffles = st.N_baffles, ff =  1.0, b_cut = 0.1588),
-        redeclare VIP.Materials.S_AISI_1040 Material_t,
-        redeclare VIP.Materials.S_AISI_1040 Material_s,
-        redeclare function bundle_clearance =
-            VIP.Miscellanea.Shell_clearance.Fixed_Utube,
-        thick_t=2e-3,
-        thick_s=10e-3,
-        N_heads=1,
-        p_s_in=100000,
-        p_s_out=100000,
-        p_t_in=301435,
-        p_t_out=301435)
-        annotation (Placement(transformation(extent={{-80,-68},{68,58}})));
-
-     annotation (Placement(transformation(extent={{-108,-74},{88,66}})));
-    end Aspen_Bell_Delaware_upsidedown;
-
-    model DYNDES_Bell_Delaware
-      "Verification with the results given by the DYNDES simulation tool using the Bell Delaware method."
-
-      replaceable package Medium_s = VIP.Media.Cyclopentane_CoolProp
-        "Medium model";
-      replaceable package Medium_t = VIP.Media.Cyclopentane_CoolProp
-        "Medium model";
-      parameter Modelica.SIunits.SpecificEnthalpy h_s_in= Medium_s.specificEnthalpy_pT(1.1e5,403.15)
-        "Inlet specific enthalpy shell side";
-      parameter Modelica.SIunits.SpecificEnthalpy h_s_out= Medium_s.specificEnthalpy_pT(1.1e5,357.15)
-        "Outlet specific enthalpy shell side";
-      parameter Modelica.SIunits.SpecificEnthalpy h_t_in = Medium_t.specificEnthalpy_pT(3e6,323.15)
-        "Inlet specific enthalpy tube side";
-      parameter Modelica.SIunits.SpecificEnthalpy h_t_out = Medium_t.specificEnthalpy_pT(3e6,323.15)
-        "Outlet specific enthalpy tube side";
-
-      Components.HEX.shell_and_tube  st(
-        redeclare package Medium_s = Medium_s,
-        redeclare package Medium_t = Medium_t,
-        Dhyd=16e-3,
-        l=7.32,
-        pitch_f=1.25,
-        layout=1,
-        N_passes=2,
-        N_baffles=3,
-        N_baffles_d=4,
-        pin_t =       -1,
-        pin_s =       1,
-        h_s_in=h_s_in,
-        h_s_out=h_s_out,
-        h_t_in=h_t_in,
-        h_t_out=h_t_out,
-        m_s = 40,
-        m_t = 40,
-        redeclare VIP.Heat_transfer.Shell.Bell_Delaware   hT_shell(pitch_f = st.pitch_f, Dhyd_o = st.bundle.Dhyd_o,
-        N_tubes = st.N_tubes, d_s = st.d_s, d_b = st.bundle.d_b, Dhyd = st.d_s,
-        layout = st.layout, l_b = st.l_b, N_ss = 5,
-        eta_wall=st.shell.state[1].eta*ones(st.Ncell),
-        N_passes = st.N_passes, ff =  1.0, b_cut = 0.25),
-        redeclare VIP.Pressure_drops.Shell.Bell_Delaware   dp_shell(pitch_f = st.pitch_f, Dhyd_o = st.bundle.Dhyd_o,
-        N_tubes = st.N_tubes, d_s = st.d_s, d_b = st.bundle.d_b, Dhyd = st.d_s,
-        layout = st.layout, l_b = st.l_b, N_ss = 5,
-        eta_wall=st.shell.state[1].eta*ones(st.Ncell),
-        N_baffles = st.N_baffles, N_baffles_d = st.N_baffles_d,
-        N_passes = st.N_passes, ff =  1.0, b_cut = 0.25),
-        redeclare function bundle_clearance =
-          VIP.Miscellanea.Shell_clearance.SRFH,
-        redeclare VIP.Materials.S_AISI_1040 Material_t,
-        redeclare VIP.Materials.S_AISI_1040 Material_s,
-        thick_t=2e-3,
-        thick_s=10e-3,
-        N_heads=1,
-        p_s_in=110000,
-        p_s_out=110000,
-        p_t_in=3000000,
-        p_t_out=3000000)
-        annotation (Placement(transformation(extent={{-80,-68},{68,58}})));
-
-     annotation (Placement(transformation(extent={{-108,-74},{88,66}})));
-    end DYNDES_Bell_Delaware;
-
-    model Optimization "Shell and tube model for external optmization"
-
-      replaceable package Medium_s = VIP.Media.Methanol_CoolProp "Medium model";
-      replaceable package Medium_t = VIP.Media.Water_CoolProp "Medium model";
-      parameter Modelica.SIunits.SpecificEnthalpy h_s_in= Medium_s.specificEnthalpy_pT(3.2e5,368.15)
-        "Inlet specific enthalpy shell side";
-      parameter Modelica.SIunits.SpecificEnthalpy h_s_out= Medium_s.specificEnthalpy_pT(3.2e5,313.15)
-        "Outlet specific enthalpy shell side";
-      parameter Modelica.SIunits.SpecificEnthalpy h_t_in = Medium_t.specificEnthalpy_pT(1e5,298.15)
-        "Inlet specific enthalpy tube side";
-      parameter Modelica.SIunits.SpecificEnthalpy h_t_out = Medium_t.specificEnthalpy_pT(1e5,313.15)
-        "Outlet specific enthalpy tube side";
-
-      Components.HEX.shell_and_tube             shell_and_tube(
-        Dhyd=16e-3,
-        l=4.83,
-        pitch_f=1.25,
-        layout=1,
-        N_passes=2,
-        N_baffles=27,
-        h_s_in=h_s_in,
-        h_s_out=h_s_out,
-        h_t_in=h_t_in,
-        h_t_out=h_t_out,
-        m_s=1e2/3.6,
-        m_t=68.9,
-        redeclare package Medium_s = VIP.Media.Methanol_CoolProp,
-        redeclare package Medium_t = VIP.Media.Water_CoolProp,
-        redeclare VIP.Materials.S_AISI_1040 Material_t,
-        redeclare VIP.Materials.S_AISI_1040 Material_s,
-        redeclare function bundle_clearance =
-            VIP.Miscellanea.Shell_clearance.SRFH,
-        pin_s=1,
-        pin_t=-1,
-        thick_t=2e-3,
-        thick_s=10e-3,
-        N_heads=1,
-        p_s_in=301435,
-        p_s_out=301435,
-        p_t_in=100000,
-        p_t_out=100000)
-        annotation (Placement(transformation(extent={{-80,-68},{68,58}})));
-
-     annotation (Placement(transformation(extent={{-108,-74},{88,66}})),
-        experiment,
-        __Dymola_experimentSetupOutput);
-    end Optimization;
 
     model cell_method_VDI_example
       "Cell method verified with an example from VDI C1 pag. 48"
       import constants = Modelica.Constants;
       parameter Integer N_passes=2 "Number of cell passes";
-      parameter Integer N_baffles=12 "Number of cell baffles";
+      parameter Integer N_baffles=3 "Number of cell baffles";
       parameter Integer Ncell=N_passes*N_baffles "Number of cell elements";
       parameter Modelica.SIunits.Temp_C t_s_in = 100
         "Inlet temperature of the hot source";
@@ -1816,8 +1697,8 @@ package VIP "I am a package for the Virtual Prototyping Environment"
                     qdot_cold[i] = qdot_hot[Ncell - (2*N_passes - 1) + (j-1) - N_passes*(i-(2+(j-1)*N_baffles))];
                     qdot_cold[i] = kA_tot*(t_av_hot[Ncell - (2*N_passes - 1) + (j-1) - N_passes*(i-(2+(j-1)*N_baffles))] - t_av_cold[i]);
                   else
-                    qdot_cold[i] = qdot_hot[Ncell - N_passes + (j-1) - N_passes*(i-(2+(j-1)*N_baffles))];
-                    qdot_cold[i] = kA_tot*(t_av_hot[Ncell - N_passes + (j-1) - N_passes*(i-(2+(j-1)*N_baffles))] - t_av_cold[i]);
+                    qdot_cold[i] = qdot_hot[Ncell - N_passes - (j-1) - N_passes*(i-(2+(j-1)*N_baffles))];
+                    qdot_cold[i] = kA_tot*(t_av_hot[Ncell - N_passes - (j-1) - N_passes*(i-(2+(j-1)*N_baffles))] - t_av_cold[i]);
                   end if;
                 else
                     qdot_cold[i] = qdot_hot[N_passes + j + N_passes*(i-(2+(j-1)*N_baffles))];
@@ -1835,6 +1716,515 @@ package VIP "I am a package for the Virtual Prototyping Environment"
         Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}}),
             graphics));
     end cell_method_VDI_example;
+
+    package Single_phase "Tests for one phase to one phase heat exchangers"
+      model Coulson_Kern
+        "Verification with the results given by Coulson et al. using the Kern method"
+
+        replaceable package Medium_s = VIP.Media.RefProp.Methanol
+          "Medium model";
+        replaceable package Medium_t = VIP.Media.CoolProp.Water "Medium model";
+        parameter Modelica.SIunits.SpecificEnthalpy h_s_in= Medium_s.specificEnthalpy_pT(3.2e5,368.15)
+          "Inlet specific enthalpy shell side";
+        parameter Modelica.SIunits.SpecificEnthalpy h_s_out= Medium_s.specificEnthalpy_pT(3.2e5,313.15)
+          "Outlet specific enthalpy shell side";
+        parameter Modelica.SIunits.SpecificEnthalpy h_t_in = Medium_t.specificEnthalpy_pT(1e5,298.15)
+          "Inlet specific enthalpy tube side";
+        parameter Modelica.SIunits.SpecificEnthalpy h_t_out = Medium_t.specificEnthalpy_pT(1e5,313.15)
+          "Outlet specific enthalpy tube side";
+
+        Components.HEX.shell_and_tube             shell_and_tube(
+          redeclare package Medium_s = Medium_s,
+          redeclare package Medium_t = Medium_t,
+          Dhyd=16e-3,
+          l=4.83,
+          pitch_f=1.25,
+          layout=1,
+          N_passes=2,
+          N_baffles=27,
+          h_s_in=h_s_in,
+          h_s_out=h_s_out,
+          h_t_in=h_t_in,
+          h_t_out=h_t_out,
+          m_s=1e2/3.6,
+          m_t=68.9,
+          redeclare VIP.Materials.S_AISI_1040 Material_t,
+          redeclare VIP.Materials.S_AISI_1040 Material_s,
+          redeclare function bundle_clearance =
+              VIP.Miscellanea.Shell_clearance.SRFH,
+          pin_s=1,
+          pin_t=-1,
+          thick_t=2e-3,
+          thick_s=10e-3,
+          N_heads=1,
+          p_s_in=301435,
+          p_s_out=301435,
+          p_t_in=100000,
+          p_t_out=100000)
+          annotation (Placement(transformation(extent={{-80,-68},{68,58}})));
+
+       annotation (Placement(transformation(extent={{-108,-74},{88,66}})),
+          experiment,
+          __Dymola_experimentSetupOutput);
+      end Coulson_Kern;
+
+      model Coulson_Bell_Delaware
+        "Verification with the results given by Coulson using the Bell Delaware method."
+
+        replaceable package Medium_s = VIP.Media.RefProp.Methanol
+          "Medium model";
+        replaceable package Medium_t = VIP.Media.CoolProp.Water "Medium model";
+        parameter Modelica.SIunits.SpecificEnthalpy h_s_in= Medium_s.specificEnthalpy_pT(3.2e5,368.15)
+          "Inlet specific enthalpy shell side";
+        parameter Modelica.SIunits.SpecificEnthalpy h_s_out= Medium_s.specificEnthalpy_pT(3.2e5,313.15)
+          "Outlet specific enthalpy shell side";
+        parameter Modelica.SIunits.SpecificEnthalpy h_t_in = Medium_t.specificEnthalpy_pT(1e5,298.15)
+          "Inlet specific enthalpy tube side";
+        parameter Modelica.SIunits.SpecificEnthalpy h_t_out = Medium_t.specificEnthalpy_pT(1e5,313.15)
+          "Outlet specific enthalpy tube side";
+
+         Components.HEX.shell_and_tube  st(
+           redeclare package Medium_s = Medium_s,
+           redeclare package Medium_t = Medium_t,
+           Dhyd =        16e-3,
+           l =           4.83,
+           pitch_f =     1.25,
+           layout =      1,
+           N_passes =    2,
+           N_baffles =   12,
+           N_baffles_d = 25,
+           pin_t =       -1,
+           pin_s =       1,
+           h_s_in =      h_s_in,
+           h_s_out =     h_s_out,
+           h_t_in =      h_t_in,
+           h_t_out =     h_t_out,
+           m_s =         1e2/3.6,
+           m_t =         68.9,
+           redeclare Heat_transfer.Shell.single_phase_Bell_Delaware hT_shell(pitch_f = st.pitch_f, Dhyd_o = st.bundle.Dhyd_o,
+           N_tubes = st.N_tubes, d_s = st.d_s, d_b = st.bundle.d_b, Dhyd = st.d_s,
+           layout = st.layout, l_b = st.l_b, N_ss = 5,
+           eta_wall=st.shell.state[1].eta*ones(st.Ncell),
+           N_passes = st.N_passes, ff =  1.0, b_cut = 0.25),
+          redeclare Pressure_drops.Shell.single_phase_Bell_Delaware dp_shell(
+            pitch_f=st.pitch_f,
+            Dhyd_o=st.bundle.Dhyd_o,
+            N_tubes=st.N_tubes,
+            d_s=st.d_s,
+            d_b=st.bundle.d_b,
+            Dhyd=st.d_s,
+            layout=st.layout,
+            l_b=st.l_b,
+            N_ss=5,
+            eta_wall=st.shell.state[1].eta*ones(st.Ncell),
+            N_passes=st.N_passes,
+            N_baffles_d=st.N_baffles_d,
+            N_baffles=st.N_baffles,
+            ff=1.0,
+            b_cut=0.25),
+          redeclare VIP.Materials.S_AISI_1040 Material_t,
+          redeclare VIP.Materials.S_AISI_1040 Material_s,
+          redeclare function bundle_clearance =
+              VIP.Miscellanea.Shell_clearance.SRFH,
+          thick_t=2e-3,
+          thick_s=10e-3,
+          N_heads=1,
+          p_s_in=301435,
+          p_s_out=301435,
+          p_t_in=100000,
+          p_t_out=100000)
+          annotation (Placement(transformation(extent={{-80,-68},{68,58}})));
+
+       annotation (Placement(transformation(extent={{-108,-74},{88,66}})));
+      end Coulson_Bell_Delaware;
+
+      model Aspen_Bell_Delaware_upsidedown
+        "Verification with the results given by Aspen using the Bell Delaware method. We switch the fluid allocation here."
+
+        replaceable package Medium_t = VIP.Media.RefProp.Methanol
+          "Medium model";
+        replaceable package Medium_s = VIP.Media.CoolProp.Water "Medium model";
+        parameter Modelica.SIunits.SpecificEnthalpy h_t_in= Medium_t.specificEnthalpy_pT(3.2e5,368.15)
+          "Inlet specific enthalpy shell side";
+        parameter Modelica.SIunits.SpecificEnthalpy h_t_out= Medium_t.specificEnthalpy_pT(3.2e5,313.15)
+          "Outlet specific enthalpy shell side";
+        parameter Modelica.SIunits.SpecificEnthalpy h_s_in = Medium_s.specificEnthalpy_pT(1e5,298.15)
+          "Inlet specific enthalpy tube side";
+        parameter Modelica.SIunits.SpecificEnthalpy h_s_out = Medium_s.specificEnthalpy_pT(1e5,313.15)
+          "Outlet specific enthalpy tube side";
+
+         Components.HEX.shell_and_tube  st(
+           redeclare package Medium_s = Medium_s,
+           redeclare package Medium_t = Medium_t,
+           pin_t = 1,
+           pin_s = -1,
+           Dhyd = 16e-3,
+           l = 4.65,
+           pitch_f=1.25,
+           layout = 1,
+           N_passes = 4,
+           N_baffles = 24,
+           h_s_in = h_s_in,
+           h_s_out = h_s_out,
+           h_t_in = h_t_in,
+           h_t_out = h_t_out,
+           m_t = 1e2/3.6,
+           m_s = 68.9,
+           DTML = 50,
+           redeclare Heat_transfer.Shell.single_phase_Bell_Delaware hT_shell(pitch_f = st.pitch_f, Dhyd_o = st.bundle.Dhyd_o,
+           N_tubes = st.N_tubes, d_s = st.d_s, d_b = st.bundle.d_b, Dhyd = st.d_s,
+           layout = st.layout, l_b = st.l_b, N_ss = 5,
+           eta_wall=st.shell.state[1].eta*ones(st.Ncell),
+           N_passes = st.N_passes, ff =  1.0, b_cut = 0.1588),
+          redeclare Pressure_drops.Shell.single_phase_Bell_Delaware dp_shell(
+            pitch_f=st.pitch_f,
+            Dhyd_o=st.bundle.Dhyd_o,
+            N_tubes=st.N_tubes,
+            d_s=st.d_s,
+            d_b=st.bundle.d_b,
+            Dhyd=st.d_s,
+            layout=st.layout,
+            l_b=st.l_b,
+            N_ss=5,
+            eta_wall=st.shell.state[1].eta*ones(st.Ncell),
+            N_passes=st.N_passes,
+            N_baffles_d=st.N_baffles_d,
+            N_baffles=st.N_baffles,
+            ff=1.0,
+            b_cut=0.1588),
+          redeclare VIP.Materials.S_AISI_1040 Material_t,
+          redeclare VIP.Materials.S_AISI_1040 Material_s,
+          redeclare function bundle_clearance =
+              VIP.Miscellanea.Shell_clearance.Fixed_Utube,
+          thick_t=2e-3,
+          thick_s=10e-3,
+          N_heads=1,
+          p_s_in=100000,
+          p_s_out=100000,
+          p_t_in=301435,
+          p_t_out=301435)
+          annotation (Placement(transformation(extent={{-80,-68},{68,58}})));
+
+       annotation (Placement(transformation(extent={{-108,-74},{88,66}})));
+      end Aspen_Bell_Delaware_upsidedown;
+
+      model Aspen_Bell_Delaware
+        "Verification with the results given by Aspen using the Bell Delaware method."
+
+        replaceable package Medium_s = VIP.Media.RefProp.Methanol
+          "Medium model";
+        replaceable package Medium_t = VIP.Media.CoolProp.Water "Medium model";
+        parameter Modelica.SIunits.SpecificEnthalpy h_s_in= Medium_s.specificEnthalpy_pT(3.2e5,368.15)
+          "Inlet specific enthalpy shell side";
+        parameter Modelica.SIunits.SpecificEnthalpy h_s_out= Medium_s.specificEnthalpy_pT(3.2e5,313.15)
+          "Outlet specific enthalpy shell side";
+        parameter Modelica.SIunits.SpecificEnthalpy h_t_in = Medium_t.specificEnthalpy_pT(1e5,298.15)
+          "Inlet specific enthalpy tube side";
+        parameter Modelica.SIunits.SpecificEnthalpy h_t_out = Medium_t.specificEnthalpy_pT(1e5,313.15)
+          "Outlet specific enthalpy tube side";
+
+         Components.HEX.shell_and_tube  st(
+           redeclare package Medium_s = Medium_s,
+           redeclare package Medium_t = Medium_t,
+           Dhyd =        16e-3,
+           thick_t =     2e-3,
+           thick_s =     10e-3,
+           l =           4.65,
+           pitch_f =     1.25,
+           layout =      1,
+           N_passes =    2,
+           N_baffles =   24,
+           N_baffles_d = 25,
+           pin_t =       -1,
+           pin_s =       1,
+           h_s_in =      h_s_in,
+           h_s_out =     h_s_out,
+           h_t_in =      h_t_in,
+           h_t_out =     h_t_out,
+           m_s =         1e2/3.6,
+           m_t =         68.9,
+           redeclare Heat_transfer.Shell.single_phase_Bell_Delaware hT_shell(pitch_f = st.pitch_f, Dhyd_o = st.bundle.Dhyd_o,
+           N_tubes = st.N_tubes, d_s = st.d_s, d_b = st.bundle.d_b, Dhyd = st.d_s,
+           layout = st.layout, l_b = st.l_b, N_ss = 5,
+           eta_wall=st.shell.state[1].eta*ones(st.Ncell),
+           N_passes = st.N_passes, ff =  1.0, b_cut = 0.1588),
+          redeclare Pressure_drops.Shell.single_phase_Bell_Delaware dp_shell(
+            pitch_f=st.pitch_f,
+            Dhyd_o=st.bundle.Dhyd_o,
+            N_tubes=st.N_tubes,
+            d_s=st.d_s,
+            d_b=st.bundle.d_b,
+            Dhyd=st.d_s,
+            layout=st.layout,
+            l_b=st.l_b,
+            N_ss=5,
+            eta_wall=st.shell.state[1].eta*ones(st.Ncell),
+            N_passes=st.N_passes,
+            N_baffles_d=st.N_baffles_d,
+            N_baffles=st.N_baffles,
+            ff=1.0,
+            b_cut=0.1588),
+          redeclare VIP.Materials.S_AISI_1040 Material_t,
+          redeclare VIP.Materials.S_AISI_1040 Material_s,
+          redeclare function bundle_clearance =
+              VIP.Miscellanea.Shell_clearance.Fixed_Utube,
+          N_heads=1,
+          p_s_in=301435,
+          p_s_out=301435,
+          p_t_in=100000,
+          p_t_out=100000,
+          redeclare function cost = VIP.Miscellanea.Cost.CS_Hall)
+          annotation (Placement(transformation(extent={{-80,-68},{68,58}})));
+
+       annotation (Placement(transformation(extent={{-108,-74},{88,66}})), Icon(
+              coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
+                  100,100}}), graphics));
+      end Aspen_Bell_Delaware;
+
+      model DYNDES_Bell_Delaware
+        "Verification with the results given by the DYNDES simulation tool using the Bell Delaware method."
+
+        replaceable package Medium_s = VIP.Media.CoolProp.Cyclopentane
+          "Medium model";
+        replaceable package Medium_t = VIP.Media.CoolProp.Cyclopentane
+          "Medium model";
+        parameter Modelica.SIunits.SpecificEnthalpy h_s_in= Medium_s.specificEnthalpy_pT(1.1e5,403.15)
+          "Inlet specific enthalpy shell side";
+        parameter Modelica.SIunits.SpecificEnthalpy h_s_out= Medium_s.specificEnthalpy_pT(1.1e5,357.15)
+          "Outlet specific enthalpy shell side";
+        parameter Modelica.SIunits.SpecificEnthalpy h_t_in = Medium_t.specificEnthalpy_pT(3e6,323.15)
+          "Inlet specific enthalpy tube side";
+        parameter Modelica.SIunits.SpecificEnthalpy h_t_out = Medium_t.specificEnthalpy_pT(3e6,323.15)
+          "Outlet specific enthalpy tube side";
+
+        Components.HEX.shell_and_tube  st(
+          redeclare package Medium_s = Medium_s,
+          redeclare package Medium_t = Medium_t,
+          Dhyd=16e-3,
+          l=7.32,
+          pitch_f=1.25,
+          layout=1,
+          N_passes=2,
+          N_baffles=3,
+          N_baffles_d=4,
+          pin_t =       -1,
+          pin_s =       1,
+          h_s_in=h_s_in,
+          h_s_out=h_s_out,
+          h_t_in=h_t_in,
+          h_t_out=h_t_out,
+          m_s = 40,
+          m_t = 40,
+          redeclare Heat_transfer.Shell.single_phase_Bell_Delaware   hT_shell(pitch_f = st.pitch_f, Dhyd_o = st.bundle.Dhyd_o,
+          N_tubes = st.N_tubes, d_s = st.d_s, d_b = st.bundle.d_b, Dhyd = st.d_s,
+          layout = st.layout, l_b = st.l_b, N_ss = 5,
+          eta_wall=st.shell.state[1].eta*ones(st.Ncell),
+          N_passes = st.N_passes, ff =  1.0, b_cut = 0.25),
+          redeclare Pressure_drops.Shell.single_phase_Bell_Delaware dp_shell(
+            pitch_f=st.pitch_f,
+            Dhyd_o=st.bundle.Dhyd_o,
+            N_tubes=st.N_tubes,
+            d_s=st.d_s,
+            d_b=st.bundle.d_b,
+            Dhyd=st.d_s,
+            layout=st.layout,
+            l_b=st.l_b,
+            N_ss=5,
+            eta_wall=st.shell.state[1].eta*ones(st.Ncell),
+            N_baffles=st.N_baffles,
+            N_baffles_d=st.N_baffles_d,
+            N_passes=st.N_passes,
+            ff=1.0,
+            b_cut=0.25),
+          redeclare function bundle_clearance =
+            VIP.Miscellanea.Shell_clearance.SRFH,
+          redeclare VIP.Materials.S_AISI_1040 Material_t,
+          redeclare VIP.Materials.S_AISI_1040 Material_s,
+          thick_t=2e-3,
+          thick_s=10e-3,
+          N_heads=1,
+          p_s_in=110000,
+          p_s_out=110000,
+          p_t_in=3000000,
+          p_t_out=3000000)
+          annotation (Placement(transformation(extent={{-80,-68},{68,58}})));
+
+       annotation (Placement(transformation(extent={{-108,-74},{88,66}})));
+      end DYNDES_Bell_Delaware;
+    end Single_phase;
+
+    package Condensation "Tests for condensers"
+      model Coulson_Kern
+        "Verification with the results given by Coulson using the Kern method."
+
+        replaceable package Medium_s = Media.FluidProp.Mixture_pentane_ethane
+          "Medium model";
+        replaceable package Medium_t = Media.CoolProp.Water "Medium model";
+        parameter Modelica.SIunits.SpecificEnthalpy h_s_in= Medium_s.specificEnthalpy_pT(1e6,333.15)
+          "Inlet specific enthalpy shell side";
+        parameter Modelica.SIunits.SpecificEnthalpy h_s_out= Medium_s.specificEnthalpy_pT(1e6,318.15)
+          "Outlet specific enthalpy shell side";
+        parameter Modelica.SIunits.SpecificEnthalpy h_t_in = Medium_t.specificEnthalpy_pT(1.2e5,303.15)
+          "Inlet specific enthalpy tube side";
+        parameter Modelica.SIunits.SpecificEnthalpy h_t_out = Medium_t.specificEnthalpy_pT(1.2e5,313.15)
+          "Outlet specific enthalpy tube side";
+
+        Components.HEX.shell_and_tube  st(
+          redeclare package Medium_s = Medium_s,
+          redeclare package Medium_t = Medium_t,
+          Dhyd=16e-3,
+          l=4.88,
+          pitch_f=1.25,
+          layout=1,
+          N_passes=2,
+          N_baffles=4,
+          N_baffles_d = 9,
+          h_s_in=h_s_in,
+          h_s_out=h_s_out,
+          h_t_in=h_t_in,
+          h_t_out=h_t_out,
+          m_s = 12.5,
+          m_t = st.m_s*(h_s_in - h_s_out)/(h_t_out - h_t_in),
+          DTML = 20,
+          redeclare Heat_transfer.Shell.condensation_Kern hT_shell(l = st.l,
+          Dhyd_o = st.bundle.Dhyd_o, N_tubes = st.N_tubes, pitch_f = st.pitch_f,
+          layout = st.layout, p_in = st.p_s_in),
+          redeclare function bundle_clearance =
+            VIP.Miscellanea.Shell_clearance.SRFH,
+          redeclare VIP.Materials.S_AISI_1040 Material_t,
+          redeclare VIP.Materials.S_AISI_1040 Material_s,
+          pin_s=1,
+          pin_t=-1,
+          thick_t=2e-3,
+          thick_s=10e-3,
+          N_heads=1,
+          p_s_in=1e6,
+          p_s_out=1e6,
+          p_t_in=1.2e5,
+          p_t_out=1.2e5)
+          annotation (Placement(transformation(extent={{-80,-68},{68,58}})));
+
+       annotation (Placement(transformation(extent={{-108,-74},{88,66}})));
+      end Coulson_Kern;
+
+      model Aspen_Kern
+        "Verification with the results given by Aspen using the Kern method."
+
+        replaceable package Medium_s = Media.RefProp.MM "Medium model";
+        replaceable package Medium_t = Media.CoolProp.Water "Medium model";
+        parameter Modelica.SIunits.MassFlowRate m_s = 1.5365
+          "Mass flow shell side";
+        parameter Modelica.SIunits.SpecificEnthalpy h_s_in= Medium_s.specificEnthalpy_pT(p_s_in,373.15)
+          "Inlet specific enthalpy shell side";
+        parameter Modelica.SIunits.SpecificEnthalpy h_s_out= Medium_s.specificEnthalpy_pT(p_s_out,350.77)
+          "Outlet specific enthalpy shell side";
+        parameter Modelica.SIunits.AbsolutePressure p_s_in = 0.5e5
+          "Inlet pressure shell side";
+        parameter Modelica.SIunits.AbsolutePressure p_s_out = 0.5e5
+          "Outlet pressure shell side";
+        parameter Modelica.SIunits.SpecificEnthalpy h_t_in = Medium_t.specificEnthalpy_pT(p_t_in,313.15)
+          "Inlet specific enthalpy tube side";
+        parameter Modelica.SIunits.SpecificEnthalpy h_t_out = Medium_t.specificEnthalpy_pT(p_t_out,333.15)
+          "Outlet specific enthalpy tube side";
+        parameter Modelica.SIunits.AbsolutePressure p_t_in = 2e5
+          "Inlet pressure tube side";
+        parameter Modelica.SIunits.AbsolutePressure p_t_out = 2e5
+          "Outlet pressure tube side";
+        parameter Medium_s.SaturationProperties sat =  Medium_s.setSat_p(p_s_in)
+          "Saturation properties";
+        parameter Medium_s.ThermodynamicState state_l = Medium_s.setState_ph(p_s_in, sat.hl)
+          "Thermodynamic state in saturated liquid";
+
+        Components.HEX.shell_and_tube  st(
+          redeclare package Medium_s = Medium_s,
+          redeclare package Medium_t = Medium_t,
+          Dhyd=17.05e-3,
+          l=1.8,
+          pitch_f=1.25,
+          layout=1,
+          N_passes=4,
+          N_baffles=6,
+          h_s_in=h_s_in,
+          h_s_out=h_s_out,
+          h_t_in=h_t_in,
+          h_t_out=h_t_out,
+          m_s = m_s,
+          m_t = 4.36,
+          DTML = 20,
+          redeclare Heat_transfer.Shell.condensation_Kern hT_shell(Dhyd_o=st.bundle.Dhyd_o, l = st.l,
+             N_tubes=st.N_tubes, pitch_f = st.pitch_f, d_b = st.bundle.d_b, sat = sat, state_l = state_l,
+             q_tilde=st.shell.qdot/st.shell.At),
+          redeclare function bundle_clearance =
+            VIP.Miscellanea.Shell_clearance.SRFH,
+          redeclare VIP.Materials.S_AISI_1040 Material_t,
+          redeclare VIP.Materials.S_AISI_1040 Material_s,
+          pin_s=1,
+          pin_t=-1,
+          thick_t=2e-3,
+          thick_s=10e-3,
+          N_heads=1,
+          p_s_in=p_s_in,
+          p_s_out=p_s_out,
+          p_t_in=p_t_in,
+          p_t_out=p_t_out,
+          ht_t_f1=1e12,
+          ht_s_f1=1e12)
+          annotation (Placement(transformation(extent={{-80,-68},{68,58}})));
+      //     redeclare Heat_transfer.Shell.condensation_Kern hT_shell(l = st.l,
+      //     Dhyd_o = st.bundle.Dhyd_o, N_tubes = st.N_tubes, pitch_f = st.pitch_f,
+      //     layout = st.layout, p_in = st.p_s_in, d_b = st.bundle.d_b),
+
+       annotation (Placement(transformation(extent={{-108,-74},{88,66}})));
+      end Aspen_Kern;
+    end Condensation;
+
+    model Optimization "Shell and tube model for external optmization"
+
+      replaceable package Medium_s = VIP.Media.CoolProp.Methanol "Medium model";
+      replaceable package Medium_t = VIP.Media.CoolProp.Water "Medium model";
+      parameter Modelica.SIunits.SpecificEnthalpy h_s_in= Medium_s.specificEnthalpy_pT(3.2e5,368.15)
+        "Inlet specific enthalpy shell side";
+      parameter Modelica.SIunits.SpecificEnthalpy h_s_out= Medium_s.specificEnthalpy_pT(3.2e5,313.15)
+        "Outlet specific enthalpy shell side";
+      parameter Modelica.SIunits.SpecificEnthalpy h_t_in = Medium_t.specificEnthalpy_pT(1e5,298.15)
+        "Inlet specific enthalpy tube side";
+      parameter Modelica.SIunits.SpecificEnthalpy h_t_out = Medium_t.specificEnthalpy_pT(1e5,313.15)
+        "Outlet specific enthalpy tube side";
+
+      Components.HEX.shell_and_tube             shell_and_tube(
+        Dhyd=16e-3,
+        l=4.83,
+        pitch_f=1.25,
+        layout=1,
+        N_passes=2,
+        N_baffles=27,
+        h_s_in=h_s_in,
+        h_s_out=h_s_out,
+        h_t_in=h_t_in,
+        h_t_out=h_t_out,
+        m_s=1e2/3.6,
+        m_t=68.9,
+        redeclare package Medium_s = VIP.Media.CoolProp.Methanol,
+        redeclare package Medium_t = VIP.Media.CoolProp.Water,
+        redeclare VIP.Materials.S_AISI_1040 Material_t,
+        redeclare VIP.Materials.S_AISI_1040 Material_s,
+        redeclare function bundle_clearance =
+            VIP.Miscellanea.Shell_clearance.SRFH,
+        pin_s=1,
+        pin_t=-1,
+        thick_t=2e-3,
+        thick_s=10e-3,
+        N_heads=1,
+        p_s_in=301435,
+        p_s_out=301435,
+        p_t_in=100000,
+        p_t_out=100000)
+        annotation (Placement(transformation(extent={{-80,-68},{68,58}})));
+
+     annotation (Placement(transformation(extent={{-108,-74},{88,66}})),
+        experiment,
+        __Dymola_experimentSetupOutput);
+    end Optimization;
   end Tests;
 
   annotation (uses(Modelica(version="3.2.1")),

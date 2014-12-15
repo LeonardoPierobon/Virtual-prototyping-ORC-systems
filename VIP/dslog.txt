@@ -1,15 +1,3216 @@
 Log-file of program ./dymosim
-(generated: Fri Dec 12 17:33:03 2014)
+(generated: Mon Dec 15 17:49:00 2014)
 
 dymosim started
 ... "dsin.txt" loading (dymosim input file)
-... "Aspen_Bell_Delaware.mat" creating (simulation result file)
+The following error was detected at time: 0
+
+Model error - power: (N_tubes/K[layout, K_ind[N_passes]]) ** (1/n[layout, K_ind[N_passes]]) = (-18442) ** (0.437637)
+
+The stack of functions is:
+VIP.Miscellanea.bundle_diameter
+VIP.Miscellanea.bundle_diameter(st.N_tubes, 4, st.hT_shell.Dhyd_o, st.bundle.layout)
+Non-linear solver will attempt to handle this problem.
+
+The following error was detected at time: 0
+
+Model error - power: (N_tubes/K[layout, K_ind[N_passes]]) ** (1/n[layout, K_ind[N_passes]]) = (-9814.1) ** (0.437637)
+
+The stack of functions is:
+VIP.Miscellanea.bundle_diameter
+VIP.Miscellanea.bundle_diameter(st.N_tubes, 4, st.hT_shell.Dhyd_o, st.bundle.layout)
+Non-linear solver will attempt to handle this problem.
+
+The following error was detected at time: 0
+
+Model error - power: (N_tubes/K[layout, K_ind[N_passes]]) ** (1/n[layout, K_ind[N_passes]]) = (-5166.77) ** (0.437637)
+
+The stack of functions is:
+VIP.Miscellanea.bundle_diameter
+VIP.Miscellanea.bundle_diameter(st.N_tubes, 4, st.hT_shell.Dhyd_o, st.bundle.layout)
+Non-linear solver will attempt to handle this problem.
+
+The following error was detected at time: 0
+
+Model error - power: (N_tubes/K[layout, K_ind[N_passes]]) ** (1/n[layout, K_ind[N_passes]]) = (-18442) ** (0.437637)
+
+The stack of functions is:
+VIP.Miscellanea.bundle_diameter
+VIP.Miscellanea.bundle_diameter(st.N_tubes, 4, st.hT_shell.Dhyd_o, st.bundle.layout)
+Non-linear solver will attempt to handle this problem.
+
+The following error was detected at time: 0
+
+Model error - power: (N_tubes/K[layout, K_ind[N_passes]]) ** (1/n[layout, K_ind[N_passes]]) = (-9814.1) ** (0.437637)
+
+The stack of functions is:
+VIP.Miscellanea.bundle_diameter
+VIP.Miscellanea.bundle_diameter(st.N_tubes, 4, st.hT_shell.Dhyd_o, st.bundle.layout)
+Non-linear solver will attempt to handle this problem.
+
+The following error was detected at time: 0
+
+Model error - power: (N_tubes/K[layout, K_ind[N_passes]]) ** (1/n[layout, K_ind[N_passes]]) = (-5166.77) ** (0.437637)
+
+The stack of functions is:
+VIP.Miscellanea.bundle_diameter
+VIP.Miscellanea.bundle_diameter(st.N_tubes, 4, st.hT_shell.Dhyd_o, st.bundle.layout)
+Non-linear solver will attempt to handle this problem.
+
+The following error was detected at time: 0
+
+Model error - power: (N_tubes/K[layout, K_ind[N_passes]]) ** (1/n[layout, K_ind[N_passes]]) = (-19951.9) ** (0.437637)
+
+The stack of functions is:
+VIP.Miscellanea.bundle_diameter
+VIP.Miscellanea.bundle_diameter(st.N_tubes, 4, st.hT_shell.Dhyd_o, st.bundle.layout)
+Non-linear solver will attempt to handle this problem.
+
+The following error was detected at time: 0
+
+Model error - power: (N_tubes/K[layout, K_ind[N_passes]]) ** (1/n[layout, K_ind[N_passes]]) = (-11961.1) ** (0.437637)
+
+The stack of functions is:
+VIP.Miscellanea.bundle_diameter
+VIP.Miscellanea.bundle_diameter(st.N_tubes, 4, st.hT_shell.Dhyd_o, st.bundle.layout)
+Non-linear solver will attempt to handle this problem.
+
+The following error was detected at time: 0
+
+Model error - power: (N_tubes/K[layout, K_ind[N_passes]]) ** (1/n[layout, K_ind[N_passes]]) = (-7792.26) ** (0.437637)
+
+The stack of functions is:
+VIP.Miscellanea.bundle_diameter
+VIP.Miscellanea.bundle_diameter(st.N_tubes, 4, st.hT_shell.Dhyd_o, st.bundle.layout)
+Non-linear solver will attempt to handle this problem.
+
+The following error was detected at time: 0
+
+Model error - power: (N_tubes/K[layout, K_ind[N_passes]]) ** (1/n[layout, K_ind[N_passes]]) = (-19951.9) ** (0.437637)
+
+The stack of functions is:
+VIP.Miscellanea.bundle_diameter
+VIP.Miscellanea.bundle_diameter(st.N_tubes, 4, st.hT_shell.Dhyd_o, st.bundle.layout)
+Non-linear solver will attempt to handle this problem.
+
+The following error was detected at time: 0
+
+Model error - power: (N_tubes/K[layout, K_ind[N_passes]]) ** (1/n[layout, K_ind[N_passes]]) = (-11961.1) ** (0.437637)
+
+The stack of functions is:
+VIP.Miscellanea.bundle_diameter
+VIP.Miscellanea.bundle_diameter(st.N_tubes, 4, st.hT_shell.Dhyd_o, st.bundle.layout)
+Non-linear solver will attempt to handle this problem.
+
+The following error was detected at time: 0
+
+Model error - power: (N_tubes/K[layout, K_ind[N_passes]]) ** (1/n[layout, K_ind[N_passes]]) = (-7792.26) ** (0.437637)
+
+The stack of functions is:
+VIP.Miscellanea.bundle_diameter
+VIP.Miscellanea.bundle_diameter(st.N_tubes, 4, st.hT_shell.Dhyd_o, st.bundle.layout)
+Non-linear solver will attempt to handle this problem.
+
+The following error was detected at time: 0
+
+Model error - power: (N_tubes/K[layout, K_ind[N_passes]]) ** (1/n[layout, K_ind[N_passes]]) = (-5094.04) ** (0.437637)
+
+The stack of functions is:
+VIP.Miscellanea.bundle_diameter
+VIP.Miscellanea.bundle_diameter(st.N_tubes, 4, st.hT_shell.Dhyd_o, st.bundle.layout)
+Non-linear solver will attempt to handle this problem.
+
+The following error was detected at time: 0
+
+Model error - power: (N_tubes/K[layout, K_ind[N_passes]]) ** (1/n[layout, K_ind[N_passes]]) = (-5920.7) ** (0.437637)
+
+The stack of functions is:
+VIP.Miscellanea.bundle_diameter
+VIP.Miscellanea.bundle_diameter(st.N_tubes, 4, st.hT_shell.Dhyd_o, st.bundle.layout)
+Non-linear solver will attempt to handle this problem.
+
+The following error was detected at time: 0
+
+Model error - power: (N_tubes/K[layout, K_ind[N_passes]]) ** (1/n[layout, K_ind[N_passes]]) = (-5524.47) ** (0.437637)
+
+The stack of functions is:
+VIP.Miscellanea.bundle_diameter
+VIP.Miscellanea.bundle_diameter(st.N_tubes, 4, st.hT_shell.Dhyd_o, st.bundle.layout)
+Non-linear solver will attempt to handle this problem.
+
+The following error was detected at time: 0
+
+Model error - power: (9.80665*(st.hT_shell.state_l.lambda^3*st.hT_shell.sat.dl*(st.hT_shell.sat.dl-st.hT_shell.sat.dv)*(st.hT_shell.sat.hv-st.hT_shell.sat.hl))/(st.N_tubes*st.hT_shell.state_l.eta*st.hT_shell.dT[22]*st.hT_shell.Dhyd_o)) ** (0.25) = (-1.73867e+011) ** (0.25)
+
+Non-linear solver will attempt to handle this problem.
+
+st.hT_tube.Re[1] > 10000.0
+The following was detected at time: 0
+Reynolds number is lower than 1e4 to use Sieder and Tate
+st.hT_tube.Re[2] > 10000.0
+The following was detected at time: 0
+Reynolds number is lower than 1e4 to use Sieder and Tate
+st.hT_tube.Re[3] > 10000.0
+The following was detected at time: 0
+Reynolds number is lower than 1e4 to use Sieder and Tate
+st.hT_tube.Re[4] > 10000.0
+The following was detected at time: 0
+Reynolds number is lower than 1e4 to use Sieder and Tate
+st.hT_tube.Re[5] > 10000.0
+The following was detected at time: 0
+Reynolds number is lower than 1e4 to use Sieder and Tate
+st.hT_tube.Re[6] > 10000.0
+The following was detected at time: 0
+Reynolds number is lower than 1e4 to use Sieder and Tate
+st.hT_tube.Re[7] > 10000.0
+The following was detected at time: 0
+Reynolds number is lower than 1e4 to use Sieder and Tate
+st.hT_tube.Re[8] > 10000.0
+The following was detected at time: 0
+Reynolds number is lower than 1e4 to use Sieder and Tate
+st.hT_tube.Re[9] > 10000.0
+The following was detected at time: 0
+Reynolds number is lower than 1e4 to use Sieder and Tate
+st.hT_tube.Re[10] > 10000.0
+The following was detected at time: 0
+Reynolds number is lower than 1e4 to use Sieder and Tate
+st.hT_tube.Re[11] > 10000.0
+The following was detected at time: 0
+Reynolds number is lower than 1e4 to use Sieder and Tate
+st.hT_tube.Re[12] > 10000.0
+The following was detected at time: 0
+Reynolds number is lower than 1e4 to use Sieder and Tate
+st.check_shell.umin > 5.0
+The following was detected at time: 0
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0
+Velocity in the tubes twice lower than 0.8 m/s
+... "dsres.mat" creating (simulation result file)
 
 Integration started at T = 0 using integration method DASSL
 (DAE multi-step solver (dassl/dasslrt of Petzold modified by Dynasim))
+st.check_shell.umin > 5.0
+The following was detected at time: 0
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.002
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.002
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.004
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.004
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.006
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.006
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.008
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.008
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.01
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.01
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.012
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.012
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.014
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.014
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.016
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.016
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.018
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.018
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.02
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.02
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.022
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.022
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.024
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.024
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.026
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.026
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.028
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.028
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.03
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.03
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.032
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.032
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.034
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.034
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.036
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.036
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.038
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.038
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.04
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.04
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.042
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.042
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.044
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.044
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.046
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.046
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.048
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.048
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.05
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.05
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.05200000000000001
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.05200000000000001
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.054
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.054
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.056
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.056
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.058
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.058
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.06
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.06
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.062
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.062
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.064
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.064
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.066
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.066
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.06800000000000001
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.06800000000000001
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.07000000000000001
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.07000000000000001
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.07200000000000001
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.07200000000000001
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.074
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.074
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.076
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.076
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.078
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.078
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.08
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.08
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.082
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.082
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.08400000000000001
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.08400000000000001
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.08600000000000001
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.08600000000000001
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.088
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.088
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.09
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.09
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.092
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.092
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.094
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.094
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.096
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.096
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.098
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.098
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.1
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.1
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.102
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.102
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.104
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.104
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.106
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.106
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.108
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.108
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.11
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.11
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.112
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.112
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.114
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.114
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.116
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.116
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.118
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.118
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.12
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.12
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.122
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.122
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.124
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.124
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.126
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.126
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.128
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.128
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.13
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.13
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.132
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.132
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.134
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.134
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.136
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.136
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.138
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.138
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.14
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.14
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.142
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.142
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.144
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.144
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.146
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.146
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.148
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.148
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.15
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.15
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.152
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.152
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.154
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.154
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.156
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.156
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.158
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.158
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.16
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.16
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.162
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.162
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.164
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.164
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.166
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.166
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.168
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.168
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.17
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.17
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.172
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.172
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.174
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.174
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.176
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.176
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.178
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.178
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.18
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.18
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.182
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.182
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.184
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.184
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.186
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.186
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.188
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.188
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.19
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.19
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.192
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.192
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.194
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.194
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.196
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.196
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.198
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.198
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.2
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.2
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.202
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.202
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.204
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.204
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.206
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.206
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.208
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.208
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.21
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.21
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.212
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.212
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.214
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.214
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.216
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.216
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.218
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.218
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.22
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.22
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.222
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.222
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.224
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.224
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.226
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.226
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.228
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.228
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.23
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.23
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.232
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.232
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.234
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.234
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.236
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.236
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.238
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.238
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.24
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.24
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.242
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.242
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.244
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.244
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.246
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.246
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.248
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.248
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.25
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.25
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.252
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.252
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.254
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.254
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.256
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.256
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.258
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.258
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.26
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.26
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.262
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.262
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.264
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.264
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.266
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.266
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.268
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.268
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.27
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.27
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.272
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.272
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.274
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.274
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.276
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.276
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.278
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.278
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.28
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.28
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.282
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.282
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.284
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.284
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.286
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.286
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.288
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.288
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.29
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.29
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.292
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.292
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.294
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.294
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.296
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.296
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.298
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.298
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.3
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.3
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.302
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.302
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.304
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.304
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.306
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.306
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.308
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.308
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.31
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.31
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.312
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.312
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.314
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.314
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.316
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.316
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.318
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.318
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.32
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.32
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.322
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.322
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.324
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.324
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.326
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.326
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.328
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.328
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.33
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.33
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.332
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.332
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.334
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.334
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.336
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.336
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.338
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.338
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.34
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.34
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.342
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.342
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.344
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.344
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.346
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.346
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.348
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.348
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.35
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.35
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.352
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.352
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.354
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.354
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.356
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.356
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.358
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.358
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.36
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.36
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.362
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.362
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.364
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.364
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.366
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.366
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.368
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.368
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.37
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.37
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.372
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.372
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.374
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.374
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.376
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.376
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.378
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.378
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.38
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.38
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.382
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.382
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.384
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.384
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.386
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.386
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.388
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.388
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.39
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.39
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.392
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.392
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.394
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.394
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.396
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.396
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.398
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.398
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.4
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.4
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.402
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.402
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.404
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.404
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.406
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.406
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.408
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.408
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.41
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.41
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.412
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.412
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.414
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.414
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.416
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.416
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.418
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.418
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.42
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.42
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.422
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.422
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.424
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.424
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.426
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.426
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.428
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.428
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.43
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.43
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.432
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.432
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.434
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.434
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.436
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.436
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.438
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.438
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.44
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.44
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.442
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.442
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.444
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.444
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.446
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.446
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.448
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.448
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.45
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.45
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.452
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.452
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.454
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.454
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.456
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.456
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.458
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.458
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.46
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.46
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.462
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.462
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.464
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.464
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.466
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.466
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.468
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.468
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.47
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.47
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.472
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.472
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.474
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.474
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.476
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.476
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.478
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.478
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.48
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.48
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.482
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.482
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.484
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.484
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.486
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.486
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.488
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.488
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.49
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.49
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.492
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.492
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.494
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.494
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.496
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.496
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.498
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.498
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.5
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.5
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.502
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.502
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.504
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.504
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.506
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.506
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.508
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.508
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.51
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.51
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.512
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.512
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.514
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.514
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.516
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.516
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.518
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.518
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.52
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.52
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.522
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.522
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.524
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.524
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.526
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.526
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.528
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.528
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.53
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.53
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.532
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.532
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.534
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.534
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.536
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.536
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.538
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.538
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.54
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.54
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.542
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.542
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.544
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.544
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.546
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.546
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.548
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.548
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.55
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.55
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.5520000000000001
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.5520000000000001
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.5540000000000001
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.5540000000000001
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.5560000000000001
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.5560000000000001
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.5580000000000001
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.5580000000000001
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.5600000000000001
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.5600000000000001
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.5620000000000001
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.5620000000000001
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.5640000000000001
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.5640000000000001
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.5660000000000001
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.5660000000000001
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.5680000000000001
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.5680000000000001
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.5700000000000001
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.5700000000000001
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.5720000000000001
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.5720000000000001
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.5740000000000001
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.5740000000000001
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.5760000000000001
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.5760000000000001
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.578
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.578
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.58
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.58
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.582
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.582
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.584
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.584
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.586
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.586
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.588
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.588
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.59
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.59
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.592
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.592
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.594
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.594
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.596
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.596
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.598
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.598
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.6
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.6
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.602
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.602
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.604
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.604
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.606
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.606
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.608
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.608
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.61
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.61
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.612
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.612
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.614
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.614
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.616
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.616
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.618
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.618
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.62
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.62
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.622
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.622
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.624
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.624
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.626
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.626
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.628
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.628
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.63
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.63
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.632
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.632
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.634
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.634
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.636
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.636
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.638
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.638
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.64
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.64
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.642
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.642
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.644
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.644
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.646
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.646
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.648
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.648
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.65
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.65
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.652
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.652
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.654
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.654
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.656
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.656
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.658
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.658
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.66
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.66
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.662
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.662
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.664
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.664
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.666
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.666
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.668
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.668
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.67
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.67
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.672
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.672
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.674
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.674
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.6760000000000001
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.6760000000000001
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.6780000000000001
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.6780000000000001
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.6800000000000001
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.6800000000000001
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.6820000000000001
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.6820000000000001
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.6840000000000001
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.6840000000000001
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.6860000000000001
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.6860000000000001
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.6880000000000001
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.6880000000000001
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.6900000000000001
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.6900000000000001
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.6920000000000001
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.6920000000000001
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.6940000000000001
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.6940000000000001
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.6960000000000001
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.6960000000000001
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.6980000000000001
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.6980000000000001
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.7000000000000001
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.7000000000000001
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.7020000000000001
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.7020000000000001
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.704
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.704
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.706
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.706
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.708
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.708
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.71
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.71
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.712
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.712
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.714
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.714
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.716
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.716
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.718
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.718
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.72
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.72
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.722
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.722
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.724
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.724
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.726
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.726
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.728
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.728
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.73
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.73
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.732
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.732
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.734
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.734
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.736
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.736
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.738
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.738
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.74
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.74
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.742
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.742
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.744
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.744
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.746
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.746
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.748
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.748
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.75
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.75
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.752
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.752
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.754
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.754
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.756
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.756
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.758
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.758
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.76
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.76
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.762
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.762
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.764
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.764
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.766
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.766
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.768
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.768
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.77
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.77
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.772
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.772
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.774
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.774
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.776
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.776
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.778
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.778
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.78
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.78
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.782
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.782
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.784
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.784
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.786
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.786
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.788
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.788
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.79
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.79
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.792
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.792
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.794
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.794
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.796
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.796
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.798
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.798
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.8
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.8
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.8020000000000001
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.8020000000000001
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.8040000000000001
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.8040000000000001
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.8060000000000001
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.8060000000000001
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.8080000000000001
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.8080000000000001
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.8100000000000001
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.8100000000000001
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.8120000000000001
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.8120000000000001
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.8140000000000001
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.8140000000000001
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.8160000000000001
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.8160000000000001
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.8180000000000001
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.8180000000000001
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.8200000000000001
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.8200000000000001
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.8220000000000001
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.8220000000000001
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.8240000000000001
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.8240000000000001
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.8260000000000001
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.8260000000000001
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.8280000000000001
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.8280000000000001
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.8300000000000001
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.8300000000000001
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.8320000000000001
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.8320000000000001
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.834
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.834
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.836
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.836
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.838
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.838
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.84
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.84
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.842
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.842
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.844
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.844
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.846
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.846
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.848
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.848
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.85
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.85
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.852
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.852
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.854
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.854
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.856
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.856
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.858
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.858
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.86
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.86
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.862
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.862
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.864
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.864
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.866
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.866
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.868
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.868
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.87
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.87
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.872
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.872
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.874
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.874
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.876
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.876
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.878
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.878
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.88
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.88
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.882
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.882
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.884
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.884
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.886
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.886
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.888
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.888
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.89
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.89
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.892
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.892
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.894
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.894
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.896
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.896
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.898
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.898
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.9
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.9
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.902
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.902
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.904
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.904
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.906
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.906
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.908
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.908
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.91
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.91
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.912
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.912
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.914
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.914
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.916
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.916
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.918
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.918
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.92
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.92
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.922
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.922
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.924
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.924
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.9260000000000001
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.9260000000000001
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.9280000000000001
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.9280000000000001
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.9300000000000001
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.9300000000000001
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.9320000000000001
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.9320000000000001
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.9340000000000001
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.9340000000000001
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.9360000000000001
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.9360000000000001
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.9380000000000001
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.9380000000000001
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.9400000000000001
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.9400000000000001
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.9420000000000001
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.9420000000000001
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.9440000000000001
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.9440000000000001
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.9460000000000001
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.9460000000000001
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.9480000000000001
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.9480000000000001
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.9500000000000001
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.9500000000000001
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.9520000000000001
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.9520000000000001
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.9540000000000001
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.9540000000000001
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.9560000000000001
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.9560000000000001
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.9580000000000001
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.9580000000000001
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.96
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.96
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.962
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.962
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.964
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.964
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.966
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.966
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.968
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.968
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.97
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.97
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.972
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.972
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.974
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.974
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.976
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.976
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.978
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.978
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.98
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.98
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.982
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.982
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.984
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.984
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.986
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.986
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.988
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.988
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.99
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.99
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.992
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.992
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.994
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.994
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.996
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.996
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 0.998
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 0.998
+Velocity in the tubes twice lower than 0.8 m/s
+st.check_shell.umin > 5.0
+The following was detected at time: 1
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 1
+Velocity in the tubes twice lower than 0.8 m/s
 Integration terminated successfully at T = 1
-   CPU-time for integration      : 0.01 seconds
-   CPU-time for one GRID interval: 0.02 milli-seconds
+   CPU-time for integration      : 0.08 seconds
+   CPU-time for one GRID interval: 0.16 milli-seconds
    Number of result points       : 501
    Number of GRID   points       : 501
    Number of (successful) steps  : 19
@@ -23,4 +3224,10 @@ Integration terminated successfully at T = 1
    Maximum integration stepsize  : 0.476
    Maximum integration order     : 1
 Calling terminal section
+st.check_shell.umin > 5.0
+The following was detected at time: 1
+Velocity in the shell twice lower than 10 m/s
+st.check_tube.umin > 0.5
+The following was detected at time: 1
+Velocity in the tubes twice lower than 0.8 m/s
 ... "dsfinal.txt" creating (final states)
