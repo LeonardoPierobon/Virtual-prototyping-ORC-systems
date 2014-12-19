@@ -204,22 +204,14 @@ package VIP "I am a package for the Virtual Prototyping Environment"
       equation
             for i in 1:Ncell loop
               u[i]   = mdot/state[i].d/Aflow;
-              Re[i]  =Miscellanea.numbers.Reynolds(
-                  u[i],
-                  state[i].d,
-                  state[i].eta,
-                  Dhyd);
-              Pr[i]  =Miscellanea.numbers.Prandtl(
-                  state[i].cp,
-                  state[i].eta,
-                  state[i].lambda);
+              Re[i]  = Miscellanea.numbers.Reynolds(u[i], state[i].d, state[i].eta,
+              Dhyd);
+              Pr[i]  = Miscellanea.numbers.Prandtl(state[i].cp, state[i].eta,
+              state[i].lambda);
               assert(Re[i] > 1e4, "Reynolds number is lower than 1e4 to use Dittus and Boelter",
                 AssertionLevel.warning);
               Nu[i]  =  2.3e-2*Re[i]^0.8*Pr[i]^alfa;
-              ht[i]  =Miscellanea.numbers.Nusselt(
-                  Nu[i],
-                  state[i].lambda,
-                  Dhyd);
+              ht[i]  = Miscellanea.numbers.Nusselt(Nu[i], state[i].lambda, Dhyd);
             end for;
 
       end Dittus_Boelter;
@@ -240,25 +232,17 @@ package VIP "I am a package for the Virtual Prototyping Environment"
       equation
             for i in 1:Ncell loop
               u[i]  = mdot/state[i].d/Aflow;
-              Re[i] =Miscellanea.numbers.Reynolds(
-                  u[i],
-                  state[i].d,
-                  state[i].eta,
-                  Dhyd);
-              Pr[i] =Miscellanea.numbers.Prandtl(
-                  state[i].cp,
-                  state[i].eta,
-                  state[i].lambda);
+              Re[i]  = Miscellanea.numbers.Reynolds(u[i], state[i].d, state[i].eta,
+              Dhyd);
+              Pr[i]  = Miscellanea.numbers.Prandtl(state[i].cp, state[i].eta,
+              state[i].lambda);
               assert(Re[i] > 1e4,"Reynolds number is lower than 1e4 to use Sieder and Tate",
                 AssertionLevel.warning);
               assert(Pr[i] > 0.6, "Prandtl number is lower than 0.6 to be use Sieder and Tate",
                 AssertionLevel.warning);
               Nu[i] = 2.3e-2*Re[i]^0.8*Pr[i]^(1.0/3)*(eta_wall[i]
               /state[i].eta)^0.14;
-              ht[i] =Miscellanea.numbers.Nusselt(
-                  Nu[i],
-                  state[i].lambda,
-                  Dhyd);
+              ht[i]  = Miscellanea.numbers.Nusselt(Nu[i], state[i].lambda, Dhyd);
             end for;
 
       end Sieder_Tate;
@@ -280,22 +264,14 @@ package VIP "I am a package for the Virtual Prototyping Environment"
       equation
             for i in 1:Ncell loop
               u[i]   = mdot/state[i].d/Aflow;
-              Re[i]  =Miscellanea.numbers.Reynolds(
-                  u[i],
-                  state[i].d,
-                  state[i].eta,
-                  Dhyd);
-              Pr[i]  =Miscellanea.numbers.Prandtl(
-                  state[i].cp,
-                  state[i].eta,
-                  state[i].lambda);
+              Re[i]  = Miscellanea.numbers.Reynolds(u[i], state[i].d, state[i].eta,
+              Dhyd);
+              Pr[i]  = Miscellanea.numbers.Prandtl(state[i].cp, state[i].eta,
+              state[i].lambda);
               csi[i] = 1/(0.78*log(Re[i]) - 1.5)^2 "Friction factor";
               Nu[i]  = ((csi[i]/8)*Re[i]*Pr[i])/(1 + 12.7*sqrt(csi[i]/8)*(Pr[i]^
               (2.0/3) - 1))*(1 +  (Dhyd/l)^(2.0/3));
-              ht[i]             =Miscellanea.numbers.Nusselt(
-                  Nu[i],
-                  state[i].lambda,
-                  Dhyd);
+              ht[i]  = Miscellanea.numbers.Nusselt(Nu[i], state[i].lambda, Dhyd);
             end for;
       end Gnielinski;
 
@@ -313,10 +289,7 @@ package VIP "I am a package for the Virtual Prototyping Environment"
               u[i]  = mdot/state[i].d/Aflow;
               Nu[i] =  4.2e3*Dhyd/state[i].lambda*(1.35 + 2e-2*(state[i].T - 273.15))
               *u[i]^0.8/(1e3*Dhyd)^0.2;
-              ht[i] =Miscellanea.numbers.Nusselt(
-                  Nu[i],
-                  state[i].lambda,
-                  Dhyd);
+              ht[i]  = Miscellanea.numbers.Nusselt(Nu[i], state[i].lambda, Dhyd);
             end for;
       end EagleFerguson;
 
@@ -352,21 +325,12 @@ package VIP "I am a package for the Virtual Prototyping Environment"
       equation
           for i in 1:Ncell loop
             u[i]  = mdot/state[i].d/Aflow;
-            Re[i] =Miscellanea.numbers.Reynolds(
-                  u[i],
-                  state[i].d,
-                  state[i].eta,
-                  d_s_eq);
-            Pr[i] =Miscellanea.numbers.Prandtl(
-                  state[i].cp,
-                  state[i].eta,
-                  state[i].lambda);
-            Nu[i] = 10^log10(2e-3/1e5^(-0.25*log10(1.98/2e-2)))*Re[i]^(-0.25*
-            log10(1.98/2e-2))*Re[i]*Pr[i]^(1/3);
-            ht[i] =Miscellanea.numbers.Nusselt(
-                  Nu[i],
-                  state[i].lambda,
-                  d_s_eq);
+            Re[i] = Miscellanea.numbers.Reynolds(u[i], state[i].d, state[i].eta,
+            d_s_eq);
+            Pr[i] = Miscellanea.numbers.Prandtl(state[i].cp, state[i].eta,
+            state[i].lambda);
+            Nu[i] = 0.6246*Re[i]^(-0.4989)*Re[i]*Pr[i]^(1/3);
+            ht[i] = Miscellanea.numbers.Nusselt(Nu[i], state[i].lambda, d_s_eq);
           end for;
       end single_phase_Kern;
 
@@ -377,6 +341,8 @@ package VIP "I am a package for the Virtual Prototyping Environment"
           "Thermodynamic state in saturated liquid";
           parameter Medium.ThermodynamicState state_v
           "Thermodynamic state in saturated vapor";
+          parameter Boolean shear_vapor = true
+          "= true, if shear vapor effect is considered";
           input Modelica.SIunits.Length l "Lenght";
           input Real N_tubes "Number of tubes in the bundle";
           Modelica.SIunits.CoefficientOfHeatTransfer ht[Ncell]
@@ -408,23 +374,35 @@ package VIP "I am a package for the Virtual Prototyping Environment"
           ht_l  = 0.6246*Re_l^(-0.4989)*Re_l*Pr_l^(1/3)*state_l.lambda/d_s_eq;
 
           for i in 1:Ncell loop
+
             u[i]  = mdot/state[i].d/Aflow "tube velocity";
             Re[i] = Miscellanea.numbers.Reynolds(u[i], state[i].d, state[i].eta, d_s_eq);
             Pr[i] = Miscellanea.numbers.Prandtl(state[i].cp, state[i].eta, state[i].lambda);
+
             if (state[i].h < state_l.h or state[i].h > state_v.h) then
+
               ht_g[i]  = 0.6246*Re[i]^(-0.4989)*Re[i]*Pr[i]^(1/3)*state[i].lambda/d_s_eq;
               xq[i]    = 1;
               X_tt[i]  = 0;
               ht_sh[i] = ht_g[i];
+
             else
+
               xq[i]    = (state[i].h - state_l.h)/(state_v.h - state_l.h);
               X_tt[i]  = (1/xq[i] - 1)^0.9*(state_v.d/state_l.d)^0.5*(state_l.eta
               /state_v.eta)^0.1;
               ht_sh[i] = 1.26*(1/X_tt[i])^0.78*ht_l;
               ht_g[i]  = 0.95*state_l.lambda*(g_n*l*N_tubes^(2/3)*state_l.d*(state_l.d
               - state_v.d)/(state_l.eta*mdot))^(1/3);
+
             end if;
+
+            if shear_vapor then
               ht[i]    = sqrt(ht_g[i]^2 + ht_sh[i]^2);
+            else
+              ht[i]    = ht_g[i];
+            end if;
+
           end for;
 
       end condensation_Kern;
@@ -449,15 +427,9 @@ package VIP "I am a package for the Virtual Prototyping Environment"
         for i in 1:Ncell loop
 
           u[i]  = mdot/state[i].d/S_m;
-          Re[i] =Miscellanea.numbers.Reynolds(
-                  u[i],
-                  state[i].d,
-                  state[i].eta,
-                  Dhyd_o);
-          Pr[i] =Miscellanea.numbers.Prandtl(
-                  state[i].cp,
-                  state[i].eta,
-                  state[i].lambda);
+          Re[i] = Miscellanea.numbers.Reynolds(u[i], state[i].d, state[i].eta, Dhyd_o);
+          Pr[i] = Miscellanea.numbers.Prandtl(state[i].cp, state[i].eta,
+          state[i].lambda);
 
           if (Re[i] <= 1e1) then
             if (layout == 1) then
@@ -509,6 +481,7 @@ package VIP "I am a package for the Virtual Prototyping Environment"
 
           csi[i] = a1[i]*(1.33*pitch_f)^a[i]*Re[i]^a2[i];
           ht[i]  = J_l*J_b*J_c*csi[i]*state[i].cp*mdot/(S_m*Pr[i]^(2/3));
+
         end for;
 
       end single_phase_Bell_Delaware;
@@ -520,6 +493,8 @@ package VIP "I am a package for the Virtual Prototyping Environment"
           "Thermodynamic state in saturated liquid";
           parameter Medium.ThermodynamicState state_v
           "Thermodynamic state in saturated vapor";
+          parameter Boolean shear_vapor = true
+          "= true, if shear vapor effect is considered";
           input Modelica.SIunits.Length l "Lenght";
           input Real N_tubes "Number of tubes in the bundle";
           Modelica.SIunits.CoefficientOfHeatTransfer ht[Ncell]
@@ -548,7 +523,7 @@ package VIP "I am a package for the Virtual Prototyping Environment"
           Real a1[Ncell];
           Real a2[Ncell];
           Real a[Ncell];
-          Real csi_l "Friction factor";
+          Real csi_l "Friction factor if all liquid phase";
           Real a1_l;
           Real a2_l;
           Real a_l;
@@ -600,11 +575,11 @@ package VIP "I am a package for the Virtual Prototyping Environment"
           end if;
         end if;
 
-          if (layout == 1) then
-            a_l   = 1.450/(1 + 0.14*Re_l^0.519);
-          else
-            a_l   = 1.187/(1 + 0.14*Re_l^0.370);
-          end if;
+        if (layout == 1) then
+          a_l   = 1.450/(1 + 0.14*Re_l^0.519);
+        else
+          a_l   = 1.187/(1 + 0.14*Re_l^0.370);
+        end if;
 
         csi_l = a1_l*(1.33*pitch_f)^a_l*Re_l^a2_l;
         ht_l  = J_l*J_b*J_c*csi_l*state_l.cp*mdot/(S_m*Pr_l^(2/3));
@@ -615,6 +590,7 @@ package VIP "I am a package for the Virtual Prototyping Environment"
           Re[i] = Miscellanea.numbers.Reynolds(u[i], state[i].d, state[i].eta, Dhyd_o);
           Pr[i] = Miscellanea.numbers.Prandtl(state[i].cp, state[i].eta,
             state[i].lambda);
+
           if (Re[i] <= 1e1) then
             if (layout == 1) then
               a1[i]  = 1.4;
@@ -666,19 +642,29 @@ package VIP "I am a package for the Virtual Prototyping Environment"
           csi[i] = a1[i]*(1.33*pitch_f)^a[i]*Re[i]^a2[i];
 
           if (state[i].h < state_l.h or state[i].h > state_v.h) then
+
             ht_g[i]  = J_l*J_b*J_c*csi[i]*state[i].cp*mdot/(S_m*Pr[i]^(2/3));
             xq[i]    = 1;
             X_tt[i]  = 0;
             ht_sh[i] = ht_g[i];
+
           else
+
             xq[i]    = (state[i].h - state_l.h)/(state_v.h - state_l.h);
             X_tt[i]  = (1/xq[i] - 1)^0.9*(state_v.d/state_l.d)^0.5*(state_l.eta
             /state_v.eta)^0.1;
             ht_sh[i] = 1.26*(1/X_tt[i])^0.78*ht_l;
             ht_g[i]  = 0.95*state_l.lambda*(g_n*l*N_tubes^(2/3)*state_l.d*(state_l.d
               - state_v.d)/(state_l.eta*mdot))^(1/3);
+
           end if;
-          ht[i]    = sqrt(ht_g[i]^2 + ht_sh[i]^2);
+
+          if shear_vapor then
+            ht[i]    = sqrt(ht_g[i]^2 + ht_sh[i]^2);
+          else
+            ht[i]    = ht_g[i];
+          end if;
+
         end for;
 
       end condensation_Bell_Delaware;
@@ -686,15 +672,13 @@ package VIP "I am a package for the Virtual Prototyping Environment"
       package Base_classes "Base classes for the heat transfer"
         class base_Kern "Kern correlation for shell side base class"
             extends VIP.Heat_transfer.Shell.Base_classes.base_ht;
-            input Modelica.SIunits.Length Dhyd_o "Outer Diameter (single tube)";
-            parameter Real pitch_f
-            "Tube pitch as a fraction of the outer tube diameter";
+            input Modelica.SIunits.Length Dhyd_o "Outer hydraulic diameter";
+            parameter Real pitch_f "Tube pitch";
             parameter Integer layout = 1
             "Tube layout 1 = triangular, 2 = squared";
             Modelica.SIunits.Length d_s_eq "Equivalent shell diameter";
 
         equation
-            //Equivalent shell diameter
             if layout == 1 then
               d_s_eq  = 1.1*Dhyd_o*(pitch_f^2 - 0.917);
             elseif layout == 2 then
@@ -702,22 +686,21 @@ package VIP "I am a package for the Virtual Prototyping Environment"
             else
               d_s_eq  = 1;
             end if;
-
         end base_Kern;
 
         class base_Bell_Delaware "Bell Delaware correlation for shell side"
             extends VIP.Heat_transfer.Shell.Base_classes.base_ht;
             input Modelica.SIunits.Length Dhyd "Hydraulic diameter";
-            input Modelica.SIunits.Length Dhyd_o "Outer diameter";
+            input Modelica.SIunits.Length Dhyd_o "Outer hydraulic diameter";
             parameter Real b_cut "Baffle cut";
-            final parameter Real ttb = 8e-4 "Tube to baffle clearance";
-            final parameter Real bts = 4.8e-3 "Baffle to shell clearance";
+            parameter Real ttb = 8e-4 "Tube to baffle clearance";
+            parameter Real bts = 4.8e-3 "Baffle to shell clearance";
             parameter Real pitch_f "Tube pitch";
             parameter Real N_ss
             "The number of sealing strips (pairs) in one baffle spacing";
             parameter Integer layout "Tube layout, 1 = triangular, 2 = squared";
             parameter Integer N_passes "Number of tube passes";
-            parameter Real ff "Fouling factor (=1 if clean)";
+            parameter Real ff = 1 "Fouling factor (=1 if clean)";
             input Modelica.SIunits.Length d_s "Shell diameter";
             input Modelica.SIunits.Length d_b "Bundle diameter";
             input Real N_tubes "Number of tubes in the bundle";
@@ -804,24 +787,19 @@ package VIP "I am a package for the Virtual Prototyping Environment"
           "Pressure drops cells";
           output Modelica.SIunits.AbsolutePressure dp_tot
           "Pressure drops tubes";
-          input Modelica.SIunits.Length l "Lenght (single tube)";
-          input Modelica.SIunits.Length Dhyd "Hydraulic Diameter (single tube)";
-          input Modelica.SIunits.AbsolutePressure heads(start=2.5)
+          input Modelica.SIunits.Length l "Lenght";
+          input Modelica.SIunits.Length Dhyd "Hydraulic diameter";
+          input Modelica.SIunits.AbsolutePressure heads
           "Number of velocity heads";
-          Modelica.SIunits.ReynoldsNumber Re[Ncell]
-          "Reynolds number tubes (average)";
-          Modelica.SIunits.Velocity u[Ncell](start=ones(Ncell))
-          "Velocity (average)";
+          Modelica.SIunits.ReynoldsNumber Re[Ncell] "Reynolds number";
+          Modelica.SIunits.Velocity u[Ncell](start=ones(Ncell)) "Velocity";
           Real csi[Ncell] "Friction factor";
 
       equation
         for i in 1:Ncell loop
-          u[i]     = mdot/state[i].d/Aflow "tube velocity";
-          Re[i]    =Miscellanea.numbers.Reynolds(
-                  u[i],
-                  state[i].d,
-                  state[i].eta,
-                  Dhyd) "Reynolds number tubes";
+          u[i]     = mdot/state[i].d/Aflow;
+          Re[i]    = Miscellanea.numbers.Reynolds(u[i], state[i].d, state[i].eta,
+           Dhyd);
           if (Re[i] < 8e2) then
             csi[i] = 10^0.94244* Re[i]^(-1.03935);
           else
@@ -840,8 +818,7 @@ package VIP "I am a package for the Virtual Prototyping Environment"
             replaceable package Medium = VIP.Media.OneRandomOrganicFluid
             "Medium model";
             parameter Integer Ncell(start=3) "Number of cell elements";
-            input Modelica.SIunits.Area Aflow
-            "Cross-sectional area (single tube)";
+            input Modelica.SIunits.Area Aflow "Cross-sectional area";
             input Modelica.SIunits.MassFlowRate mdot "Mass flow rate";
             input Medium.ThermodynamicState state[Ncell];
         end base_dp;
@@ -857,28 +834,22 @@ package VIP "I am a package for the Virtual Prototyping Environment"
           Modelica.SIunits.AbsolutePressure dp[Ncell] "Pressure drops cells";
           Modelica.SIunits.AbsolutePressure dp_tot "Pressure drops tubes";
           input Modelica.SIunits.DynamicViscosity eta_wall[Ncell]
-          "exponent for the viscosity correction";
+          "Viscosity of the fluid at the wall";
           Modelica.SIunits.ReynoldsNumber Re[Ncell](start=10e6*ones(Ncell))
-          "Reynolds number tubes (average)";
-          Modelica.SIunits.Velocity u[Ncell](start=ones(Ncell))
-          "Velocity (average)";
+          "Reynolds number";
+          Modelica.SIunits.Velocity u[Ncell](start=ones(Ncell)) "Velocity";
           Real csi[Ncell] "Friction factor";
 
       equation
         for i in 1:Ncell loop
-          u[i]     = mdot/state[i].d/Aflow "tube velocity";
-          Re[i]    =Miscellanea.numbers.Reynolds(
-                  u[i],
-                  state[i].d,
-                  state[i].eta,
-                  Dhyd) "Reynolds number tubes";
+          u[i]     = mdot/state[i].d/Aflow;
+          Re[i]    = Miscellanea.numbers.Reynolds(u[i],state[i].d, state[i].eta, Dhyd);
           if (Re[i] < 3e2) then
-            csi[i] = 10^log10(2.5e-1/1e2^(log10(2.4/1e-1)/log10(10/3e2))) * Re[i]^(log10(2.4/1e-1)/log10(10/3e2));
+            csi[i] = 18.4810 * Re[i]^(-0.9344);
           else
-            csi[i] = 10^log10(4e-2/4e4^(log10(1e-1/2.4e-2)/log10(3e2/1e6))) * Re[i]^(log10(1e-1/2.4e-2)/log10(3e2/1e6));
+            csi[i] = 0.2581 * Re[i]^(-0.1759);
           end if;
-          dp[i]             =  4*csi[i]*d_s/Dhyd*l/l_b*(eta_wall[i]/state[i].eta)^0.14*state[i].d*u[i]^2
-            "Local pressure drops";
+          dp[i]    =  4*csi[i]*d_s/Dhyd*l/l_b*state[i].d*u[i]^2;
         end for;
 
         dp_tot = sum(dp) "Total pressure drops";
@@ -889,13 +860,12 @@ package VIP "I am a package for the Virtual Prototyping Environment"
           extends VIP.Pressure_drops.Shell.Base_classes.base_Kern;
           Modelica.SIunits.AbsolutePressure dp[Ncell] "Pressure drops cells";
           Modelica.SIunits.AbsolutePressure dp_tot "Pressure drops tubes";
-          parameter Real X "Factor for pressure drop calculation";
+          parameter Real X "Factor for pressure drop in condensation";
           input Modelica.SIunits.DynamicViscosity eta_wall[Ncell]
           "exponent for the viscosity correction";
           Modelica.SIunits.ReynoldsNumber Re[Ncell](start=10e6*ones(Ncell))
-          "Reynolds number tubes (average)";
-          Modelica.SIunits.Velocity u[Ncell](start=ones(Ncell))
-          "Velocity (average)";
+          "Reynolds number";
+          Modelica.SIunits.Velocity u[Ncell](start=ones(Ncell)) "Velocity";
           Real csi[Ncell] "Friction factor";
 
       equation
@@ -903,12 +873,11 @@ package VIP "I am a package for the Virtual Prototyping Environment"
           u[i]     = mdot/state[i].d/Aflow "tube velocity";
           Re[i]    = Miscellanea.numbers.Reynolds(u[i], state[i].d, state[i].eta, Dhyd);
           if (Re[i] < 3e2) then
-            csi[i] = 10^log10(2.5e-1/1e2^(log10(2.4/1e-1)/log10(10/3e2))) * Re[i]^(log10(2.4/1e-1)/log10(10/3e2));
+            csi[i] = 18.4810 * Re[i]^(-0.9344);
           else
-            csi[i] = 10^log10(4e-2/4e4^(log10(1e-1/2.4e-2)/log10(3e2/1e6))) * Re[i]^(log10(1e-1/2.4e-2)/log10(3e2/1e6));
+            csi[i] = 0.2581 * Re[i]^(-0.1759);
           end if;
-          dp[i]    =  4*X*csi[i]*d_s/Dhyd*l/l_b*(state[i].eta/state[i].eta)^0.14
-          *state[i].d*u[i]^2 "Local pressure drops";
+          dp[i]    =  4*X*csi[i]*d_s/Dhyd*l/l_b*state[i].d*u[i]^2;
         end for;
 
         dp_tot = sum(dp) "Total pressure drops";
@@ -1092,6 +1061,7 @@ package VIP "I am a package for the Virtual Prototyping Environment"
           "Velocities inside the shell";
           Modelica.SIunits.Velocity u_l(start=1) "Velocity if all liquid phase";
           Real csi[Ncell] "Friction factor";
+          Real csi_l "Friction factor if all liquid phase";
           Real xq[Ncell] "Vapor quality";
           Real phi_lo[Ncell] "Two phase multiplier cross flow";
           Real phi_lo_w[Ncell]
@@ -1102,13 +1072,65 @@ package VIP "I am a package for the Virtual Prototyping Environment"
            Real b1[Ncell];
            Real b2[Ncell];
            Real b[Ncell];
+           Real b1_l;
+           Real b2_l;
+           Real b_l;
       equation
 
         u_l       = mdot/state_l.d/S_m;
         Y         = sqrt(state_l.d/state_v.d)*(state_v.eta/state_l.eta)^0.23;
         Y_w       = sqrt(state_l.d/state_v.d);
-        Re_l      = Miscellanea.numbers.Reynolds(u_l, state_l.d, state_l.eta,
-          Dhyd_o);
+        Re_l      = Miscellanea.numbers.Reynolds(u_l, state_l.d, state_l.eta, Dhyd_o);
+
+          if (Re_l <= 1e1) then
+            if (layout == 1) then
+              b1_l  = 48;
+              b2_l  = -1;
+            else
+              b1_l  = 35;
+              b2_l  = -1;
+            end if;
+          elseif (Re_l > 1e1 and Re_l <= 1e2) then
+            if (layout == 1) then
+              b1_l  = 45;
+              b2_l  = -0.973;
+            else
+              b1_l  = 32.1;
+              b2_l  = -0.963;
+            end if;
+          elseif (Re_l > 1e2 and Re_l <= 1e3) then
+            if (layout == 1) then
+              b1_l  = 4.57;
+              b2_l  = -0.476;
+            else
+              b1_l  = 6.09;
+              b2_l  = -0.602;
+            end if;
+          elseif (Re_l > 1e3 and Re_l < 1e4) then
+            if (layout == 1) then
+              b1_l  = 0.486;
+              b2_l  = -0.152;
+            else
+              b1_l  = 0.0815;
+              b2_l  = 0.022;
+            end if;
+          else
+            if (layout == 1) then
+              b1_l  = 0.372;
+              b2_l  = -0.123;
+            else
+              b1_l  = 0.391;
+              b2_l  = -0.148;
+            end if;
+          end if;
+
+          if (layout == 1) then
+            b_l   = 7/(1 + 0.14*Re_l^0.5);
+          else
+            b_l   = 6.3/(1 + 0.14*Re_l^0.378);
+          end if;
+
+          csi_l = b1_l*(1.33*pitch_f)^b_l*Re_l^b2_l;
 
         for i in 1:Ncell loop
 
@@ -1205,11 +1227,11 @@ package VIP "I am a package for the Virtual Prototyping Environment"
 
             if (i <= N_passes or i > Ncell - N_passes) then
               dp_c[i]   = 0;
-              dp_e[i]   = phi_lo[i]*2*(N_tcc + N_tcw)*csi[i]*(state_l.d*u_l^2/2)*
+              dp_e[i]   = phi_lo[i]*(N_tcc + N_tcw)*csi_l*(state_l.d*u_l^2)*
               (N_baffles/(N_passes*N_baffles_d));
             else
               dp_e[i]   = 0;
-              dp_c[i]   = phi_lo[i]*ff*2*N_tcc*csi[i]*(state_l.d*u_l^2/2)*(N_baffles/
+              dp_c[i]   = phi_lo[i]*ff*N_tcc*csi_l*(state_l.d*u_l^2)*(N_baffles/
               (N_passes*N_baffles_d));
             end if;
           end if;
@@ -1228,8 +1250,7 @@ package VIP "I am a package for the Virtual Prototyping Environment"
             replaceable package Medium = VIP.Media.OneRandomOrganicFluid
             "Medium model";
             parameter Integer Ncell(start=3) "Number of cell elements";
-            input Modelica.SIunits.Area Aflow
-            "Cross-sectional area (single tube)";
+            input Modelica.SIunits.Area Aflow "Cross-sectional area";
             input Modelica.SIunits.MassFlowRate mdot "Mass flow rate";
             input Medium.ThermodynamicState state[Ncell];
         end base_dp;
@@ -1237,16 +1258,12 @@ package VIP "I am a package for the Virtual Prototyping Environment"
         class base_Bell_Delaware
           "Bell Delaware correlation for shell side base class"
             extends VIP.Pressure_drops.Shell.Base_classes.base_dp;
-            input Modelica.SIunits.Length Dhyd
-            "Hydraulic Diameter (single tube)";
-            input Modelica.SIunits.Length Dhyd_o "Outer Diameter (single tube)";
+            input Modelica.SIunits.Length Dhyd "Hydraulic diameter";
+            input Modelica.SIunits.Length Dhyd_o "Outer hydraulic diameter";
             parameter Real b_cut "Baffle cut";
-            final parameter Real ttb = 0.8e-3
-            "tube to baffle clearance (from Standards)";
-            final parameter Real bts = 4e-3
-            "tube to baffle clearance (from Standards)";
-            parameter Real pitch_f
-            "Tube pitch as a fraction of the outer tube diameter";
+            parameter Real ttb = 0.8e-3 "tube to baffle clearance";
+            parameter Real bts = 4e-3 "tube to baffle clearance";
+            parameter Real pitch_f "Tube pitch";
             parameter Real N_ss
             "The number of sealing strips (pairs) in one baffle spacing";
             parameter Integer layout "Tube layout 1 = triangular, 2 = squared";
@@ -1255,8 +1272,8 @@ package VIP "I am a package for the Virtual Prototyping Environment"
             parameter Integer N_baffles "Number of baffles";
             parameter Integer N_baffles_d
             "The number of discretization volumes is always N_baffles + 1";
-            input Modelica.SIunits.Length d_s "shell diameter";
-            input Modelica.SIunits.Length d_b "bundle diameter";
+            input Modelica.SIunits.Length d_s "Shell diameter";
+            input Modelica.SIunits.Length d_b "Bundle diameter";
             input Real N_tubes "Number of tubes in the bundle";
             input Modelica.SIunits.Length l_b "Baffle lenght";
             Modelica.SIunits.Length tpv "vertical tube pitch";
@@ -1320,7 +1337,7 @@ package VIP "I am a package for the Virtual Prototyping Environment"
         class base_Kern "Kern correlation for shell base class"
             extends VIP.Pressure_drops.Shell.Base_classes.base_dp;
             parameter Modelica.SIunits.Length l "Lenght";
-            input Modelica.SIunits.Length Dhyd "Hydraulic Diameter";
+            input Modelica.SIunits.Length Dhyd "Hydraulic diameter";
             input Modelica.SIunits.Length d_s "Shell diameter";
             input Modelica.SIunits.Length l_b "Baffle length";
         end base_Kern;
@@ -2608,7 +2625,7 @@ package VIP "I am a package for the Virtual Prototyping Environment"
            m_s = m_s,
            m_t = st.m_s*(h_s_in - h_s_out)/(h_t_out - h_t_in),
            redeclare Heat_transfer.Shell.condensation_Kern hT_shell(
-           Dhyd_o = st.bundle.Dhyd_o, l = st.l, N_tubes=st.N_tubes,
+           Dhyd_o = st.bundle.Dhyd_o, l = st.l, N_tubes=st.N_tubes, shear_vapor = true,
            pitch_f = st.pitch_f, state_l = state_l, state_v = state_v),
            redeclare Pressure_drops.Shell.condensation_Kern dp_shell(
            l = st.l/st.N_baffles_d/st.N_passes, d_s = st.d_s, X = 0.4,
@@ -2668,7 +2685,7 @@ package VIP "I am a package for the Virtual Prototyping Environment"
            redeclare package Medium_s = Medium_s,
            redeclare package Medium_t = Medium_t,
            Dhyd=17.05e-3,
-           l=1.6887,
+           l=1.8,
            pitch_f=1.25,
            layout=1,
            N_passes=4,
@@ -2682,7 +2699,7 @@ package VIP "I am a package for the Virtual Prototyping Environment"
            m_t = st.m_s*(h_s_in - h_s_out)/(h_t_out - h_t_in),
            redeclare Heat_transfer.Shell.condensation_Bell_Delaware hT_shell(
            pitch_f = st.pitch_f, Dhyd_o = st.bundle.Dhyd_o, N_tubes = st.N_tubes,
-           d_s = st.d_s, d_b = st.bundle.d_b, Dhyd = st.d_s, l = st.l,
+           d_s = st.d_s, d_b = st.bundle.d_b, Dhyd = st.d_s, l = st.l, bts = 3.18e-3,
            layout = st.layout, l_b = st.l_b, N_ss = 2, state_l = state_l,
            state_v = state_v, N_passes = st.N_passes, ff =  1.0, b_cut = 0.3912),
            redeclare Pressure_drops.Shell.condensation_Bell_Delaware dp_shell(
@@ -2690,7 +2707,7 @@ package VIP "I am a package for the Virtual Prototyping Environment"
            d_s = st.d_s, d_b = st.bundle.d_b, Dhyd = st.d_s, layout = st.layout,
            l_b = st.l_b, N_ss = 2, N_passes = st.N_passes,
            N_baffles_d = st.N_baffles_d, N_baffles = st.N_baffles, ff = 1.0,
-           b_cut = 0.3912, state_l = state_l, state_v = state_v),
+           b_cut = 0.3912, state_l = state_l, state_v = state_v, bts = 3.18e-3),
            redeclare function bundle_clearance =
            VIP.Miscellanea.Shell_clearance.Fixed_Utube,
            redeclare VIP.Materials.S_AISI_1040 Material_t,
@@ -2705,11 +2722,11 @@ package VIP "I am a package for the Virtual Prototyping Environment"
            p_t_out=p_t_out,
            ht_t_f1=1e12,
            ht_s_f1=1e12,
-           N_tubes(start=300, fixed=true))
+           N_tubes(start=100, fixed=true))
           annotation (Placement(transformation(extent={{-80,-68},{68,58}})));
 
        annotation (Placement(transformation(extent={{-108,-74},{88,66}})),
-          experiment(Tolerance=1e-006),
+          experiment,
           __Dymola_experimentSetupOutput);
       end Aspen_Bell_Delaware;
     end Condensation;

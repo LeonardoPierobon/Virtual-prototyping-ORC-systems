@@ -12,7 +12,7 @@ double experiment(7,1)
        1                   # StopTime     Time at which integration stops
        0                   # Increment    Communication step size, if > 0
      500                   # nInterval    Number of communication intervals, if > 0
- 9.9999999999999995E-007   # Tolerance    Relative precision of signals for
+ 1.0000000000000000E-004   # Tolerance    Relative precision of signals for
                            #              simulation, linearization and trimming
        0                   # MaxFixedStep Maximum step size of fixed step size
                            #              integrators, if > 0.0
@@ -102,7 +102,7 @@ int settings(13,1)
 
 
 #    Names of initial variables
-char initialName(2108,26)
+char initialName(1705,26)
 _dummy
 _derdummy
 m_s
@@ -433,35 +433,9 @@ st.dp_tube.csi[24]
 st.hT_shell.Ncell
 st.hT_shell.Aflow
 st.hT_shell.Dhyd_o
-st.hT_shell.b_cut
-st.hT_shell.ttb
-st.hT_shell.bts
 st.hT_shell.pitch_f
-st.hT_shell.N_ss
 st.hT_shell.layout
-st.hT_shell.N_passes
-st.hT_shell.ff
-st.hT_shell.d_b
-st.hT_shell.tpv
-st.hT_shell.N_tcc
-st.hT_shell.N_tcw
-st.hT_shell.F_sbp
-st.hT_shell.F_w
-st.hT_shell.F_c
-st.hT_shell.J_c
-st.hT_shell.J_l
-st.hT_shell.J_b
-st.hT_shell.S_w
-st.hT_shell.S_tb
-st.hT_shell.S_sb
-st.hT_shell.S_m
-st.hT_shell.S_wg
-st.hT_shell.S_wt
-st.hT_shell.S_b
-st.hT_shell.r_s
-st.hT_shell.r_lm
-st.hT_shell.teta_ds
-st.hT_shell.teta_ctl
+st.hT_shell.d_s_eq
 st.hT_shell.state_l.T
 st.hT_shell.state_l.a
 st.hT_shell.state_l.beta
@@ -492,6 +466,7 @@ st.hT_shell.state_v.lambda
 st.hT_shell.state_v.p
 st.hT_shell.state_v.phase
 st.hT_shell.state_v.s
+st.hT_shell.shear_vapor
 st.hT_shell.ht[1]
 st.hT_shell.ht[2]
 st.hT_shell.ht[3]
@@ -688,241 +663,34 @@ st.hT_shell.xq[21]
 st.hT_shell.xq[22]
 st.hT_shell.xq[23]
 st.hT_shell.xq[24]
-st.hT_shell.csi[1]
-st.hT_shell.csi[2]
-st.hT_shell.csi[3]
-st.hT_shell.csi[4]
-st.hT_shell.csi[5]
-st.hT_shell.csi[6]
-st.hT_shell.csi[7]
-st.hT_shell.csi[8]
-st.hT_shell.csi[9]
-st.hT_shell.csi[10]
-st.hT_shell.csi[11]
-st.hT_shell.csi[12]
-st.hT_shell.csi[13]
-st.hT_shell.csi[14]
-st.hT_shell.csi[15]
-st.hT_shell.csi[16]
-st.hT_shell.csi[17]
-st.hT_shell.csi[18]
-st.hT_shell.csi[19]
-st.hT_shell.csi[20]
-st.hT_shell.csi[21]
-st.hT_shell.csi[22]
-st.hT_shell.csi[23]
-st.hT_shell.csi[24]
-st.hT_shell.a1[1]
-st.hT_shell.a1[2]
-st.hT_shell.a1[3]
-st.hT_shell.a1[4]
-st.hT_shell.a1[5]
-st.hT_shell.a1[6]
-st.hT_shell.a1[7]
-st.hT_shell.a1[8]
-st.hT_shell.a1[9]
-st.hT_shell.a1[10]
-st.hT_shell.a1[11]
-st.hT_shell.a1[12]
-st.hT_shell.a1[13]
-st.hT_shell.a1[14]
-st.hT_shell.a1[15]
-st.hT_shell.a1[16]
-st.hT_shell.a1[17]
-st.hT_shell.a1[18]
-st.hT_shell.a1[19]
-st.hT_shell.a1[20]
-st.hT_shell.a1[21]
-st.hT_shell.a1[22]
-st.hT_shell.a1[23]
-st.hT_shell.a1[24]
-st.hT_shell.a2[1]
-st.hT_shell.a2[2]
-st.hT_shell.a2[3]
-st.hT_shell.a2[4]
-st.hT_shell.a2[5]
-st.hT_shell.a2[6]
-st.hT_shell.a2[7]
-st.hT_shell.a2[8]
-st.hT_shell.a2[9]
-st.hT_shell.a2[10]
-st.hT_shell.a2[11]
-st.hT_shell.a2[12]
-st.hT_shell.a2[13]
-st.hT_shell.a2[14]
-st.hT_shell.a2[15]
-st.hT_shell.a2[16]
-st.hT_shell.a2[17]
-st.hT_shell.a2[18]
-st.hT_shell.a2[19]
-st.hT_shell.a2[20]
-st.hT_shell.a2[21]
-st.hT_shell.a2[22]
-st.hT_shell.a2[23]
-st.hT_shell.a2[24]
-st.hT_shell.a[1]
-st.hT_shell.a[2]
-st.hT_shell.a[3]
-st.hT_shell.a[4]
-st.hT_shell.a[5]
-st.hT_shell.a[6]
-st.hT_shell.a[7]
-st.hT_shell.a[8]
-st.hT_shell.a[9]
-st.hT_shell.a[10]
-st.hT_shell.a[11]
-st.hT_shell.a[12]
-st.hT_shell.a[13]
-st.hT_shell.a[14]
-st.hT_shell.a[15]
-st.hT_shell.a[16]
-st.hT_shell.a[17]
-st.hT_shell.a[18]
-st.hT_shell.a[19]
-st.hT_shell.a[20]
-st.hT_shell.a[21]
-st.hT_shell.a[22]
-st.hT_shell.a[23]
-st.hT_shell.a[24]
-st.hT_shell.csi_l
-st.hT_shell.a1_l
-st.hT_shell.a2_l
-st.hT_shell.a_l
 st.dp_shell.Ncell
-st.dp_shell.b_cut
-st.dp_shell.ttb
-st.dp_shell.bts
-st.dp_shell.pitch_f
-st.dp_shell.N_ss
-st.dp_shell.layout
-st.dp_shell.N_passes
-st.dp_shell.ff
-st.dp_shell.N_baffles
-st.dp_shell.N_baffles_d
-st.dp_shell.tpv
-st.dp_shell.N_tcc
-st.dp_shell.N_tcw
-st.dp_shell.F_sbp
-st.dp_shell.F_w
-st.dp_shell.R_l
-st.dp_shell.R_b
-st.dp_shell.S_w
-st.dp_shell.S_tb
-st.dp_shell.S_sb
-st.dp_shell.S_m
-st.dp_shell.S_wg
-st.dp_shell.S_wt
-st.dp_shell.S_b
-st.dp_shell.r_s
-st.dp_shell.r_lm
-st.dp_shell.teta_ds
-st.dp_shell.teta_ctl
-st.dp_shell.state_l.T
-st.dp_shell.state_l.a
-st.dp_shell.state_l.beta
-st.dp_shell.state_l.cp
-st.dp_shell.state_l.cv
-st.dp_shell.state_l.d
-st.dp_shell.state_l.ddhp
-st.dp_shell.state_l.ddph
-st.dp_shell.state_l.eta
-st.dp_shell.state_l.h
-st.dp_shell.state_l.kappa
-st.dp_shell.state_l.lambda
-st.dp_shell.state_l.p
-st.dp_shell.state_l.phase
-st.dp_shell.state_l.s
-st.dp_shell.state_v.T
-st.dp_shell.state_v.a
-st.dp_shell.state_v.beta
-st.dp_shell.state_v.cp
-st.dp_shell.state_v.cv
-st.dp_shell.state_v.d
-st.dp_shell.state_v.ddhp
-st.dp_shell.state_v.ddph
-st.dp_shell.state_v.eta
-st.dp_shell.state_v.h
-st.dp_shell.state_v.kappa
-st.dp_shell.state_v.lambda
-st.dp_shell.state_v.p
-st.dp_shell.state_v.phase
-st.dp_shell.state_v.s
-st.dp_shell.dp_c[1]
-st.dp_shell.dp_c[2]
-st.dp_shell.dp_c[3]
-st.dp_shell.dp_c[4]
-st.dp_shell.dp_c[5]
-st.dp_shell.dp_c[6]
-st.dp_shell.dp_c[7]
-st.dp_shell.dp_c[8]
-st.dp_shell.dp_c[9]
-st.dp_shell.dp_c[10]
-st.dp_shell.dp_c[11]
-st.dp_shell.dp_c[12]
-st.dp_shell.dp_c[13]
-st.dp_shell.dp_c[14]
-st.dp_shell.dp_c[15]
-st.dp_shell.dp_c[16]
-st.dp_shell.dp_c[17]
-st.dp_shell.dp_c[18]
-st.dp_shell.dp_c[19]
-st.dp_shell.dp_c[20]
-st.dp_shell.dp_c[21]
-st.dp_shell.dp_c[22]
-st.dp_shell.dp_c[23]
-st.dp_shell.dp_c[24]
-st.dp_shell.dp_w[1]
-st.dp_shell.dp_w[2]
-st.dp_shell.dp_w[3]
-st.dp_shell.dp_w[4]
-st.dp_shell.dp_w[5]
-st.dp_shell.dp_w[6]
-st.dp_shell.dp_w[7]
-st.dp_shell.dp_w[8]
-st.dp_shell.dp_w[9]
-st.dp_shell.dp_w[10]
-st.dp_shell.dp_w[11]
-st.dp_shell.dp_w[12]
-st.dp_shell.dp_w[13]
-st.dp_shell.dp_w[14]
-st.dp_shell.dp_w[15]
-st.dp_shell.dp_w[16]
-st.dp_shell.dp_w[17]
-st.dp_shell.dp_w[18]
-st.dp_shell.dp_w[19]
-st.dp_shell.dp_w[20]
-st.dp_shell.dp_w[21]
-st.dp_shell.dp_w[22]
-st.dp_shell.dp_w[23]
-st.dp_shell.dp_w[24]
-st.dp_shell.dp_e[1]
-st.dp_shell.dp_e[2]
-st.dp_shell.dp_e[3]
-st.dp_shell.dp_e[4]
-st.dp_shell.dp_e[5]
-st.dp_shell.dp_e[6]
-st.dp_shell.dp_e[7]
-st.dp_shell.dp_e[8]
-st.dp_shell.dp_e[9]
-st.dp_shell.dp_e[10]
-st.dp_shell.dp_e[11]
-st.dp_shell.dp_e[12]
-st.dp_shell.dp_e[13]
-st.dp_shell.dp_e[14]
-st.dp_shell.dp_e[15]
-st.dp_shell.dp_e[16]
-st.dp_shell.dp_e[17]
-st.dp_shell.dp_e[18]
-st.dp_shell.dp_e[19]
-st.dp_shell.dp_e[20]
-st.dp_shell.dp_e[21]
-st.dp_shell.dp_e[22]
-st.dp_shell.dp_e[23]
-st.dp_shell.dp_e[24]
-st.dp_shell.dp_w_tot
-st.dp_shell.dp_c_tot
-st.dp_shell.dp_e_tot
+st.dp_shell.l
+st.dp_shell.dp[1]
+st.dp_shell.dp[2]
+st.dp_shell.dp[3]
+st.dp_shell.dp[4]
+st.dp_shell.dp[5]
+st.dp_shell.dp[6]
+st.dp_shell.dp[7]
+st.dp_shell.dp[8]
+st.dp_shell.dp[9]
+st.dp_shell.dp[10]
+st.dp_shell.dp[11]
+st.dp_shell.dp[12]
+st.dp_shell.dp[13]
+st.dp_shell.dp[14]
+st.dp_shell.dp[15]
+st.dp_shell.dp[16]
+st.dp_shell.dp[17]
+st.dp_shell.dp[18]
+st.dp_shell.dp[19]
+st.dp_shell.dp[20]
+st.dp_shell.dp[21]
+st.dp_shell.dp[22]
+st.dp_shell.dp[23]
+st.dp_shell.dp[24]
 st.dp_shell.dp_tot
+st.dp_shell.X
 st.dp_shell.Re[1]
 st.dp_shell.Re[2]
 st.dp_shell.Re[3]
@@ -947,7 +715,6 @@ st.dp_shell.Re[21]
 st.dp_shell.Re[22]
 st.dp_shell.Re[23]
 st.dp_shell.Re[24]
-st.dp_shell.Re_l
 st.dp_shell.u[1]
 st.dp_shell.u[2]
 st.dp_shell.u[3]
@@ -972,31 +739,6 @@ st.dp_shell.u[21]
 st.dp_shell.u[22]
 st.dp_shell.u[23]
 st.dp_shell.u[24]
-st.dp_shell.u_w[1]
-st.dp_shell.u_w[2]
-st.dp_shell.u_w[3]
-st.dp_shell.u_w[4]
-st.dp_shell.u_w[5]
-st.dp_shell.u_w[6]
-st.dp_shell.u_w[7]
-st.dp_shell.u_w[8]
-st.dp_shell.u_w[9]
-st.dp_shell.u_w[10]
-st.dp_shell.u_w[11]
-st.dp_shell.u_w[12]
-st.dp_shell.u_w[13]
-st.dp_shell.u_w[14]
-st.dp_shell.u_w[15]
-st.dp_shell.u_w[16]
-st.dp_shell.u_w[17]
-st.dp_shell.u_w[18]
-st.dp_shell.u_w[19]
-st.dp_shell.u_w[20]
-st.dp_shell.u_w[21]
-st.dp_shell.u_w[22]
-st.dp_shell.u_w[23]
-st.dp_shell.u_w[24]
-st.dp_shell.u_l
 st.dp_shell.csi[1]
 st.dp_shell.csi[2]
 st.dp_shell.csi[3]
@@ -1021,152 +763,6 @@ st.dp_shell.csi[21]
 st.dp_shell.csi[22]
 st.dp_shell.csi[23]
 st.dp_shell.csi[24]
-st.dp_shell.xq[1]
-st.dp_shell.xq[2]
-st.dp_shell.xq[3]
-st.dp_shell.xq[4]
-st.dp_shell.xq[5]
-st.dp_shell.xq[6]
-st.dp_shell.xq[7]
-st.dp_shell.xq[8]
-st.dp_shell.xq[9]
-st.dp_shell.xq[10]
-st.dp_shell.xq[11]
-st.dp_shell.xq[12]
-st.dp_shell.xq[13]
-st.dp_shell.xq[14]
-st.dp_shell.xq[15]
-st.dp_shell.xq[16]
-st.dp_shell.xq[17]
-st.dp_shell.xq[18]
-st.dp_shell.xq[19]
-st.dp_shell.xq[20]
-st.dp_shell.xq[21]
-st.dp_shell.xq[22]
-st.dp_shell.xq[23]
-st.dp_shell.xq[24]
-st.dp_shell.phi_lo[1]
-st.dp_shell.phi_lo[2]
-st.dp_shell.phi_lo[3]
-st.dp_shell.phi_lo[4]
-st.dp_shell.phi_lo[5]
-st.dp_shell.phi_lo[6]
-st.dp_shell.phi_lo[7]
-st.dp_shell.phi_lo[8]
-st.dp_shell.phi_lo[9]
-st.dp_shell.phi_lo[10]
-st.dp_shell.phi_lo[11]
-st.dp_shell.phi_lo[12]
-st.dp_shell.phi_lo[13]
-st.dp_shell.phi_lo[14]
-st.dp_shell.phi_lo[15]
-st.dp_shell.phi_lo[16]
-st.dp_shell.phi_lo[17]
-st.dp_shell.phi_lo[18]
-st.dp_shell.phi_lo[19]
-st.dp_shell.phi_lo[20]
-st.dp_shell.phi_lo[21]
-st.dp_shell.phi_lo[22]
-st.dp_shell.phi_lo[23]
-st.dp_shell.phi_lo[24]
-st.dp_shell.phi_lo_w[1]
-st.dp_shell.phi_lo_w[2]
-st.dp_shell.phi_lo_w[3]
-st.dp_shell.phi_lo_w[4]
-st.dp_shell.phi_lo_w[5]
-st.dp_shell.phi_lo_w[6]
-st.dp_shell.phi_lo_w[7]
-st.dp_shell.phi_lo_w[8]
-st.dp_shell.phi_lo_w[9]
-st.dp_shell.phi_lo_w[10]
-st.dp_shell.phi_lo_w[11]
-st.dp_shell.phi_lo_w[12]
-st.dp_shell.phi_lo_w[13]
-st.dp_shell.phi_lo_w[14]
-st.dp_shell.phi_lo_w[15]
-st.dp_shell.phi_lo_w[16]
-st.dp_shell.phi_lo_w[17]
-st.dp_shell.phi_lo_w[18]
-st.dp_shell.phi_lo_w[19]
-st.dp_shell.phi_lo_w[20]
-st.dp_shell.phi_lo_w[21]
-st.dp_shell.phi_lo_w[22]
-st.dp_shell.phi_lo_w[23]
-st.dp_shell.phi_lo_w[24]
-st.dp_shell.Y
-st.dp_shell.Y_w
-st.dp_shell.b1[1]
-st.dp_shell.b1[2]
-st.dp_shell.b1[3]
-st.dp_shell.b1[4]
-st.dp_shell.b1[5]
-st.dp_shell.b1[6]
-st.dp_shell.b1[7]
-st.dp_shell.b1[8]
-st.dp_shell.b1[9]
-st.dp_shell.b1[10]
-st.dp_shell.b1[11]
-st.dp_shell.b1[12]
-st.dp_shell.b1[13]
-st.dp_shell.b1[14]
-st.dp_shell.b1[15]
-st.dp_shell.b1[16]
-st.dp_shell.b1[17]
-st.dp_shell.b1[18]
-st.dp_shell.b1[19]
-st.dp_shell.b1[20]
-st.dp_shell.b1[21]
-st.dp_shell.b1[22]
-st.dp_shell.b1[23]
-st.dp_shell.b1[24]
-st.dp_shell.b2[1]
-st.dp_shell.b2[2]
-st.dp_shell.b2[3]
-st.dp_shell.b2[4]
-st.dp_shell.b2[5]
-st.dp_shell.b2[6]
-st.dp_shell.b2[7]
-st.dp_shell.b2[8]
-st.dp_shell.b2[9]
-st.dp_shell.b2[10]
-st.dp_shell.b2[11]
-st.dp_shell.b2[12]
-st.dp_shell.b2[13]
-st.dp_shell.b2[14]
-st.dp_shell.b2[15]
-st.dp_shell.b2[16]
-st.dp_shell.b2[17]
-st.dp_shell.b2[18]
-st.dp_shell.b2[19]
-st.dp_shell.b2[20]
-st.dp_shell.b2[21]
-st.dp_shell.b2[22]
-st.dp_shell.b2[23]
-st.dp_shell.b2[24]
-st.dp_shell.b[1]
-st.dp_shell.b[2]
-st.dp_shell.b[3]
-st.dp_shell.b[4]
-st.dp_shell.b[5]
-st.dp_shell.b[6]
-st.dp_shell.b[7]
-st.dp_shell.b[8]
-st.dp_shell.b[9]
-st.dp_shell.b[10]
-st.dp_shell.b[11]
-st.dp_shell.b[12]
-st.dp_shell.b[13]
-st.dp_shell.b[14]
-st.dp_shell.b[15]
-st.dp_shell.b[16]
-st.dp_shell.b[17]
-st.dp_shell.b[18]
-st.dp_shell.b[19]
-st.dp_shell.b[20]
-st.dp_shell.b[21]
-st.dp_shell.b[22]
-st.dp_shell.b[23]
-st.dp_shell.b[24]
 st.bundle.Ncell
 st.bundle.thick
 st.bundle.lambda
@@ -1591,6 +1187,7 @@ st.bundle.W_wet[24]
 st.bundle.N_passes
 st.bundle.layout
 st.bundle.pitch_f
+st.bundle.d_b
 st.shell.Ncell
 st.shell.thick
 st.shell.lambda
@@ -2212,7 +1809,7 @@ st.G_wall[22]
 st.G_wall[23]
 st.G_wall[24]
 
-double initialValue(2108,6)
+double initialValue(1705,6)
  -1       1                       0                       0                
   2     0   # _dummy
   0       0                       0                       0                
@@ -2341,8 +1938,8 @@ double initialValue(2108,6)
   1   280   # st.l
  -1 1.2500000000000000E+000       0                       0                
   1   280   # st.pitch_f
-  0       1                       0                       0                
-  6   258   # st.layout
+ -1       1                       0                       0                
+  1   282   # st.layout
   0       4                       0                       0                
   6   258   # st.N_passes
  -1       5                       0                       0                
@@ -2873,64 +2470,12 @@ double initialValue(2108,6)
   6   256   # st.hT_shell.Aflow
   0       0                       0                       0                
   6   256   # st.hT_shell.Dhyd_o
- -1 3.9119999999999999E-001       0                       0                
-  1   280   # st.hT_shell.b_cut
-  0 8.0000000000000004E-004       0                       0                
-  6   256   # st.hT_shell.ttb
-  0 4.7999999999999996E-003       0                       0                
-  6   256   # st.hT_shell.bts
   0       0                       0                       0                
   6   256   # st.hT_shell.pitch_f
- -1       2                       0                       0                
-  1   280   # st.hT_shell.N_ss
   0       1                       0                       0                
   6   258   # st.hT_shell.layout
-  0       4                       0                       0                
-  6   258   # st.hT_shell.N_passes
- -1       1                       0                       0                
-  1   280   # st.hT_shell.ff
   0       0                       0                       0                
-  6   256   # st.hT_shell.d_b
-  0       0                       0                       0                
-  6   256   # st.hT_shell.tpv
-  0       0                       0                       0                
-  6   256   # st.hT_shell.N_tcc
-  0       0                       0                       0                
-  6   256   # st.hT_shell.N_tcw
-  0       0                       0                       0                
-  6   256   # st.hT_shell.F_sbp
-  0       0                       0                       0                
-  6   256   # st.hT_shell.F_w
-  0       0                       0                       0                
-  6   256   # st.hT_shell.F_c
-  0       0                       0                       0                
-  6   256   # st.hT_shell.J_c
-  0       0                       0                       0                
-  6   256   # st.hT_shell.J_l
-  0       0                       0                       0                
-  6   256   # st.hT_shell.J_b
-  0       0                       0                       0                
-  6   256   # st.hT_shell.S_w
-  0       0                       0                       0                
-  6   256   # st.hT_shell.S_tb
-  0       0                       0                       0                
-  6   256   # st.hT_shell.S_sb
-  0       0                       0                       0                
-  6   256   # st.hT_shell.S_m
-  0       0                       0                       0                
-  6   256   # st.hT_shell.S_wg
-  0       0                       0                       0                
-  6   256   # st.hT_shell.S_wt
-  0       0                       0                       0                
-  6   256   # st.hT_shell.S_b
-  0       0                       0                       0                
-  6   256   # st.hT_shell.r_s
-  0       0                       0                       0                
-  6   256   # st.hT_shell.r_lm
-  0       0                       0                       0                
-  6   256   # st.hT_shell.teta_ds
-  0       0                       0                       0                
-  6   256   # st.hT_shell.teta_ctl
+  6   256   # st.hT_shell.d_s_eq
   0     300                       1                   10000                
   6   256   # st.hT_shell.state_l.T
   0    1000                       0                  100000                
@@ -2991,6 +2536,8 @@ double initialValue(2108,6)
   6   258   # st.hT_shell.state_v.phase
   0       0                 -1.0000000000000000E+007 1.0000000000000000E+007
   6   256   # st.hT_shell.state_v.s
+  0       1                       0                       0                
+  6   257   # st.hT_shell.shear_vapor
   0       0                       0                       0                
   6   256   # st.hT_shell.ht[1]
   0       0                       0                       0                
@@ -3383,526 +2930,110 @@ double initialValue(2108,6)
   6   256   # st.hT_shell.xq[23]
   0       0                       0                       0                
   6   256   # st.hT_shell.xq[24]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.csi[1]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.csi[2]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.csi[3]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.csi[4]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.csi[5]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.csi[6]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.csi[7]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.csi[8]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.csi[9]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.csi[10]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.csi[11]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.csi[12]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.csi[13]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.csi[14]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.csi[15]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.csi[16]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.csi[17]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.csi[18]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.csi[19]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.csi[20]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.csi[21]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.csi[22]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.csi[23]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.csi[24]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.a1[1]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.a1[2]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.a1[3]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.a1[4]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.a1[5]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.a1[6]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.a1[7]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.a1[8]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.a1[9]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.a1[10]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.a1[11]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.a1[12]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.a1[13]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.a1[14]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.a1[15]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.a1[16]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.a1[17]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.a1[18]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.a1[19]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.a1[20]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.a1[21]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.a1[22]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.a1[23]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.a1[24]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.a2[1]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.a2[2]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.a2[3]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.a2[4]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.a2[5]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.a2[6]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.a2[7]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.a2[8]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.a2[9]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.a2[10]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.a2[11]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.a2[12]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.a2[13]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.a2[14]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.a2[15]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.a2[16]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.a2[17]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.a2[18]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.a2[19]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.a2[20]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.a2[21]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.a2[22]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.a2[23]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.a2[24]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.a[1]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.a[2]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.a[3]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.a[4]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.a[5]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.a[6]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.a[7]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.a[8]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.a[9]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.a[10]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.a[11]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.a[12]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.a[13]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.a[14]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.a[15]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.a[16]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.a[17]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.a[18]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.a[19]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.a[20]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.a[21]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.a[22]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.a[23]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.a[24]
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.csi_l
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.a1_l
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.a2_l
-  0       0                       0                       0                
-  6  1280   # st.hT_shell.a_l
   0      24                       0                       0                
   6   258   # st.dp_shell.Ncell
- -1 3.9119999999999999E-001       0                       0                
-  1   280   # st.dp_shell.b_cut
-  0 8.0000000000000004E-004       0                       0                
-  6   256   # st.dp_shell.ttb
-  0 4.0000000000000001E-003       0                       0                
-  6   256   # st.dp_shell.bts
   0       0                       0                       0                
-  6   256   # st.dp_shell.pitch_f
- -1       2                       0                       0                
-  1   280   # st.dp_shell.N_ss
-  0       1                       0                       0                
-  6   258   # st.dp_shell.layout
-  0       4                       0                       0                
-  6   258   # st.dp_shell.N_passes
- -1       1                       0                       0                
-  1   280   # st.dp_shell.ff
-  0       0                       0                       0                
-  6   258   # st.dp_shell.N_baffles
-  0       6                       0                       0                
-  6   258   # st.dp_shell.N_baffles_d
-  0       0                       0                       0                
-  6   256   # st.dp_shell.tpv
-  0       0                       0                       0                
-  6   256   # st.dp_shell.N_tcc
-  0       0                       0                       0                
-  6   256   # st.dp_shell.N_tcw
-  0       0                       0                       0                
-  6   256   # st.dp_shell.F_sbp
-  0       0                       0                       0                
-  6   256   # st.dp_shell.F_w
-  0       0                       0                       0                
-  6   256   # st.dp_shell.R_l
-  0       0                       0                       0                
-  6   256   # st.dp_shell.R_b
-  0       0                       0                       0                
-  6   256   # st.dp_shell.S_w
-  0       0                       0                       0                
-  6   256   # st.dp_shell.S_tb
-  0       0                       0                       0                
-  6   256   # st.dp_shell.S_sb
-  0       0                       0                       0                
-  6   256   # st.dp_shell.S_m
-  0       0                       0                       0                
-  6   256   # st.dp_shell.S_wg
-  0       0                       0                       0                
-  6   256   # st.dp_shell.S_wt
-  0       0                       0                       0                
-  6   256   # st.dp_shell.S_b
-  0       0                       0                       0                
-  6   256   # st.dp_shell.r_s
-  0       0                       0                       0                
-  6   256   # st.dp_shell.r_lm
-  0       0                       0                       0                
-  6   256   # st.dp_shell.teta_ds
-  0       0                       0                       0                
-  6   256   # st.dp_shell.teta_ctl
-  0     300                       1                   10000                
-  6   256   # st.dp_shell.state_l.T
-  0    1000                       0                  100000                
-  6   256   # st.dp_shell.state_l.a
-  0       0                       0                       0                
-  6   256   # st.dp_shell.state_l.beta
-  0    1000                       0                 1.0000000000000000E+007
-  6   256   # st.dp_shell.state_l.cp
-  0    1000                       0                 1.0000000000000000E+007
-  6   256   # st.dp_shell.state_l.cv
-  0       1                       0                  100000                
-  6   256   # st.dp_shell.state_l.d
-  0       0                       0                       0                
-  6   256   # st.dp_shell.state_l.ddhp
-  0       0                       0                       0                
-  6   256   # st.dp_shell.state_l.ddph
-  0 1.0000000000000000E-003       0                 1.0000000000000000E+008
-  6   256   # st.dp_shell.state_l.eta
-  0       0                 -1.0000000000000000E+010 1.0000000000000000E+010
-  6   256   # st.dp_shell.state_l.h
-  0       0                       0                       0                
-  6   256   # st.dp_shell.state_l.kappa
-  0       1                       0                     500                
-  6   256   # st.dp_shell.state_l.lambda
-  0  100000                       0                 1.0000000000000000E+008
-  6   256   # st.dp_shell.state_l.p
-  0       0                       0                       2                
-  6   258   # st.dp_shell.state_l.phase
-  0       0                 -1.0000000000000000E+007 1.0000000000000000E+007
-  6   256   # st.dp_shell.state_l.s
-  0     300                       1                   10000                
-  6   256   # st.dp_shell.state_v.T
-  0    1000                       0                  100000                
-  6   256   # st.dp_shell.state_v.a
-  0       0                       0                       0                
-  6   256   # st.dp_shell.state_v.beta
-  0    1000                       0                 1.0000000000000000E+007
-  6   256   # st.dp_shell.state_v.cp
-  0    1000                       0                 1.0000000000000000E+007
-  6   256   # st.dp_shell.state_v.cv
-  0       1                       0                  100000                
-  6   256   # st.dp_shell.state_v.d
-  0       0                       0                       0                
-  6   256   # st.dp_shell.state_v.ddhp
-  0       0                       0                       0                
-  6   256   # st.dp_shell.state_v.ddph
-  0 1.0000000000000000E-003       0                 1.0000000000000000E+008
-  6   256   # st.dp_shell.state_v.eta
-  0       0                 -1.0000000000000000E+010 1.0000000000000000E+010
-  6   256   # st.dp_shell.state_v.h
-  0       0                       0                       0                
-  6   256   # st.dp_shell.state_v.kappa
-  0       1                       0                     500                
-  6   256   # st.dp_shell.state_v.lambda
-  0  100000                       0                 1.0000000000000000E+008
-  6   256   # st.dp_shell.state_v.p
-  0       0                       0                       2                
-  6   258   # st.dp_shell.state_v.phase
-  0       0                 -1.0000000000000000E+007 1.0000000000000000E+007
-  6   256   # st.dp_shell.state_v.s
+  6   256   # st.dp_shell.l
   0       0                       0                 1.0000000000000000E+100
-  6   256   # st.dp_shell.dp_c[1]
+  6   256   # st.dp_shell.dp[1]
   0       0                       0                 1.0000000000000000E+100
-  6   256   # st.dp_shell.dp_c[2]
+  6   256   # st.dp_shell.dp[2]
   0       0                       0                 1.0000000000000000E+100
-  6   256   # st.dp_shell.dp_c[3]
+  6   256   # st.dp_shell.dp[3]
   0       0                       0                 1.0000000000000000E+100
-  6   256   # st.dp_shell.dp_c[4]
+  6   256   # st.dp_shell.dp[4]
   0       0                       0                 1.0000000000000000E+100
-  6   256   # st.dp_shell.dp_c[5]
+  6   256   # st.dp_shell.dp[5]
   0       0                       0                 1.0000000000000000E+100
-  6   256   # st.dp_shell.dp_c[6]
+  6   256   # st.dp_shell.dp[6]
   0       0                       0                 1.0000000000000000E+100
-  6   256   # st.dp_shell.dp_c[7]
+  6   256   # st.dp_shell.dp[7]
   0       0                       0                 1.0000000000000000E+100
-  6   256   # st.dp_shell.dp_c[8]
+  6   256   # st.dp_shell.dp[8]
   0       0                       0                 1.0000000000000000E+100
-  6   256   # st.dp_shell.dp_c[9]
+  6   256   # st.dp_shell.dp[9]
   0       0                       0                 1.0000000000000000E+100
-  6   256   # st.dp_shell.dp_c[10]
+  6   256   # st.dp_shell.dp[10]
   0       0                       0                 1.0000000000000000E+100
-  6   256   # st.dp_shell.dp_c[11]
+  6   256   # st.dp_shell.dp[11]
   0       0                       0                 1.0000000000000000E+100
-  6   256   # st.dp_shell.dp_c[12]
+  6   256   # st.dp_shell.dp[12]
   0       0                       0                 1.0000000000000000E+100
-  6   256   # st.dp_shell.dp_c[13]
+  6   256   # st.dp_shell.dp[13]
   0       0                       0                 1.0000000000000000E+100
-  6   256   # st.dp_shell.dp_c[14]
+  6   256   # st.dp_shell.dp[14]
   0       0                       0                 1.0000000000000000E+100
-  6   256   # st.dp_shell.dp_c[15]
+  6   256   # st.dp_shell.dp[15]
   0       0                       0                 1.0000000000000000E+100
-  6   256   # st.dp_shell.dp_c[16]
+  6   256   # st.dp_shell.dp[16]
   0       0                       0                 1.0000000000000000E+100
-  6   256   # st.dp_shell.dp_c[17]
+  6   256   # st.dp_shell.dp[17]
   0       0                       0                 1.0000000000000000E+100
-  6   256   # st.dp_shell.dp_c[18]
+  6   256   # st.dp_shell.dp[18]
   0       0                       0                 1.0000000000000000E+100
-  6   256   # st.dp_shell.dp_c[19]
+  6   256   # st.dp_shell.dp[19]
   0       0                       0                 1.0000000000000000E+100
-  6   256   # st.dp_shell.dp_c[20]
+  6   256   # st.dp_shell.dp[20]
   0       0                       0                 1.0000000000000000E+100
-  6   256   # st.dp_shell.dp_c[21]
+  6   256   # st.dp_shell.dp[21]
   0       0                       0                 1.0000000000000000E+100
-  6   256   # st.dp_shell.dp_c[22]
+  6   256   # st.dp_shell.dp[22]
   0       0                       0                 1.0000000000000000E+100
-  6   256   # st.dp_shell.dp_c[23]
+  6   256   # st.dp_shell.dp[23]
   0       0                       0                 1.0000000000000000E+100
-  6   256   # st.dp_shell.dp_c[24]
-  0       0                       0                 1.0000000000000000E+100
-  6   256   # st.dp_shell.dp_w[1]
-  0       0                       0                 1.0000000000000000E+100
-  6   256   # st.dp_shell.dp_w[2]
-  0       0                       0                 1.0000000000000000E+100
-  6   256   # st.dp_shell.dp_w[3]
-  0       0                       0                 1.0000000000000000E+100
-  6   256   # st.dp_shell.dp_w[4]
-  0       0                       0                 1.0000000000000000E+100
-  6   256   # st.dp_shell.dp_w[5]
-  0       0                       0                 1.0000000000000000E+100
-  6   256   # st.dp_shell.dp_w[6]
-  0       0                       0                 1.0000000000000000E+100
-  6   256   # st.dp_shell.dp_w[7]
-  0       0                       0                 1.0000000000000000E+100
-  6   256   # st.dp_shell.dp_w[8]
-  0       0                       0                 1.0000000000000000E+100
-  6   256   # st.dp_shell.dp_w[9]
-  0       0                       0                 1.0000000000000000E+100
-  6   256   # st.dp_shell.dp_w[10]
-  0       0                       0                 1.0000000000000000E+100
-  6   256   # st.dp_shell.dp_w[11]
-  0       0                       0                 1.0000000000000000E+100
-  6   256   # st.dp_shell.dp_w[12]
-  0       0                       0                 1.0000000000000000E+100
-  6   256   # st.dp_shell.dp_w[13]
-  0       0                       0                 1.0000000000000000E+100
-  6   256   # st.dp_shell.dp_w[14]
-  0       0                       0                 1.0000000000000000E+100
-  6   256   # st.dp_shell.dp_w[15]
-  0       0                       0                 1.0000000000000000E+100
-  6   256   # st.dp_shell.dp_w[16]
-  0       0                       0                 1.0000000000000000E+100
-  6   256   # st.dp_shell.dp_w[17]
-  0       0                       0                 1.0000000000000000E+100
-  6   256   # st.dp_shell.dp_w[18]
-  0       0                       0                 1.0000000000000000E+100
-  6   256   # st.dp_shell.dp_w[19]
-  0       0                       0                 1.0000000000000000E+100
-  6   256   # st.dp_shell.dp_w[20]
-  0       0                       0                 1.0000000000000000E+100
-  6   256   # st.dp_shell.dp_w[21]
-  0       0                       0                 1.0000000000000000E+100
-  6   256   # st.dp_shell.dp_w[22]
-  0       0                       0                 1.0000000000000000E+100
-  6   256   # st.dp_shell.dp_w[23]
-  0       0                       0                 1.0000000000000000E+100
-  6   256   # st.dp_shell.dp_w[24]
-  0       0                       0                 1.0000000000000000E+100
-  6   256   # st.dp_shell.dp_e[1]
-  0       0                       0                 1.0000000000000000E+100
-  6   256   # st.dp_shell.dp_e[2]
-  0       0                       0                 1.0000000000000000E+100
-  6   256   # st.dp_shell.dp_e[3]
-  0       0                       0                 1.0000000000000000E+100
-  6   256   # st.dp_shell.dp_e[4]
-  0       0                       0                 1.0000000000000000E+100
-  6   256   # st.dp_shell.dp_e[5]
-  0       0                       0                 1.0000000000000000E+100
-  6   256   # st.dp_shell.dp_e[6]
-  0       0                       0                 1.0000000000000000E+100
-  6   256   # st.dp_shell.dp_e[7]
-  0       0                       0                 1.0000000000000000E+100
-  6   256   # st.dp_shell.dp_e[8]
-  0       0                       0                 1.0000000000000000E+100
-  6   256   # st.dp_shell.dp_e[9]
-  0       0                       0                 1.0000000000000000E+100
-  6   256   # st.dp_shell.dp_e[10]
-  0       0                       0                 1.0000000000000000E+100
-  6   256   # st.dp_shell.dp_e[11]
-  0       0                       0                 1.0000000000000000E+100
-  6   256   # st.dp_shell.dp_e[12]
-  0       0                       0                 1.0000000000000000E+100
-  6   256   # st.dp_shell.dp_e[13]
-  0       0                       0                 1.0000000000000000E+100
-  6   256   # st.dp_shell.dp_e[14]
-  0       0                       0                 1.0000000000000000E+100
-  6   256   # st.dp_shell.dp_e[15]
-  0       0                       0                 1.0000000000000000E+100
-  6   256   # st.dp_shell.dp_e[16]
-  0       0                       0                 1.0000000000000000E+100
-  6   256   # st.dp_shell.dp_e[17]
-  0       0                       0                 1.0000000000000000E+100
-  6   256   # st.dp_shell.dp_e[18]
-  0       0                       0                 1.0000000000000000E+100
-  6   256   # st.dp_shell.dp_e[19]
-  0       0                       0                 1.0000000000000000E+100
-  6   256   # st.dp_shell.dp_e[20]
-  0       0                       0                 1.0000000000000000E+100
-  6   256   # st.dp_shell.dp_e[21]
-  0       0                       0                 1.0000000000000000E+100
-  6   256   # st.dp_shell.dp_e[22]
-  0       0                       0                 1.0000000000000000E+100
-  6   256   # st.dp_shell.dp_e[23]
-  0       0                       0                 1.0000000000000000E+100
-  6   256   # st.dp_shell.dp_e[24]
-  0       0                       0                 1.0000000000000000E+100
-  6   256   # st.dp_shell.dp_w_tot
-  0       0                       0                 1.0000000000000000E+100
-  6   256   # st.dp_shell.dp_c_tot
-  0       0                       0                 1.0000000000000000E+100
-  6   256   # st.dp_shell.dp_e_tot
+  6   256   # st.dp_shell.dp[24]
   0       0                       0                 1.0000000000000000E+100
   6   256   # st.dp_shell.dp_tot
-  0       0                       0                       0                
+ -1 4.0000000000000002E-001       0                       0                
+  1   280   # st.dp_shell.X
+  0 1.0000000000000000E+007       0                       0                
   6   256   # st.dp_shell.Re[1]
-  0       0                       0                       0                
+  0 1.0000000000000000E+007       0                       0                
   6   256   # st.dp_shell.Re[2]
-  0       0                       0                       0                
+  0 1.0000000000000000E+007       0                       0                
   6   256   # st.dp_shell.Re[3]
-  0       0                       0                       0                
+  0 1.0000000000000000E+007       0                       0                
   6   256   # st.dp_shell.Re[4]
-  0       0                       0                       0                
+  0 1.0000000000000000E+007       0                       0                
   6   256   # st.dp_shell.Re[5]
-  0       0                       0                       0                
+  0 1.0000000000000000E+007       0                       0                
   6   256   # st.dp_shell.Re[6]
-  0       0                       0                       0                
+  0 1.0000000000000000E+007       0                       0                
   6   256   # st.dp_shell.Re[7]
-  0       0                       0                       0                
+  0 1.0000000000000000E+007       0                       0                
   6   256   # st.dp_shell.Re[8]
-  0       0                       0                       0                
+  0 1.0000000000000000E+007       0                       0                
   6   256   # st.dp_shell.Re[9]
-  0       0                       0                       0                
+  0 1.0000000000000000E+007       0                       0                
   6   256   # st.dp_shell.Re[10]
-  0       0                       0                       0                
+  0 1.0000000000000000E+007       0                       0                
   6   256   # st.dp_shell.Re[11]
-  0       0                       0                       0                
+  0 1.0000000000000000E+007       0                       0                
   6   256   # st.dp_shell.Re[12]
-  0       0                       0                       0                
+  0 1.0000000000000000E+007       0                       0                
   6   256   # st.dp_shell.Re[13]
-  0       0                       0                       0                
+  0 1.0000000000000000E+007       0                       0                
   6   256   # st.dp_shell.Re[14]
-  0       0                       0                       0                
+  0 1.0000000000000000E+007       0                       0                
   6   256   # st.dp_shell.Re[15]
-  0       0                       0                       0                
+  0 1.0000000000000000E+007       0                       0                
   6   256   # st.dp_shell.Re[16]
-  0       0                       0                       0                
+  0 1.0000000000000000E+007       0                       0                
   6   256   # st.dp_shell.Re[17]
-  0       0                       0                       0                
+  0 1.0000000000000000E+007       0                       0                
   6   256   # st.dp_shell.Re[18]
-  0       0                       0                       0                
+  0 1.0000000000000000E+007       0                       0                
   6   256   # st.dp_shell.Re[19]
-  0       0                       0                       0                
+  0 1.0000000000000000E+007       0                       0                
   6   256   # st.dp_shell.Re[20]
-  0       0                       0                       0                
+  0 1.0000000000000000E+007       0                       0                
   6   256   # st.dp_shell.Re[21]
-  0       0                       0                       0                
+  0 1.0000000000000000E+007       0                       0                
   6   256   # st.dp_shell.Re[22]
-  0       0                       0                       0                
+  0 1.0000000000000000E+007       0                       0                
   6   256   # st.dp_shell.Re[23]
-  0       0                       0                       0                
+  0 1.0000000000000000E+007       0                       0                
   6   256   # st.dp_shell.Re[24]
-  0  100000                       0                       0                
-  6   256   # st.dp_shell.Re_l
   0       1                       0                       0                
   6   256   # st.dp_shell.u[1]
   0       1                       0                       0                
@@ -3951,56 +3082,6 @@ double initialValue(2108,6)
   6   256   # st.dp_shell.u[23]
   0       1                       0                       0                
   6   256   # st.dp_shell.u[24]
-  0       1                       0                       0                
-  6   256   # st.dp_shell.u_w[1]
-  0       1                       0                       0                
-  6   256   # st.dp_shell.u_w[2]
-  0       1                       0                       0                
-  6   256   # st.dp_shell.u_w[3]
-  0       1                       0                       0                
-  6   256   # st.dp_shell.u_w[4]
-  0       1                       0                       0                
-  6   256   # st.dp_shell.u_w[5]
-  0       1                       0                       0                
-  6   256   # st.dp_shell.u_w[6]
-  0       1                       0                       0                
-  6   256   # st.dp_shell.u_w[7]
-  0       1                       0                       0                
-  6   256   # st.dp_shell.u_w[8]
-  0       1                       0                       0                
-  6   256   # st.dp_shell.u_w[9]
-  0       1                       0                       0                
-  6   256   # st.dp_shell.u_w[10]
-  0       1                       0                       0                
-  6   256   # st.dp_shell.u_w[11]
-  0       1                       0                       0                
-  6   256   # st.dp_shell.u_w[12]
-  0       1                       0                       0                
-  6   256   # st.dp_shell.u_w[13]
-  0       1                       0                       0                
-  6   256   # st.dp_shell.u_w[14]
-  0       1                       0                       0                
-  6   256   # st.dp_shell.u_w[15]
-  0       1                       0                       0                
-  6   256   # st.dp_shell.u_w[16]
-  0       1                       0                       0                
-  6   256   # st.dp_shell.u_w[17]
-  0       1                       0                       0                
-  6   256   # st.dp_shell.u_w[18]
-  0       1                       0                       0                
-  6   256   # st.dp_shell.u_w[19]
-  0       1                       0                       0                
-  6   256   # st.dp_shell.u_w[20]
-  0       1                       0                       0                
-  6   256   # st.dp_shell.u_w[21]
-  0       1                       0                       0                
-  6   256   # st.dp_shell.u_w[22]
-  0       1                       0                       0                
-  6   256   # st.dp_shell.u_w[23]
-  0       1                       0                       0                
-  6   256   # st.dp_shell.u_w[24]
-  0       1                       0                       0                
-  6   256   # st.dp_shell.u_l
   0       0                       0                       0                
   6   256   # st.dp_shell.csi[1]
   0       0                       0                       0                
@@ -4049,298 +3130,6 @@ double initialValue(2108,6)
   6   256   # st.dp_shell.csi[23]
   0       0                       0                       0                
   6   256   # st.dp_shell.csi[24]
-  0       0                       0                       0                
-  6   256   # st.dp_shell.xq[1]
-  0       0                       0                       0                
-  6   256   # st.dp_shell.xq[2]
-  0       0                       0                       0                
-  6   256   # st.dp_shell.xq[3]
-  0       0                       0                       0                
-  6   256   # st.dp_shell.xq[4]
-  0       0                       0                       0                
-  6   256   # st.dp_shell.xq[5]
-  0       0                       0                       0                
-  6   256   # st.dp_shell.xq[6]
-  0       0                       0                       0                
-  6   256   # st.dp_shell.xq[7]
-  0       0                       0                       0                
-  6   256   # st.dp_shell.xq[8]
-  0       0                       0                       0                
-  6   256   # st.dp_shell.xq[9]
-  0       0                       0                       0                
-  6   256   # st.dp_shell.xq[10]
-  0       0                       0                       0                
-  6   256   # st.dp_shell.xq[11]
-  0       0                       0                       0                
-  6   256   # st.dp_shell.xq[12]
-  0       0                       0                       0                
-  6   256   # st.dp_shell.xq[13]
-  0       0                       0                       0                
-  6   256   # st.dp_shell.xq[14]
-  0       0                       0                       0                
-  6   256   # st.dp_shell.xq[15]
-  0       0                       0                       0                
-  6   256   # st.dp_shell.xq[16]
-  0       0                       0                       0                
-  6   256   # st.dp_shell.xq[17]
-  0       0                       0                       0                
-  6   256   # st.dp_shell.xq[18]
-  0       0                       0                       0                
-  6   256   # st.dp_shell.xq[19]
-  0       0                       0                       0                
-  6   256   # st.dp_shell.xq[20]
-  0       0                       0                       0                
-  6   256   # st.dp_shell.xq[21]
-  0       0                       0                       0                
-  6   256   # st.dp_shell.xq[22]
-  0       0                       0                       0                
-  6   256   # st.dp_shell.xq[23]
-  0       0                       0                       0                
-  6   256   # st.dp_shell.xq[24]
-  0       0                       0                       0                
-  6   256   # st.dp_shell.phi_lo[1]
-  0       0                       0                       0                
-  6   256   # st.dp_shell.phi_lo[2]
-  0       0                       0                       0                
-  6   256   # st.dp_shell.phi_lo[3]
-  0       0                       0                       0                
-  6   256   # st.dp_shell.phi_lo[4]
-  0       0                       0                       0                
-  6   256   # st.dp_shell.phi_lo[5]
-  0       0                       0                       0                
-  6   256   # st.dp_shell.phi_lo[6]
-  0       0                       0                       0                
-  6   256   # st.dp_shell.phi_lo[7]
-  0       0                       0                       0                
-  6   256   # st.dp_shell.phi_lo[8]
-  0       0                       0                       0                
-  6   256   # st.dp_shell.phi_lo[9]
-  0       0                       0                       0                
-  6   256   # st.dp_shell.phi_lo[10]
-  0       0                       0                       0                
-  6   256   # st.dp_shell.phi_lo[11]
-  0       0                       0                       0                
-  6   256   # st.dp_shell.phi_lo[12]
-  0       0                       0                       0                
-  6   256   # st.dp_shell.phi_lo[13]
-  0       0                       0                       0                
-  6   256   # st.dp_shell.phi_lo[14]
-  0       0                       0                       0                
-  6   256   # st.dp_shell.phi_lo[15]
-  0       0                       0                       0                
-  6   256   # st.dp_shell.phi_lo[16]
-  0       0                       0                       0                
-  6   256   # st.dp_shell.phi_lo[17]
-  0       0                       0                       0                
-  6   256   # st.dp_shell.phi_lo[18]
-  0       0                       0                       0                
-  6   256   # st.dp_shell.phi_lo[19]
-  0       0                       0                       0                
-  6   256   # st.dp_shell.phi_lo[20]
-  0       0                       0                       0                
-  6   256   # st.dp_shell.phi_lo[21]
-  0       0                       0                       0                
-  6   256   # st.dp_shell.phi_lo[22]
-  0       0                       0                       0                
-  6   256   # st.dp_shell.phi_lo[23]
-  0       0                       0                       0                
-  6   256   # st.dp_shell.phi_lo[24]
-  0       0                       0                       0                
-  6   256   # st.dp_shell.phi_lo_w[1]
-  0       0                       0                       0                
-  6   256   # st.dp_shell.phi_lo_w[2]
-  0       0                       0                       0                
-  6   256   # st.dp_shell.phi_lo_w[3]
-  0       0                       0                       0                
-  6   256   # st.dp_shell.phi_lo_w[4]
-  0       0                       0                       0                
-  6   256   # st.dp_shell.phi_lo_w[5]
-  0       0                       0                       0                
-  6   256   # st.dp_shell.phi_lo_w[6]
-  0       0                       0                       0                
-  6   256   # st.dp_shell.phi_lo_w[7]
-  0       0                       0                       0                
-  6   256   # st.dp_shell.phi_lo_w[8]
-  0       0                       0                       0                
-  6   256   # st.dp_shell.phi_lo_w[9]
-  0       0                       0                       0                
-  6   256   # st.dp_shell.phi_lo_w[10]
-  0       0                       0                       0                
-  6   256   # st.dp_shell.phi_lo_w[11]
-  0       0                       0                       0                
-  6   256   # st.dp_shell.phi_lo_w[12]
-  0       0                       0                       0                
-  6   256   # st.dp_shell.phi_lo_w[13]
-  0       0                       0                       0                
-  6   256   # st.dp_shell.phi_lo_w[14]
-  0       0                       0                       0                
-  6   256   # st.dp_shell.phi_lo_w[15]
-  0       0                       0                       0                
-  6   256   # st.dp_shell.phi_lo_w[16]
-  0       0                       0                       0                
-  6   256   # st.dp_shell.phi_lo_w[17]
-  0       0                       0                       0                
-  6   256   # st.dp_shell.phi_lo_w[18]
-  0       0                       0                       0                
-  6   256   # st.dp_shell.phi_lo_w[19]
-  0       0                       0                       0                
-  6   256   # st.dp_shell.phi_lo_w[20]
-  0       0                       0                       0                
-  6   256   # st.dp_shell.phi_lo_w[21]
-  0       0                       0                       0                
-  6   256   # st.dp_shell.phi_lo_w[22]
-  0       0                       0                       0                
-  6   256   # st.dp_shell.phi_lo_w[23]
-  0       0                       0                       0                
-  6   256   # st.dp_shell.phi_lo_w[24]
-  0       0                       0                       0                
-  6   256   # st.dp_shell.Y
-  0       0                       0                       0                
-  6   256   # st.dp_shell.Y_w
-  0       0                       0                       0                
-  6  1280   # st.dp_shell.b1[1]
-  0       0                       0                       0                
-  6  1280   # st.dp_shell.b1[2]
-  0       0                       0                       0                
-  6  1280   # st.dp_shell.b1[3]
-  0       0                       0                       0                
-  6  1280   # st.dp_shell.b1[4]
-  0       0                       0                       0                
-  6  1280   # st.dp_shell.b1[5]
-  0       0                       0                       0                
-  6  1280   # st.dp_shell.b1[6]
-  0       0                       0                       0                
-  6  1280   # st.dp_shell.b1[7]
-  0       0                       0                       0                
-  6  1280   # st.dp_shell.b1[8]
-  0       0                       0                       0                
-  6  1280   # st.dp_shell.b1[9]
-  0       0                       0                       0                
-  6  1280   # st.dp_shell.b1[10]
-  0       0                       0                       0                
-  6  1280   # st.dp_shell.b1[11]
-  0       0                       0                       0                
-  6  1280   # st.dp_shell.b1[12]
-  0       0                       0                       0                
-  6  1280   # st.dp_shell.b1[13]
-  0       0                       0                       0                
-  6  1280   # st.dp_shell.b1[14]
-  0       0                       0                       0                
-  6  1280   # st.dp_shell.b1[15]
-  0       0                       0                       0                
-  6  1280   # st.dp_shell.b1[16]
-  0       0                       0                       0                
-  6  1280   # st.dp_shell.b1[17]
-  0       0                       0                       0                
-  6  1280   # st.dp_shell.b1[18]
-  0       0                       0                       0                
-  6  1280   # st.dp_shell.b1[19]
-  0       0                       0                       0                
-  6  1280   # st.dp_shell.b1[20]
-  0       0                       0                       0                
-  6  1280   # st.dp_shell.b1[21]
-  0       0                       0                       0                
-  6  1280   # st.dp_shell.b1[22]
-  0       0                       0                       0                
-  6  1280   # st.dp_shell.b1[23]
-  0       0                       0                       0                
-  6  1280   # st.dp_shell.b1[24]
-  0       0                       0                       0                
-  6  1280   # st.dp_shell.b2[1]
-  0       0                       0                       0                
-  6  1280   # st.dp_shell.b2[2]
-  0       0                       0                       0                
-  6  1280   # st.dp_shell.b2[3]
-  0       0                       0                       0                
-  6  1280   # st.dp_shell.b2[4]
-  0       0                       0                       0                
-  6  1280   # st.dp_shell.b2[5]
-  0       0                       0                       0                
-  6  1280   # st.dp_shell.b2[6]
-  0       0                       0                       0                
-  6  1280   # st.dp_shell.b2[7]
-  0       0                       0                       0                
-  6  1280   # st.dp_shell.b2[8]
-  0       0                       0                       0                
-  6  1280   # st.dp_shell.b2[9]
-  0       0                       0                       0                
-  6  1280   # st.dp_shell.b2[10]
-  0       0                       0                       0                
-  6  1280   # st.dp_shell.b2[11]
-  0       0                       0                       0                
-  6  1280   # st.dp_shell.b2[12]
-  0       0                       0                       0                
-  6  1280   # st.dp_shell.b2[13]
-  0       0                       0                       0                
-  6  1280   # st.dp_shell.b2[14]
-  0       0                       0                       0                
-  6  1280   # st.dp_shell.b2[15]
-  0       0                       0                       0                
-  6  1280   # st.dp_shell.b2[16]
-  0       0                       0                       0                
-  6  1280   # st.dp_shell.b2[17]
-  0       0                       0                       0                
-  6  1280   # st.dp_shell.b2[18]
-  0       0                       0                       0                
-  6  1280   # st.dp_shell.b2[19]
-  0       0                       0                       0                
-  6  1280   # st.dp_shell.b2[20]
-  0       0                       0                       0                
-  6  1280   # st.dp_shell.b2[21]
-  0       0                       0                       0                
-  6  1280   # st.dp_shell.b2[22]
-  0       0                       0                       0                
-  6  1280   # st.dp_shell.b2[23]
-  0       0                       0                       0                
-  6  1280   # st.dp_shell.b2[24]
-  0       0                       0                       0                
-  6  1280   # st.dp_shell.b[1]
-  0       0                       0                       0                
-  6  1280   # st.dp_shell.b[2]
-  0       0                       0                       0                
-  6  1280   # st.dp_shell.b[3]
-  0       0                       0                       0                
-  6  1280   # st.dp_shell.b[4]
-  0       0                       0                       0                
-  6  1280   # st.dp_shell.b[5]
-  0       0                       0                       0                
-  6  1280   # st.dp_shell.b[6]
-  0       0                       0                       0                
-  6  1280   # st.dp_shell.b[7]
-  0       0                       0                       0                
-  6  1280   # st.dp_shell.b[8]
-  0       0                       0                       0                
-  6  1280   # st.dp_shell.b[9]
-  0       0                       0                       0                
-  6  1280   # st.dp_shell.b[10]
-  0       0                       0                       0                
-  6  1280   # st.dp_shell.b[11]
-  0       0                       0                       0                
-  6  1280   # st.dp_shell.b[12]
-  0       0                       0                       0                
-  6  1280   # st.dp_shell.b[13]
-  0       0                       0                       0                
-  6  1280   # st.dp_shell.b[14]
-  0       0                       0                       0                
-  6  1280   # st.dp_shell.b[15]
-  0       0                       0                       0                
-  6  1280   # st.dp_shell.b[16]
-  0       0                       0                       0                
-  6  1280   # st.dp_shell.b[17]
-  0       0                       0                       0                
-  6  1280   # st.dp_shell.b[18]
-  0       0                       0                       0                
-  6  1280   # st.dp_shell.b[19]
-  0       0                       0                       0                
-  6  1280   # st.dp_shell.b[20]
-  0       0                       0                       0                
-  6  1280   # st.dp_shell.b[21]
-  0       0                       0                       0                
-  6  1280   # st.dp_shell.b[22]
-  0       0                       0                       0                
-  6  1280   # st.dp_shell.b[23]
-  0       0                       0                       0                
-  6  1280   # st.dp_shell.b[24]
   0      24                       0                       0                
   6   258   # st.bundle.Ncell
   0       0                       0                       0                
@@ -5189,6 +3978,8 @@ double initialValue(2108,6)
   6   258   # st.bundle.layout
   0       0                       0                       0                
   6   256   # st.bundle.pitch_f
+  0       0                       0                       0                
+  6   256   # st.bundle.d_b
   0      24                       0                       0                
   6   258   # st.shell.Ncell
   0       0                       0                       0                
@@ -6479,7 +5270,7 @@ double initialValue(2108,6)
 #   nominal value (and maybe minimum and maximum values given in 
 #   column 3 and 4). If these values are zero, scale(i)=1 is used).
 #
-char initialDescription(2108,105)
+char initialDescription(1705,105)
 dummy
 derdummy
 Mass flow shell side [kg/s]
@@ -6543,7 +5334,7 @@ Hydraulic Diameter (single tube) [m]
 Thickness of the tube [m]
 Thickness of the shell [m]
 Lenght (single tube) [m]
-Tube pitch as a fraction of the outer tube diameter [1]
+Tube pitch as a fraction of the outer tube diameter
 Tube layout 1 = triangular, 2 = squared [:#(type=Integer)]
 Number of tube passes [:#(type=Integer)]
 Number of baffles [:#(type=Integer)]
@@ -6733,56 +5524,56 @@ Pressure drops cells [Pa|bar]
 Pressure drops cells [Pa|bar]
 Pressure drops cells [Pa|bar]
 Pressure drops tubes [Pa|bar]
-Lenght (single tube) [m]
+Lenght [m]
 Number of velocity heads [Pa|bar]
-Reynolds number tubes (average) [1]
-Reynolds number tubes (average) [1]
-Reynolds number tubes (average) [1]
-Reynolds number tubes (average) [1]
-Reynolds number tubes (average) [1]
-Reynolds number tubes (average) [1]
-Reynolds number tubes (average) [1]
-Reynolds number tubes (average) [1]
-Reynolds number tubes (average) [1]
-Reynolds number tubes (average) [1]
-Reynolds number tubes (average) [1]
-Reynolds number tubes (average) [1]
-Reynolds number tubes (average) [1]
-Reynolds number tubes (average) [1]
-Reynolds number tubes (average) [1]
-Reynolds number tubes (average) [1]
-Reynolds number tubes (average) [1]
-Reynolds number tubes (average) [1]
-Reynolds number tubes (average) [1]
-Reynolds number tubes (average) [1]
-Reynolds number tubes (average) [1]
-Reynolds number tubes (average) [1]
-Reynolds number tubes (average) [1]
-Reynolds number tubes (average) [1]
-Velocity (average) [m/s]
-Velocity (average) [m/s]
-Velocity (average) [m/s]
-Velocity (average) [m/s]
-Velocity (average) [m/s]
-Velocity (average) [m/s]
-Velocity (average) [m/s]
-Velocity (average) [m/s]
-Velocity (average) [m/s]
-Velocity (average) [m/s]
-Velocity (average) [m/s]
-Velocity (average) [m/s]
-Velocity (average) [m/s]
-Velocity (average) [m/s]
-Velocity (average) [m/s]
-Velocity (average) [m/s]
-Velocity (average) [m/s]
-Velocity (average) [m/s]
-Velocity (average) [m/s]
-Velocity (average) [m/s]
-Velocity (average) [m/s]
-Velocity (average) [m/s]
-Velocity (average) [m/s]
-Velocity (average) [m/s]
+Reynolds number [1]
+Reynolds number [1]
+Reynolds number [1]
+Reynolds number [1]
+Reynolds number [1]
+Reynolds number [1]
+Reynolds number [1]
+Reynolds number [1]
+Reynolds number [1]
+Reynolds number [1]
+Reynolds number [1]
+Reynolds number [1]
+Reynolds number [1]
+Reynolds number [1]
+Reynolds number [1]
+Reynolds number [1]
+Reynolds number [1]
+Reynolds number [1]
+Reynolds number [1]
+Reynolds number [1]
+Reynolds number [1]
+Reynolds number [1]
+Reynolds number [1]
+Reynolds number [1]
+Velocity [m/s]
+Velocity [m/s]
+Velocity [m/s]
+Velocity [m/s]
+Velocity [m/s]
+Velocity [m/s]
+Velocity [m/s]
+Velocity [m/s]
+Velocity [m/s]
+Velocity [m/s]
+Velocity [m/s]
+Velocity [m/s]
+Velocity [m/s]
+Velocity [m/s]
+Velocity [m/s]
+Velocity [m/s]
+Velocity [m/s]
+Velocity [m/s]
+Velocity [m/s]
+Velocity [m/s]
+Velocity [m/s]
+Velocity [m/s]
+Velocity [m/s]
+Velocity [m/s]
 Friction factor
 Friction factor
 Friction factor
@@ -6809,36 +5600,10 @@ Friction factor
 Friction factor
 Number of cell elements [:#(type=Integer)]
 Cross-sectional area (single tube) [m2]
-Outer diameter [m]
-Baffle cut
-Tube to baffle clearance [m]
-Baffle to shell clearance
-Tube pitch [1]
-The number of sealing strips (pairs) in one baffle spacing
-Tube layout, 1 = triangular, 2 = squared [:#(type=Integer)]
-Number of tube passes [:#(type=Integer)]
-Fouling factor (=1 if clean)
-Bundle diameter [m]
-Vertical tube pitch [m]
-Number of tube rows between the baffle tips
-The effective number of tube rows crossed in the baffle window
-The ratio of the bypass area to the overall crossflow area [1]
-Fraction of number of tubes in the baffle window
-Fraction of number of tubes in pure crossflow
-Segmental baffle window correction factor
-Correction factors for baffle leakage effects for heat transfer
-Correction factors for bundle bypass effects for heat transfer
-Window area [m2]
-The tube-to-baffle leakage area [m2]
-The shell-to-baffle leakage area [m2]
-Reference normal area [m2]
-The gross window flow area [m2]
-The segmental baffle window area occupied by the tubes [m2]
-The bypass area between the shell and the tube bundle within one baffle [m2]
-Correlational parameter [1]
-Correlational parameter [1]
-The centriangle of baffle cut [rad|deg]
-The upper centriangle of baffle cut [rad|deg]
+Outer hydraulic diameter [m]
+Tube pitch
+Tube layout 1 = triangular, 2 = squared [:#(type=Integer)]
+Equivalent shell diameter [m]
 temperature [K|degC]
 velocity of sound [m/s]
 isobaric expansion coefficient [1/K]
@@ -6869,6 +5634,7 @@ thermal conductivity [W/(m.K)]
 pressure [Pa|bar]
 phase flag: 2 for two-phase, 1 for one-phase [:#(type=Integer)]
 specific entropy [J/(kg.K)]
+= true, if shear vapor effect is considered [:#(type=Boolean)]
 Heat transfer coefficient [W/(m2.K)]
 Heat transfer coefficient [W/(m2.K)]
 Heat transfer coefficient [W/(m2.K)]
@@ -7065,315 +5831,82 @@ Vapor quality
 Vapor quality
 Vapor quality
 Vapor quality
-Friction factor
-Friction factor
-Friction factor
-Friction factor
-Friction factor
-Friction factor
-Friction factor
-Friction factor
-Friction factor
-Friction factor
-Friction factor
-Friction factor
-Friction factor
-Friction factor
-Friction factor
-Friction factor
-Friction factor
-Friction factor
-Friction factor
-Friction factor
-Friction factor
-Friction factor
-Friction factor
-Friction factor
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Friction factor
-
-
-
 Number of cell elements [:#(type=Integer)]
-Baffle cut
-tube to baffle clearance (from Standards) [m]
-tube to baffle clearance (from Standards)
-Tube pitch as a fraction of the outer tube diameter [1]
-The number of sealing strips (pairs) in one baffle spacing
-Tube layout 1 = triangular, 2 = squared [:#(type=Integer)]
-Number of tube passes [:#(type=Integer)]
-Fouling factor (=1 if clean)
-Number of baffles [:#(type=Integer)]
-The number of discretization volumes is always N_baffles + 1 [:#(type=Integer)]
-vertical tube pitch [m]
-Number of constrictions crossed=number of tube rows between the baffle tips
-The effective number of tube rows crossed in the baffle window
-The ratio of the bypass area, Sb, to the overall crossflow area [1]
-Fraction of number of tubes in the baffle window
-Correction factors for baffle leakage effects for pressure drops [1]
-Correction factors for bundle bypass effects for pressure drops [1]
-Window area [m2]
-The tube-to-baffle leakage area [m2]
-The shell-to-baffle leakage area [m2]
-Reference normal area [m2]
-The gross window flow area [m2]
-The segmental baffle window area occupied by the tubes [m2]
-The bypass area between the shell and the tube bundle within one baffle [m2]
-Correlational parameter [1]
-Correlational parameter [1]
-The centriangle of baffle cut [rad|deg]
-The upper centriangle of baffle cut [rad|deg]
-temperature [K|degC]
-velocity of sound [m/s]
-isobaric expansion coefficient [1/K]
-specific heat capacity cp [J/(kg.K)]
-specific heat capacity cv [J/(kg.K)]
-density [kg/m3|g/cm3]
-derivative of density wrt enthalpy at constant pressure [kg.s2/m5]
-derivative of density wrt pressure at constant enthalpy [s2/m2]
-dynamic viscosity [Pa.s]
-specific enthalpy [J/kg]
-compressibility [1/Pa]
-thermal conductivity [W/(m.K)]
-pressure [Pa|bar]
-phase flag: 2 for two-phase, 1 for one-phase [:#(type=Integer)]
-specific entropy [J/(kg.K)]
-temperature [K|degC]
-velocity of sound [m/s]
-isobaric expansion coefficient [1/K]
-specific heat capacity cp [J/(kg.K)]
-specific heat capacity cv [J/(kg.K)]
-density [kg/m3|g/cm3]
-derivative of density wrt enthalpy at constant pressure [kg.s2/m5]
-derivative of density wrt pressure at constant enthalpy [s2/m2]
-dynamic viscosity [Pa.s]
-specific enthalpy [J/kg]
-compressibility [1/Pa]
-thermal conductivity [W/(m.K)]
-pressure [Pa|bar]
-phase flag: 2 for two-phase, 1 for one-phase [:#(type=Integer)]
-specific entropy [J/(kg.K)]
-Pressure drops cross flow zone [Pa|bar]
-Pressure drops cross flow zone [Pa|bar]
-Pressure drops cross flow zone [Pa|bar]
-Pressure drops cross flow zone [Pa|bar]
-Pressure drops cross flow zone [Pa|bar]
-Pressure drops cross flow zone [Pa|bar]
-Pressure drops cross flow zone [Pa|bar]
-Pressure drops cross flow zone [Pa|bar]
-Pressure drops cross flow zone [Pa|bar]
-Pressure drops cross flow zone [Pa|bar]
-Pressure drops cross flow zone [Pa|bar]
-Pressure drops cross flow zone [Pa|bar]
-Pressure drops cross flow zone [Pa|bar]
-Pressure drops cross flow zone [Pa|bar]
-Pressure drops cross flow zone [Pa|bar]
-Pressure drops cross flow zone [Pa|bar]
-Pressure drops cross flow zone [Pa|bar]
-Pressure drops cross flow zone [Pa|bar]
-Pressure drops cross flow zone [Pa|bar]
-Pressure drops cross flow zone [Pa|bar]
-Pressure drops cross flow zone [Pa|bar]
-Pressure drops cross flow zone [Pa|bar]
-Pressure drops cross flow zone [Pa|bar]
-Pressure drops cross flow zone [Pa|bar]
-Pressure drops window zone [Pa|bar]
-Pressure drops window zone [Pa|bar]
-Pressure drops window zone [Pa|bar]
-Pressure drops window zone [Pa|bar]
-Pressure drops window zone [Pa|bar]
-Pressure drops window zone [Pa|bar]
-Pressure drops window zone [Pa|bar]
-Pressure drops window zone [Pa|bar]
-Pressure drops window zone [Pa|bar]
-Pressure drops window zone [Pa|bar]
-Pressure drops window zone [Pa|bar]
-Pressure drops window zone [Pa|bar]
-Pressure drops window zone [Pa|bar]
-Pressure drops window zone [Pa|bar]
-Pressure drops window zone [Pa|bar]
-Pressure drops window zone [Pa|bar]
-Pressure drops window zone [Pa|bar]
-Pressure drops window zone [Pa|bar]
-Pressure drops window zone [Pa|bar]
-Pressure drops window zone [Pa|bar]
-Pressure drops window zone [Pa|bar]
-Pressure drops window zone [Pa|bar]
-Pressure drops window zone [Pa|bar]
-Pressure drops window zone [Pa|bar]
-Pressure drops end wall zone [Pa|bar]
-Pressure drops end wall zone [Pa|bar]
-Pressure drops end wall zone [Pa|bar]
-Pressure drops end wall zone [Pa|bar]
-Pressure drops end wall zone [Pa|bar]
-Pressure drops end wall zone [Pa|bar]
-Pressure drops end wall zone [Pa|bar]
-Pressure drops end wall zone [Pa|bar]
-Pressure drops end wall zone [Pa|bar]
-Pressure drops end wall zone [Pa|bar]
-Pressure drops end wall zone [Pa|bar]
-Pressure drops end wall zone [Pa|bar]
-Pressure drops end wall zone [Pa|bar]
-Pressure drops end wall zone [Pa|bar]
-Pressure drops end wall zone [Pa|bar]
-Pressure drops end wall zone [Pa|bar]
-Pressure drops end wall zone [Pa|bar]
-Pressure drops end wall zone [Pa|bar]
-Pressure drops end wall zone [Pa|bar]
-Pressure drops end wall zone [Pa|bar]
-Pressure drops end wall zone [Pa|bar]
-Pressure drops end wall zone [Pa|bar]
-Pressure drops end wall zone [Pa|bar]
-Pressure drops end wall zone [Pa|bar]
-Pressure drops window zone total [Pa|bar]
-Pressure drops cross flow zone total [Pa|bar]
-Pressure drops end wall zone total [Pa|bar]
-Pressure drops total [Pa|bar]
-Reynolds number [1]
-Reynolds number [1]
-Reynolds number [1]
-Reynolds number [1]
-Reynolds number [1]
-Reynolds number [1]
-Reynolds number [1]
-Reynolds number [1]
-Reynolds number [1]
-Reynolds number [1]
-Reynolds number [1]
-Reynolds number [1]
-Reynolds number [1]
-Reynolds number [1]
-Reynolds number [1]
-Reynolds number [1]
-Reynolds number [1]
-Reynolds number [1]
-Reynolds number [1]
-Reynolds number [1]
-Reynolds number [1]
-Reynolds number [1]
-Reynolds number [1]
-Reynolds number [1]
-Reynolds number if all liquid phase [1]
-Velocities inside the shell [m/s]
-Velocities inside the shell [m/s]
-Velocities inside the shell [m/s]
-Velocities inside the shell [m/s]
-Velocities inside the shell [m/s]
-Velocities inside the shell [m/s]
-Velocities inside the shell [m/s]
-Velocities inside the shell [m/s]
-Velocities inside the shell [m/s]
-Velocities inside the shell [m/s]
-Velocities inside the shell [m/s]
-Velocities inside the shell [m/s]
-Velocities inside the shell [m/s]
-Velocities inside the shell [m/s]
-Velocities inside the shell [m/s]
-Velocities inside the shell [m/s]
-Velocities inside the shell [m/s]
-Velocities inside the shell [m/s]
-Velocities inside the shell [m/s]
-Velocities inside the shell [m/s]
-Velocities inside the shell [m/s]
-Velocities inside the shell [m/s]
-Velocities inside the shell [m/s]
-Velocities inside the shell [m/s]
-Velocities inside the shell [m/s]
-Velocities inside the shell [m/s]
-Velocities inside the shell [m/s]
-Velocities inside the shell [m/s]
-Velocities inside the shell [m/s]
-Velocities inside the shell [m/s]
-Velocities inside the shell [m/s]
-Velocities inside the shell [m/s]
-Velocities inside the shell [m/s]
-Velocities inside the shell [m/s]
-Velocities inside the shell [m/s]
-Velocities inside the shell [m/s]
-Velocities inside the shell [m/s]
-Velocities inside the shell [m/s]
-Velocities inside the shell [m/s]
-Velocities inside the shell [m/s]
-Velocities inside the shell [m/s]
-Velocities inside the shell [m/s]
-Velocities inside the shell [m/s]
-Velocities inside the shell [m/s]
-Velocities inside the shell [m/s]
-Velocities inside the shell [m/s]
-Velocities inside the shell [m/s]
-Velocities inside the shell [m/s]
-Velocity if all liquid phase [m/s]
+Lenght [m]
+Pressure drops cells [Pa|bar]
+Pressure drops cells [Pa|bar]
+Pressure drops cells [Pa|bar]
+Pressure drops cells [Pa|bar]
+Pressure drops cells [Pa|bar]
+Pressure drops cells [Pa|bar]
+Pressure drops cells [Pa|bar]
+Pressure drops cells [Pa|bar]
+Pressure drops cells [Pa|bar]
+Pressure drops cells [Pa|bar]
+Pressure drops cells [Pa|bar]
+Pressure drops cells [Pa|bar]
+Pressure drops cells [Pa|bar]
+Pressure drops cells [Pa|bar]
+Pressure drops cells [Pa|bar]
+Pressure drops cells [Pa|bar]
+Pressure drops cells [Pa|bar]
+Pressure drops cells [Pa|bar]
+Pressure drops cells [Pa|bar]
+Pressure drops cells [Pa|bar]
+Pressure drops cells [Pa|bar]
+Pressure drops cells [Pa|bar]
+Pressure drops cells [Pa|bar]
+Pressure drops cells [Pa|bar]
+Pressure drops tubes [Pa|bar]
+Factor for pressure drop calculation
+Reynolds number tubes (average) [1]
+Reynolds number tubes (average) [1]
+Reynolds number tubes (average) [1]
+Reynolds number tubes (average) [1]
+Reynolds number tubes (average) [1]
+Reynolds number tubes (average) [1]
+Reynolds number tubes (average) [1]
+Reynolds number tubes (average) [1]
+Reynolds number tubes (average) [1]
+Reynolds number tubes (average) [1]
+Reynolds number tubes (average) [1]
+Reynolds number tubes (average) [1]
+Reynolds number tubes (average) [1]
+Reynolds number tubes (average) [1]
+Reynolds number tubes (average) [1]
+Reynolds number tubes (average) [1]
+Reynolds number tubes (average) [1]
+Reynolds number tubes (average) [1]
+Reynolds number tubes (average) [1]
+Reynolds number tubes (average) [1]
+Reynolds number tubes (average) [1]
+Reynolds number tubes (average) [1]
+Reynolds number tubes (average) [1]
+Reynolds number tubes (average) [1]
+Velocity (average) [m/s]
+Velocity (average) [m/s]
+Velocity (average) [m/s]
+Velocity (average) [m/s]
+Velocity (average) [m/s]
+Velocity (average) [m/s]
+Velocity (average) [m/s]
+Velocity (average) [m/s]
+Velocity (average) [m/s]
+Velocity (average) [m/s]
+Velocity (average) [m/s]
+Velocity (average) [m/s]
+Velocity (average) [m/s]
+Velocity (average) [m/s]
+Velocity (average) [m/s]
+Velocity (average) [m/s]
+Velocity (average) [m/s]
+Velocity (average) [m/s]
+Velocity (average) [m/s]
+Velocity (average) [m/s]
+Velocity (average) [m/s]
+Velocity (average) [m/s]
+Velocity (average) [m/s]
+Velocity (average) [m/s]
 Friction factor
 Friction factor
 Friction factor
@@ -7398,152 +5931,6 @@ Friction factor
 Friction factor
 Friction factor
 Friction factor
-Vapor quality
-Vapor quality
-Vapor quality
-Vapor quality
-Vapor quality
-Vapor quality
-Vapor quality
-Vapor quality
-Vapor quality
-Vapor quality
-Vapor quality
-Vapor quality
-Vapor quality
-Vapor quality
-Vapor quality
-Vapor quality
-Vapor quality
-Vapor quality
-Vapor quality
-Vapor quality
-Vapor quality
-Vapor quality
-Vapor quality
-Vapor quality
-Two phase multiplier cross flow
-Two phase multiplier cross flow
-Two phase multiplier cross flow
-Two phase multiplier cross flow
-Two phase multiplier cross flow
-Two phase multiplier cross flow
-Two phase multiplier cross flow
-Two phase multiplier cross flow
-Two phase multiplier cross flow
-Two phase multiplier cross flow
-Two phase multiplier cross flow
-Two phase multiplier cross flow
-Two phase multiplier cross flow
-Two phase multiplier cross flow
-Two phase multiplier cross flow
-Two phase multiplier cross flow
-Two phase multiplier cross flow
-Two phase multiplier cross flow
-Two phase multiplier cross flow
-Two phase multiplier cross flow
-Two phase multiplier cross flow
-Two phase multiplier cross flow
-Two phase multiplier cross flow
-Two phase multiplier cross flow
-Two phase multiplier baffle window, horizontal cut
-Two phase multiplier baffle window, horizontal cut
-Two phase multiplier baffle window, horizontal cut
-Two phase multiplier baffle window, horizontal cut
-Two phase multiplier baffle window, horizontal cut
-Two phase multiplier baffle window, horizontal cut
-Two phase multiplier baffle window, horizontal cut
-Two phase multiplier baffle window, horizontal cut
-Two phase multiplier baffle window, horizontal cut
-Two phase multiplier baffle window, horizontal cut
-Two phase multiplier baffle window, horizontal cut
-Two phase multiplier baffle window, horizontal cut
-Two phase multiplier baffle window, horizontal cut
-Two phase multiplier baffle window, horizontal cut
-Two phase multiplier baffle window, horizontal cut
-Two phase multiplier baffle window, horizontal cut
-Two phase multiplier baffle window, horizontal cut
-Two phase multiplier baffle window, horizontal cut
-Two phase multiplier baffle window, horizontal cut
-Two phase multiplier baffle window, horizontal cut
-Two phase multiplier baffle window, horizontal cut
-Two phase multiplier baffle window, horizontal cut
-Two phase multiplier baffle window, horizontal cut
-Two phase multiplier baffle window, horizontal cut
-Parameter cross flow
-Parameter baffle window, horizontal cut
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 Number of cell elements [:#(type=Integer)]
 Thickness of the tube [m]
 Thermal conductivity of the tube wall [W/(m.K)]
@@ -7967,7 +6354,8 @@ Dry weight of one tube [kg]
 Dry weight of one tube [kg]
 Number of tube passes [:#(type=Integer)]
 Tube layout 1 = triangular, 2 = squared [:#(type=Integer)]
-Tube pitch as a fraction of the outer tube diameter [1]
+Tube pitch as a fraction of the outer tube diameter
+Bundle Diameter [m]
 Number of cell elements [:#(type=Integer)]
 Thickness of the tube [m]
 Thermal conductivity of the tube wall [W/(m.K)]

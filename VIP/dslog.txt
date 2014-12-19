@@ -1,5 +1,5 @@
 Log-file of program ./dymosim
-(generated: Thu Dec 18 19:36:34 2014)
+(generated: Fri Dec 19 15:27:19 2014)
 
 dymosim started
 ... "dsin.txt" loading (dymosim input file)
@@ -1520,8 +1520,8 @@ st.check_shell.umin > 5.0
 The following was detected at time: 1
 Velocity in the shell twice lower than 10 m/s
 Integration terminated successfully at T = 1
-   CPU-time for integration      : 0.091 seconds
-   CPU-time for one GRID interval: 0.182 milli-seconds
+   CPU-time for integration      : 0.18 seconds
+   CPU-time for one GRID interval: 0.36 milli-seconds
    Number of result points       : 501
    Number of GRID   points       : 501
    Number of (successful) steps  : 19
