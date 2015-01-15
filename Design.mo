@@ -8,107 +8,89 @@ package Design "Package for the component design"
 
       model shell_and_tube
         "Shell and tube heat exchanger where the hot fluid flows on the shell and enters from the top. The cold fluid enters at the bottom."
-        extends Icons.shell_tube;
-
         //THE WORKING FLUIDS
         replaceable package Medium_s = Media.OneRandomOrganicFluid constrainedby
           Modelica.Media.Interfaces.PartialMedium "Medium model shell" annotation(choicesAllMatching = true);
         replaceable package Medium_t = Media.OneRandomOrganicFluid constrainedby
           Modelica.Media.Interfaces.PartialMedium "Medium model tubes" annotation(choicesAllMatching = true);
-        replaceable Materials.void_material Material_t "Material model shell"       annotation(choicesAllMatching = true);
-        replaceable Materials.void_material Material_s "Material model shell"        annotation(choicesAllMatching = true);
+        replaceable Materials.void_material Material_t "Material model shell"  annotation(choicesAllMatching = true, Dialog(tab="Geometry"));
+        replaceable Materials.void_material Material_s "Material model shell"  annotation(choicesAllMatching = true, Dialog(tab="Geometry"));
+        parameter Boolean use_dp = false
+          "Use pressure drop for outlet pressure if true";
+        parameter Boolean offdesign = false "Off design mode on if true" annotation (Dialog(tab="Off-design"));
+        parameter Modelica.SIunits.Length N_tubes_od = 1
+          "Number of tubes fixed for off-design"
+                                               annotation (Dialog(tab="Off-design"));
 
         //GEOMETRY OF THE HEAT EXCHANGER
-         parameter Modelica.SIunits.Length Dhyd "Hydraulic diameter";
-         parameter Modelica.SIunits.Length thick_t "Tube thickness";
-         parameter Modelica.SIunits.Length thick_s "Shell thickness";
-         parameter Modelica.SIunits.Length l "Tube lenght";
-         parameter Real pitch_f "Tube pitch";
-         parameter Integer layout "Tube layout, 1 = triangular, 2 = squared";
-         parameter Integer N_passes = 2 "Number of tube passes";
-         parameter Integer N_baffles = 4 "Number of baffles";
-         parameter Real pin_s
+        parameter Modelica.SIunits.Length Dhyd "Hydraulic diameter" annotation (Dialog(tab="Geometry"));
+        parameter Modelica.SIunits.Length thick_t "Tube thickness" annotation (Dialog(tab="Geometry"));
+        parameter Modelica.SIunits.Length thick_s "Shell thickness" annotation (Dialog(tab="Geometry"));
+        parameter Modelica.SIunits.Length l "Tube lenght" annotation (Dialog(tab="Geometry"));
+        parameter Real pitch_f "Tube pitch" annotation (Dialog(tab="Geometry"));
+        parameter Integer layout "Tube layout, 1 = triangular, 2 = squared" annotation (Dialog(tab="Geometry"));
+        parameter Integer N_passes = 2 "Number of tube passes" annotation (Dialog(tab="Geometry"));
+        parameter Integer N_baffles = 4 "Number of baffles" annotation (Dialog(tab="Geometry"));
+        parameter Real pin_s = 1
           "Pin for the heat flow in the shell -1 cold fluid else hot";
-         parameter Real pin_t
+        parameter Real pin_t = -1
           "Pin for the heat flow in the tubes -1 cold fluid else hot";
-         parameter Modelica.SIunits.CoefficientOfHeatTransfer U_guess = 600
-          "Guess value for the heat transfer coefficient";
-         parameter Integer N_baffles_d = N_baffles + 1
-          "The number of discretization volumes";
-         final parameter Integer Ncell = N_baffles_d*N_passes
+        parameter Integer N_baffles_d = N_baffles + 1
+          "The number of discretized baffles";
+        final parameter Integer Ncell = N_baffles_d*N_passes
           "Number of cell elements";
-         final parameter Modelica.SIunits.HeatFlowRate qdot = m_s*abs(h_s_in - h_s_out)
-          "Heat flow rate";
-         parameter Modelica.SIunits.Temp_C  DTML = Miscellanea.log_mean_delta_T(t_s_in,
-           t_s_out, t_t_in, t_t_out) "Logarithmic mean temperature difference";
-         //Boundary conditions at inlet and outlet
-         parameter Modelica.SIunits.MassFlowRate m_s "Shell mass flow";
-         parameter Modelica.SIunits.SpecificEnthalpy h_s_in
-          "Inlet specific enthalpy shell side";
-         parameter Modelica.SIunits.SpecificEnthalpy h_s_out
-          "Outlet specific enthalpy shell side";
-         parameter Modelica.SIunits.AbsolutePressure p_s_in
-          "Inlet pressure shell side";
-         parameter Modelica.SIunits.AbsolutePressure p_s_out
-          "Outlet pressure shell side";
-         parameter Modelica.SIunits.MassFlowRate m_t "Tube mass flow";
-         parameter Modelica.SIunits.SpecificEnthalpy h_t_in
-          "Inlet specific enthalpy tube side";
-         parameter Modelica.SIunits.SpecificEnthalpy h_t_out
-          "Outlet specific enthalpy tube side";
-         parameter Modelica.SIunits.AbsolutePressure p_t_in
-          "Inlet pressure tube side";
-         parameter Modelica.SIunits.AbsolutePressure p_t_out
-          "Outlet pressure tube side";
-         parameter Modelica.SIunits.Temperature  t_s_in=
-          Medium_s.temperature_ph(p_s_in, h_s_in)
-          "Inlet temperature shell side";
-         parameter Modelica.SIunits.Temperature  t_s_out=
-          Medium_s.temperature_ph(p_s_out, h_s_out)
-          "Outlet temperature shell side";
-         parameter Modelica.SIunits.Temperature  t_t_in=
-          Medium_t.temperature_ph(p_t_in, h_t_in) "Inlet temperature tube side";
-         parameter Modelica.SIunits.Temperature  t_t_out=
-          Medium_t.temperature_ph(p_t_out, h_t_out)
-          "Outlet temperature tube side";
-         parameter Modelica.SIunits.CoefficientOfHeatTransfer ht_t_f1 = 3e3
-          "Tube fouling heat transfer coefficient";
-         parameter Modelica.SIunits.CoefficientOfHeatTransfer ht_s_f1 = 5e3
-          "Shell fouling heat transfer coefficient";
-         Modelica.SIunits.Length d_s "Shell diameter";
-         Modelica.SIunits.Length l_b "Baffle lenght";
-         Real N_tubes(start = qdot/(DTML*U_guess)/(pi*l*(Dhyd + 2*thick_t)))
+        parameter Modelica.SIunits.SpecificEnthalpy h_s_in_start
+          "Inlet specific enthalpy start value hot side" annotation (Dialog(tab="Start"));
+        parameter Modelica.SIunits.SpecificEnthalpy h_s_out_start
+          "Outlet specific enthalpy start value hot side" annotation (Dialog(tab="Start"));
+        parameter Modelica.SIunits.SpecificEnthalpy h_t_in_start
+          "Inlet specific enthalpy start value cold side" annotation (Dialog(tab="Start"));
+        parameter Modelica.SIunits.SpecificEnthalpy h_t_out_start
+          "Outlet specific enthalpy start value cold side" annotation (Dialog(tab="Start"));
+        parameter Real N_tubes_start
+          "Number of tubes in the bundle start value"                            annotation (Dialog(tab="Start"));
+        parameter Modelica.SIunits.CoefficientOfHeatTransfer ht_t_f1 = 3e3
+          "Tube fouling heat transfer coefficient" annotation (Dialog(tab="Geometry"));
+        parameter Modelica.SIunits.CoefficientOfHeatTransfer ht_s_f1 = 5e3
+          "Shell fouling heat transfer coefficient" annotation (Dialog(tab="Geometry"));
+        Modelica.SIunits.Length d_s "Shell diameter";
+        Modelica.SIunits.Length l_b "Baffle lenght";
+        Real N_tubes(start = N_tubes_start, fixed = true)
           "Number of tubes in the bundle";
-         Real N_t_p_p(start = qdot/(DTML*U_guess)/(pi*l*(Dhyd + 2*thick_t)/N_passes))
-          "Number of tubes per pass";
-         Real bs_f "Baffle spacing in percent";
-         Modelica.SIunits.CoefficientOfHeatTransfer U
+        Real N_t_p_p "Number of tubes per pass";
+        Real bs_f "Baffle spacing in percent";
+        Modelica.SIunits.CoefficientOfHeatTransfer U
           "Global heat transfer coefficient";
-         Modelica.SIunits.Area A "Heat transfer area";
-         Modelica.SIunits.Temp_C  DTML_tilde
-          "Logarithmic mean temperature difference corrected";
-         Modelica.SIunits.Mass W_dry "Dry weight of the heat exchanger";
-         Modelica.SIunits.Mass W_fluids "Weight of the fluids";
-         Modelica.SIunits.Mass W_wet "Wet weight of the heat exchanger";
-         Real PEC "Purchases equipment cost";
+        Modelica.SIunits.Area A "Heat transfer area";
+        Modelica.SIunits.Mass W_dry "Dry weight of the heat exchanger";
+        Modelica.SIunits.Mass W_fluids "Weight of the fluids";
+        Modelica.SIunits.Mass W_wet "Wet weight of the heat exchanger";
+        Real PEC "Purchases equipment cost";
+        Modelica.SIunits.HeatFlowRate Q "Heat rate";
 
         //Heat transfer and pressure drop correlations
         replaceable Heat_transfer.Tubes.Sieder_Tate hT_tube(Dhyd=Dhyd,
         eta_wall=bundle.state[1].eta*ones(Ncell))
-          constrainedby Heat_transfer.Tubes.Base_classes.base_ht(Medium = Medium_t,
-          Ncell = Ncell, state = bundle.state, mdot = m_t/N_t_p_p,
+          constrainedby Heat_transfer.Tubes.Base_classes.base_ht(redeclare
+            package Medium =
+                     Medium_t,
+          Ncell = Ncell, state = bundle.state, mdot = tube_in.m_flow/N_t_p_p,
           Aflow = bundle.Aflow) annotation(choicesAllMatching = true);
 
         replaceable Pressure_drops.Tubes.Frank dp_tube(Dhyd = Dhyd, l = l/N_baffles_d,
         heads = 2.5/Ncell)
-          constrainedby Pressure_drops.Tubes.Base_classes.base_dp(Medium = Medium_t,
-          Ncell = Ncell, state = bundle.state, mdot = m_t/N_t_p_p,
+          constrainedby Pressure_drops.Tubes.Base_classes.base_dp(redeclare
+            package Medium =
+                     Medium_t,
+          Ncell = Ncell, state = bundle.state, mdot = tube_in.m_flow/N_t_p_p,
           Aflow = bundle.Aflow) annotation(choicesAllMatching = true);
 
         replaceable Heat_transfer.Shell.single_phase_Kern hT_shell(
         Dhyd_o = Dhyd + 2*thick_t, layout = layout, pitch_f = pitch_f)
-          constrainedby Heat_transfer.Shell.Base_classes.base_ht(Medium = Medium_s,
-          Ncell = Ncell, state = shell.state, mdot = m_s, Aflow = shell.Aflow) annotation(choicesAllMatching = true);
+          constrainedby Heat_transfer.Shell.Base_classes.base_ht(redeclare
+            package Medium =
+                     Medium_s,
+          Ncell = Ncell, state = shell.state, mdot = shell_in.m_flow, Aflow = shell.Aflow) annotation(choicesAllMatching = true);
 
         replaceable Pressure_drops.Shell.single_phase_Johnston dp_shell(
           l = l/N_baffles_d/N_passes,
@@ -117,40 +99,40 @@ package Design "Package for the component design"
           l_b = l_b,
           eta_wall = shell.state[1].eta*ones(Ncell)) constrainedby
           Pressure_drops.Shell.Base_classes.base_dp(
-          Medium = Medium_s,
+          redeclare package Medium = Medium_s,
           Ncell = Ncell,
           state = shell.state,
-          mdot = m_s,
+          mdot = shell_in.m_flow,
           Aflow = shell.Aflow) annotation (choicesAllMatching=true);
 
         //Defining the model for the bundle clearance
         replaceable function bundle_clearance =
-            Miscellanea.Shell_clearance.base_clearance
-                                              annotation(choicesAllMatching = true);
+        Miscellanea.Shell_clearance.base_clearance annotation(choicesAllMatching = true);
 
         //Defining the model for the cost
-        replaceable function cost =
-            Miscellanea.Cost.base_cost        annotation(choicesAllMatching = true);
+        replaceable function cost = Miscellanea.Cost.base_cost  annotation(choicesAllMatching = true);
 
         //Definiing the tubes and the shell
         Objects.tube_bundle
-                    bundle(redeclare package Medium = Medium_t,
-                    h_in = h_t_in,
-                    h_out = h_t_out,
-                    Ncell = Ncell, Aflow = 0.25*pi*Dhyd^2, mdot = m_t,
-                    Dhyd = Dhyd, thick = thick_t, lambda = Material_t.lambda,
-                    rho = Material_t.rho, N_tubes = N_tubes,
-                    mdot_pt = m_t/N_t_p_p,N_passes = N_passes, layout = layout,
-                    pin = pin_t, pitch_f = pitch_f);
+        bundle(redeclare package Medium = Medium_t,
+        h_in = tube_in.h,
+        h_out = tube_out.h,
+        h_out_start=h_t_out_start,
+        h_in_start=h_t_in_start,
+        Ncell = Ncell, Aflow = 0.25*pi*Dhyd^2, mdot = tube_in.m_flow,
+        Dhyd = Dhyd, thick = thick_t, lambda = Material_t.lambda,
+        rho = Material_t.rho, N_tubes = N_tubes,N_passes = N_passes, layout = layout,
+        pin = pin_t, pitch_f = pitch_f);
 
         Objects.tube shell(
           redeclare package Medium = Medium_s,
-          h_in=h_s_in,
-          h_out=h_s_out,
+          h_in=shell_in.h,
+          h_out_start=h_s_out_start,
+          h_in_start=h_s_in_start,
+          h_out=shell_out.h,
           Ncell=Ncell,
           Aflow=(1 - 1/pitch_f)*d_s*l_b,
-          mdot=m_s,
-          mdot_pt=m_s,
+          mdot=shell_in.m_flow,
           Dhyd=d_s,
           thick=thick_s,
           lambda=Material_s.lambda,
@@ -159,11 +141,11 @@ package Design "Package for the component design"
 
         Miscellanea.check_velocity check_shell(redeclare package Medium = Medium_s,
                     T = shell.state[1].T, umin = min(hT_shell.u),
-                    umax = max(hT_shell.u), geometry = "shell", op_p = p_s_in);
+                    umax = max(hT_shell.u), geometry = "shell", op_p = shell_in.p);
 
         Miscellanea.check_velocity check_tube(redeclare package Medium = Medium_t,
                     T = bundle.state[1].T, umin = min(hT_tube.u),
-                    umax = max(hT_tube.u), geometry = "tube", op_p = p_t_in);
+                    umax = max(hT_tube.u), geometry = "tube", op_p = tube_in.p);
 
       protected
          parameter Modelica.SIunits.CoefficientOfHeatTransfer ht_t_f[Ncell]=
@@ -180,13 +162,54 @@ package Design "Package for the component design"
          Modelica.SIunits.ThermalConductance G_wall[Ncell]
           "Wall heat transfer coefficient (array)";
 
+      public
+        Nodes.Node_out shell_out(redeclare package Medium = Medium_s)
+          "Outlet node shell side"
+                                  annotation (Placement(
+              transformation(extent={{-108,-73},{-88,-53}}), iconTransformation(
+                extent={{-56,-106},{-44,-94}})));
+        Nodes.Node_in tube_in(redeclare package Medium = Medium_t)
+          "Inlet node tube side"  annotation (Placement(
+              transformation(extent={{-104,-103},{-84,-83}}), iconTransformation(
+                extent={{-106,-36},{-94,-24}})));
+        Nodes.Node_out tube_out(redeclare package Medium = Medium_t)
+          "Outlet node tube side" annotation (Placement(
+              transformation(extent={{-108,-74},{-88,-54}}), iconTransformation(
+                extent={{-106,24},{-94,37}})));
+        Nodes.Node_in shell_in(redeclare package Medium = Medium_s)
+          "Inlet node shell side"  annotation (Placement(
+              transformation(extent={{-104,-103},{-84,-83}}), iconTransformation(
+                extent={{64,94},{76,106}})));
       equation
+
+          //Mass balance
+          shell_in.m_flow = shell_out.m_flow;
+          tube_in.m_flow  = tube_out.m_flow;
+
+          //Pressure balance
+          if use_dp then
+            shell_out.p   = shell_in.p - dp_shell.dp_tot;
+            tube_out.p    = tube_in.p - dp_tube.dp_tot;
+          else
+            shell_in.p    = shell_out.p;
+            tube_in.p     = tube_out.p;
+          end if;
+
+          //Energy balance
+          Q                = pin_s*shell_in.m_flow*(shell_in.h - shell_out.h);
+          Q                = pin_t*tube_in.m_flow*(tube_in.h - tube_out.h);
+
+          //Fixed length if off-design mode is active
+          if offdesign then
+            N_tubes        = N_tubes_od;
+          end if;
+
           //Set boundary conditions at the inlet and outelt
-          bundle.p_in        = p_t_in;
-          shell.p_in         = p_s_in;
-          bundle.h[1]        = h_t_in;
-          shell.h[1]         = h_s_in;
-          shell.h[Ncell + 1] = h_s_out;
+          bundle.p_in        = tube_in.p;
+          shell.p_in         = shell_in.p;
+          bundle.h[1]        = tube_in.h;
+          shell.h[1]         = shell_in.h;
+          shell.h[Ncell + 1] = shell_out.h;
 
           //Things get tricky here. We need to get the index of the shell cell seen by the tube cell
           for j in 1:N_passes loop
@@ -248,19 +271,18 @@ package Design "Package for the component design"
 
           bundle.At     = N_t_p_p*pi*l/N_baffles_d*bundle.Dhyd
           "I see this heat transfer area if I am inside the tubes";
-          N_t_p_p        = N_tubes/N_passes "Number of tubes per pass";
-          shell.At     = N_t_p_p*pi*l/N_baffles_d*bundle.Dhyd_o
+          N_t_p_p       = N_tubes/N_passes "Number of tubes per pass";
+          shell.At      = N_t_p_p*pi*l/N_baffles_d*bundle.Dhyd_o
           "I see this heat transfer area if I am outside the tubes";
 
           //Area, global heat transfer coefficient and corrected DMTL
           A              = N_tubes*pi*l*bundle.Dhyd_o;
           U              = sum(kA_tot)/A;
-          qdot           = DTML_tilde*U*A;
 
           //Weight calculation
-          bundle.W_dry = 0.25*pi*(bundle.Dhyd_o^2 - bundle.Dhyd^2)*l*N_tubes
+          bundle.W_dry   = 0.25*pi*(bundle.Dhyd_o^2 - bundle.Dhyd^2)*l*N_tubes
                            *bundle.rho;
-          shell.W_dry  = 0.25*pi*(shell.Dhyd_o^2 - shell.Dhyd^2)*l*shell.rho;
+          shell.W_dry    = 0.25*pi*(shell.Dhyd_o^2 - shell.Dhyd^2)*l*shell.rho;
           W_dry          = 1.25*bundle.W_dry + 1.3*shell.W_dry;
           W_fluids       = sum(bundle.W_fluids) + sum(shell.W_fluids);
           W_wet          = W_dry + W_fluids;
@@ -273,9 +295,77 @@ package Design "Package for the component design"
             Tolerance=1e-006,
             __Dymola_Algorithm="Dassl"),
             __Dymola_experimentSetupOutput,
-          Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},
-                  {100,100}}),
-              graphics));
+          Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}}),
+              graphics={
+              Rectangle(
+                extent={{-80,50},{90,-50}},
+                lineColor={0,0,0},
+                fillColor={255,255,255},
+                fillPattern=FillPattern.Solid),
+              Rectangle(
+                extent={{-60,-50},{-40,-70}},
+                lineColor={0,0,0},
+                fillColor={255,255,255},
+                fillPattern=FillPattern.Solid),
+              Rectangle(
+                extent={{60,70},{80,50}},
+                lineColor={0,0,0},
+                fillColor={255,255,255},
+                fillPattern=FillPattern.Solid),
+              Line(
+                points={{70,100},{70,56}},
+                color={255,0,0},
+                smooth=Smooth.None),
+              Line(
+                points={{2,-2},{-2,2}},
+                color={255,0,0},
+                smooth=Smooth.None,
+                origin={72,58},
+                rotation=90),
+              Line(
+                points={{2,2},{-2,-2}},
+                color={255,0,0},
+                smooth=Smooth.None,
+                origin={68,58},
+                rotation=90),
+              Line(
+                points={{-50,-56},{-50,-100}},
+                color={255,0,0},
+                smooth=Smooth.None),
+              Line(
+                points={{2,-2},{-2,2}},
+                color={255,0,0},
+                smooth=Smooth.None,
+                origin={-48,-64},
+                rotation=90),
+              Line(
+                points={{2,2},{-2,-2}},
+                color={255,0,0},
+                smooth=Smooth.None,
+                origin={-52,-64},
+                rotation=90),
+              Rectangle(extent={{-100,-30},{60,-30}},lineColor={85,170,255}),
+              Rectangle(extent={{-100,30},{60,30}},lineColor={85,170,255}),
+              Line(
+                points={{60,30},{60,-30}},
+                color={85,170,255},
+                smooth=Smooth.None),
+              Line(
+                points={{-20,-30},{-24,-26}},
+                color={85,170,255},
+                smooth=Smooth.None),
+              Line(
+                points={{-20,-30},{-24,-34}},
+                color={85,170,255},
+                smooth=Smooth.None),
+              Line(
+                points={{-20,30},{-16,34}},
+                color={85,170,255},
+                smooth=Smooth.None),
+              Line(
+                points={{-20,30},{-16,26}},
+                color={85,170,255},
+                smooth=Smooth.None)}));
       end shell_and_tube;
 
       model Flat_plate "Flat plate heat exchanger"
@@ -291,6 +381,9 @@ package Design "Package for the component design"
         parameter Integer N_ch_p = 3 "Number of channels per pass" annotation (Dialog(tab="Geometry"));
         parameter Integer N_plates = 2*N_ch + 1 "Number of plates" annotation (Dialog(tab="Geometry"));
         parameter Integer N_cell_pc = 3 "Number of cells per channel";
+        parameter Boolean use_dp = false
+          "Use pressure drop for outlet pressure if true";
+        parameter Boolean offdesign = false "Off design mode on if true" annotation (Dialog(tab="Off-design"));
         parameter Modelica.SIunits.Length thick "Plate thickness" annotation (Dialog(tab="Geometry"));
         parameter Modelica.SIunits.Length b "Flow thickness" annotation (Dialog(tab="Geometry"));
         parameter Modelica.SIunits.Length w "Width" annotation (Dialog(tab="Geometry"));
@@ -298,10 +391,12 @@ package Design "Package for the component design"
         parameter Modelica.SIunits.Angle beta "Plate inclination angle" annotation (Dialog(tab="Geometry"));
         parameter Modelica.SIunits.Length d_pt "Port diameter" annotation (Dialog(tab="Geometry"));
         parameter Modelica.SIunits.CoefficientOfHeatTransfer ht_hot_f1
-          "Fouling heat hot side";
+          "Fouling heat hot side"  annotation(Dialog(tab="Geometry"));
         parameter Modelica.SIunits.CoefficientOfHeatTransfer ht_cold_f1
-          "Fouling heat cold side";
+          "Fouling heat cold side"  annotation(Dialog(tab="Geometry"));
         parameter Modelica.SIunits.Length l_start = 1 "Length" annotation (Dialog(tab="Start"));
+        parameter Modelica.SIunits.Length l_od = 1
+          "Length fixed for off-design"                                          annotation (Dialog(tab="Off-design"));
         parameter Modelica.SIunits.SpecificEnthalpy h_hot_in_start
           "Inlet specific enthalpy start value hot side" annotation (Dialog(tab="Start"));
         parameter Modelica.SIunits.SpecificEnthalpy h_hot_out_start
@@ -314,7 +409,7 @@ package Design "Package for the component design"
         Modelica.SIunits.CoefficientOfHeatTransfer U
           "Global heat transfer coefficient";
         Modelica.SIunits.Area A "Heat transfer area";
-        Modelica.SIunits.Area At( start = l_start*w/N_cell_pc)
+        Modelica.SIunits.Area At(start = l_start*w/N_cell_pc)
           "Area of one cell";
         Modelica.SIunits.Temp_C  DTML_tilde
           "Logarithmic mean temperature difference corrected";
@@ -463,18 +558,29 @@ package Design "Package for the component design"
           "Inlet node hot side"  annotation (Placement(
               transformation(extent={{-104,-103},{-84,-83}}), iconTransformation(
                 extent={{94,74},{106,86}})));
+
       equation
             //Mass balance
             node_h_in.m_flow = node_h_out.m_flow;
             node_c_in.m_flow = node_c_out.m_flow;
 
             //Pressure balance
-            node_h_in.p      = node_h_out.p;
-            node_c_in.p      = node_c_out.p;
+            if use_dp then
+              node_h_out.p      = node_h_in.p - dp_hot.dp_tot;
+              node_c_out.p      = node_c_in.p - dp_cold.dp_tot;
+            else
+              node_h_in.p      = node_h_out.p;
+              node_c_in.p      = node_c_out.p;
+            end if;
 
             //Energy balance
             Q                = node_h_in.m_flow*(node_h_in.h - node_h_out.h);
             Q                = node_c_in.m_flow*(node_c_out.h - node_c_in.h);
+
+            //Fixed length if off-design mode is active
+            if offdesign then
+              l        = l_od;
+            end if;
 
             //Component equations
             for j in 1:N_ch loop
@@ -553,7 +659,8 @@ package Design "Package for the component design"
             PEC            = cost(A);
 
         annotation (experiment(Tolerance=1e-006), __Dymola_experimentSetupOutput,
-          Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}}),
+          Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},
+                  {100,100}}),
               graphics={
               Rectangle(
                 extent={{-80,93},{80,-99}},
@@ -764,7 +871,6 @@ package Design "Package for the component design"
         if use_m_flow then
           m_flow = node.m_flow;
         end if;
-
         annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
                   -100},{100,100}}), graphics), Icon(coordinateSystem(
                 preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics={
@@ -1234,20 +1340,23 @@ package Design "Package for the component design"
   package Objects "Package containing all the objects of the VIP"
 
     class tube "I am a tube and I contain all the my relevant informations"
-        replaceable package Medium = Media.OneRandomOrganicFluid "Medium model";
+        replaceable package Medium = Media.OneRandomOrganicFluid constrainedby
+        Modelica.Media.Interfaces.PartialMedium "Medium model" annotation(choicesAllMatching = true);
         parameter Integer Ncell(start=3) "Number of cell elements";
         parameter Modelica.SIunits.Length thick "Thickness";
         parameter Modelica.SIunits.ThermalConductivity lambda
         "Thermal conductivity of the wall";
         parameter Modelica.SIunits.Density rho "Density of the wall";
-        parameter Modelica.SIunits.SpecificEnthalpy h_in
-        "Inlet specific enthalpy";
-        parameter Modelica.SIunits.SpecificEnthalpy h_out
-        "Outlet specific enthalpy";
-        parameter Modelica.SIunits.MassFlowRate mdot "Mass flow rate";
         parameter Real pin "This pin identifies if the fluid is hot or cold";
+        parameter Modelica.SIunits.SpecificEnthalpy h_in_start
+        "Inlet specific enthalpy start value hot side";
+        parameter Modelica.SIunits.SpecificEnthalpy h_out_start
+        "Outlet specific enthalpy start value hot side";
+        input Modelica.SIunits.SpecificEnthalpy h_in "Inlet specific enthalpy";
+        input Modelica.SIunits.SpecificEnthalpy h_out
+        "Outlet specific enthalpy";
+        input Modelica.SIunits.MassFlowRate mdot "Mass flow rate";
         input Modelica.SIunits.Length Dhyd "Hydraulic diameter";
-        input Modelica.SIunits.MassFlowRate mdot_pt "Mass flow rate per tube";
         input Modelica.SIunits.Area Aflow "Flow area";
         Modelica.SIunits.Area At "Heat transfer area";
         Modelica.SIunits.Length Dhyd_o "Outer hydraulic diameter";
@@ -1256,7 +1365,8 @@ package Design "Package for the component design"
         Modelica.SIunits.AbsolutePressure p_in "Inlet pressure";
         Medium.ThermodynamicState state[Ncell]
         "Thermodynamic states of the cells";
-        Modelica.SIunits.SpecificEnthalpy h[Ncell + 1](start=linspace(h_in, h_out, Ncell + 1))
+        Modelica.SIunits.SpecificEnthalpy h[Ncell + 1](
+         start=linspace(h_in_start, h_out_start, Ncell + 1))
         "Specific enthalpies";
         Modelica.SIunits.HeatFlowRate qdot[Ncell] "Heat rate";
         Modelica.SIunits.Mass W_dry "Dry weight of one element";
@@ -1273,26 +1383,26 @@ package Design "Package for the component design"
         end for;
       annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},
                 {100,100}}), graphics={
-            Rectangle(extent={{-70,0},{56,0}},     lineColor={85,170,255}),
-            Rectangle(extent={{-70,40},{56,40}}, lineColor={85,170,255}),
+            Rectangle(extent={{-80,-40},{60,-40}}, lineColor={85,170,255}),
+            Rectangle(extent={{-80,20},{60,20}}, lineColor={85,170,255}),
             Line(
-              points={{56,40},{56,0}},
+              points={{60,20},{60,-40}},
               color={85,170,255},
               smooth=Smooth.None),
             Line(
-              points={{-10,0},{-14,4}},
+              points={{-20,-40},{-24,-36}},
               color={85,170,255},
               smooth=Smooth.None),
             Line(
-              points={{-10,0},{-14,-4}},
+              points={{-20,-40},{-24,-44}},
               color={85,170,255},
               smooth=Smooth.None),
             Line(
-              points={{-10,40},{-6,44}},
+              points={{-20,20},{-16,24}},
               color={85,170,255},
               smooth=Smooth.None),
             Line(
-              points={{-10,40},{-6,36}},
+              points={{-20,20},{-16,16}},
               color={85,170,255},
               smooth=Smooth.None)}));
     end tube;
@@ -1314,10 +1424,10 @@ package Design "Package for the component design"
     end tube_bundle;
 
     class plate "I am a plate and I contain all the my relevant informations"
-        replaceable package Medium_hot = Media.OneRandomOrganicFluid
-        "Medium model hot cells";
-        replaceable package Medium_cold = Media.OneRandomOrganicFluid
-        "Medium model cold cells";
+        replaceable package Medium_hot = Media.OneRandomOrganicFluid constrainedby
+        Modelica.Media.Interfaces.PartialMedium "Medium model hot cells";
+        replaceable package Medium_cold = Media.OneRandomOrganicFluid constrainedby
+        Modelica.Media.Interfaces.PartialMedium "Medium model cold cells";
         parameter Integer N_ch(start = 6) "Total number of channels";
         parameter Integer N_cell_pc(start = 3) "Number of cells per channels";
         parameter Modelica.SIunits.Length b "Plate thickness";
@@ -1390,7 +1500,6 @@ package Design "Package for the component design"
 
   package Pressure_drops "A package containing pressure drops correlations"
     package Tubes "heat transfer correlations in tubes"
-        extends Design.Icons.tube;
       class Frank "Frank correlation for tubes"
           extends Pressure_drops.Tubes.Base_classes.base_dp;
           output Modelica.SIunits.AbsolutePressure dp[Ncell]
@@ -1428,18 +1537,40 @@ package Design "Package for the component design"
 
       package Base_classes "Base classes for the pressure drops"
         class base_dp "Basic pressure drop correlation"
-            replaceable package Medium = Media.OneRandomOrganicFluid
-            "Medium model";
+            replaceable package Medium = Media.OneRandomOrganicFluid constrainedby
+            Modelica.Media.Interfaces.PartialMedium "Medium model" annotation(choicesAllMatching = true);
             parameter Integer Ncell(start=3) "Number of cell elements";
             input Modelica.SIunits.Area Aflow "Cross-sectional area";
             input Modelica.SIunits.MassFlowRate mdot "Mass flow rate";
             input Medium.ThermodynamicState state[Ncell];
         end base_dp;
       end Base_classes;
+      annotation (Icon(graphics={
+            Rectangle(extent={{-80,-40},{60,-40}}, lineColor={85,170,255}),
+            Rectangle(extent={{-80,20},{60,20}}, lineColor={85,170,255}),
+            Line(
+              points={{60,20},{60,-40}},
+              color={85,170,255},
+              smooth=Smooth.None),
+            Line(
+              points={{-20,-40},{-24,-36}},
+              color={85,170,255},
+              smooth=Smooth.None),
+            Line(
+              points={{-20,-40},{-24,-44}},
+              color={85,170,255},
+              smooth=Smooth.None),
+            Line(
+              points={{-20,20},{-16,24}},
+              color={85,170,255},
+              smooth=Smooth.None),
+            Line(
+              points={{-20,20},{-16,16}},
+              color={85,170,255},
+              smooth=Smooth.None)}));
     end Tubes;
 
     package Shell "heat transfer correlations in shells"
-      extends Design.Icons.shell;
 
       class single_phase_Kern
         "Kern correlation for shell single phase to single phase"
@@ -1475,21 +1606,26 @@ package Design "Package for the component design"
 
       class condensation_Kern "Kern correlation for shell condensation"
           extends Pressure_drops.Shell.Base_classes.base_Kern;
-          parameter Medium.ThermodynamicState state_l
-          "Thermodynamic state in saturated liquid";
-          parameter Medium.ThermodynamicState state_v
-          "Thermodynamic state in saturated vapor";
-          Modelica.SIunits.AbsolutePressure dp[Ncell] "Pressure drops cells";
-          Modelica.SIunits.AbsolutePressure dp_tot "Pressure drops tubes";
           parameter Real X "Factor for pressure drop in condensation";
           input Modelica.SIunits.DynamicViscosity eta_wall[Ncell]
           "exponent for the viscosity correction";
+          input Modelica.SIunits.AbsolutePressure p_in "Inlet pressure";
           Modelica.SIunits.ReynoldsNumber Re[Ncell](start=10e6*ones(Ncell))
           "Reynolds number";
           Modelica.SIunits.Velocity u[Ncell](start=ones(Ncell)) "Velocity";
           Real csi[Ncell] "Friction factor";
+          Modelica.SIunits.AbsolutePressure dp[Ncell] "Pressure drops cells";
+          Modelica.SIunits.AbsolutePressure dp_tot "Pressure drops tubes";
+          Medium.SaturationProperties sat "Saturation properties";
+          Medium.ThermodynamicState state_l
+          "Thermodynamic state in saturated liquid";
+          Medium.ThermodynamicState state_v
+          "Thermodynamic state in saturated vapor";
 
       equation
+          sat      = Medium.setSat_p(p_in);
+          state_l  = Medium.setState_ph(p_in, sat.hl);
+          state_v  = Medium.setState_ph(p_in, sat.hv);
         for i in 1:Ncell loop
           u[i]     = mdot/state[i].d/Aflow "tube velocity";
           Re[i]    = Miscellanea.numbers.Reynolds(
@@ -1666,10 +1802,7 @@ package Design "Package for the component design"
       class condensation_Bell_Delaware
         "Bell Delaware correlation for shell side for condensation"
           extends Pressure_drops.Shell.Base_classes.base_Bell_Delaware;
-          parameter Medium.ThermodynamicState state_l
-          "Thermodynamic state in saturated liquid";
-          parameter Medium.ThermodynamicState state_v
-          "Thermodynamic state in saturated vapor";
+          input Modelica.SIunits.AbsolutePressure p_in "Inlet pressure";
           Modelica.SIunits.AbsolutePressure dp_c[Ncell]
           "Pressure drops cross flow zone";
           Modelica.SIunits.AbsolutePressure dp_w[Ncell]
@@ -1699,6 +1832,11 @@ package Design "Package for the component design"
           "Two phase multiplier baffle window, horizontal cut";
           Real Y "Parameter cross flow";
           Real Y_w "Parameter baffle window, horizontal cut";
+          Medium.SaturationProperties sat "Saturation properties";
+          Medium.ThermodynamicState state_l
+          "Thermodynamic state in saturated liquid";
+          Medium.ThermodynamicState state_v
+          "Thermodynamic state in saturated vapor";
       protected
            Real b1[Ncell];
            Real b2[Ncell];
@@ -1707,15 +1845,13 @@ package Design "Package for the component design"
            Real b2_l;
            Real b_l;
       equation
-
+        sat       = Medium.setSat_p(p_in);
+        state_l   = Medium.setState_ph(p_in, sat.hl);
+        state_v   = Medium.setState_ph(p_in, sat.hv);
         u_l       = mdot/state_l.d/S_m;
         Y         = sqrt(state_l.d/state_v.d)*(state_v.eta/state_l.eta)^0.23;
         Y_w       = sqrt(state_l.d/state_v.d);
-        Re_l      = Miscellanea.numbers.Reynolds(
-                u_l,
-                state_l.d,
-                state_l.eta,
-                Dhyd_o);
+        Re_l      = Miscellanea.numbers.Reynolds(u_l, state_l.d, state_l.eta, Dhyd_o);
 
           if (Re_l <= 1e1) then
             if (layout == 1) then
@@ -1885,8 +2021,8 @@ package Design "Package for the component design"
 
       package Base_classes "Base classes for the pressure drops"
         class base_dp "Basic pressure drop correlation"
-            replaceable package Medium = Media.OneRandomOrganicFluid
-            "Medium model";
+            replaceable package Medium = Media.OneRandomOrganicFluid constrainedby
+            Modelica.Media.Interfaces.PartialMedium "Medium model" annotation(choicesAllMatching = true);
             parameter Integer Ncell(start=3) "Number of cell elements";
             input Modelica.SIunits.Area Aflow "Cross-sectional area";
             input Modelica.SIunits.MassFlowRate mdot "Mass flow rate";
@@ -1980,10 +2116,51 @@ package Design "Package for the component design"
             input Modelica.SIunits.Length l_b "Baffle length";
         end base_Kern;
       end Base_classes;
+      annotation (Icon(graphics={
+            Rectangle(
+              extent={{-80,40},{80,-40}},
+              lineColor={0,0,0}),
+            Rectangle(
+              extent={{-70,-40},{-50,-60}},
+              lineColor={0,0,0}),
+            Rectangle(
+              extent={{50,60},{70,40}},
+              lineColor={0,0,0}),
+            Line(
+              points={{60,70},{60,46}},
+              color={255,0,0},
+              smooth=Smooth.None),
+            Line(
+              points={{2,-2},{-2,2}},
+              color={255,0,0},
+              smooth=Smooth.None,
+              origin={62,48},
+              rotation=90),
+            Line(
+              points={{2,2},{-2,-2}},
+              color={255,0,0},
+              smooth=Smooth.None,
+              origin={58,48},
+              rotation=90),
+            Line(
+              points={{-60,-42},{-60,-66}},
+              color={255,0,0},
+              smooth=Smooth.None),
+            Line(
+              points={{2,-2},{-2,2}},
+              color={255,0,0},
+              smooth=Smooth.None,
+              origin={-58,-64},
+              rotation=90),
+            Line(
+              points={{2,2},{-2,-2}},
+              color={255,0,0},
+              smooth=Smooth.None,
+              origin={-62,-64},
+              rotation=90)}));
     end Shell;
 
     package Plates
-      extends Icons.plate;
       class single_phase_Martin
         "Martin pressure drop correlation for single phase"
           extends Base_classes.base_dp;
@@ -2039,10 +2216,7 @@ package Design "Package for the component design"
         "Lockhart-Martinelli pressure drop correlation for evaporation heat transfer. Martin for single phase."
           extends Base_classes.base_dp;
           parameter Modelica.SIunits.Angle beta "Plate inclination angle";
-          parameter Medium.ThermodynamicState state_l
-          "Thermodynamic state in saturated liquid";
-          parameter Medium.ThermodynamicState state_v
-          "Thermodynamic state in saturated vapor";
+          input Modelica.SIunits.AbsolutePressure p_in "Inlet pressure";
           Modelica.SIunits.ReynoldsNumber Re[N_ch, N_cell_pc] "Reynolds number";
           Modelica.SIunits.ReynoldsNumber Re_l[N_ch, N_cell_pc]
           "Reynolds number liquid phase";
@@ -2058,7 +2232,11 @@ package Design "Package for the component design"
           Modelica.SIunits.AbsolutePressure dp_plates[N_ch]
           "Pressure drops plates";
           Modelica.SIunits.AbsolutePressure dp_tot "Total pressure drops";
-
+          Medium.SaturationProperties sat "Saturation properties";
+          Medium.ThermodynamicState state_l
+          "Thermodynamic state in saturated liquid";
+          Medium.ThermodynamicState state_v
+          "Thermodynamic state in saturated vapor";
       protected
           Modelica.SIunits.AbsolutePressure dp_l[N_ch, N_cell_pc]
           "Pressure drops liquid phase";
@@ -2077,6 +2255,10 @@ package Design "Package for the component design"
           Real csi1[N_ch, N_cell_pc] "Friction factor 1";
           Real C[N_ch, N_cell_pc] "Constant for the two phase multiplier";
       equation
+
+          sat     = Medium.setSat_p(p_in);
+          state_l = Medium.setState_ph(p_in, sat.hl);
+          state_v = Medium.setState_ph(p_in, sat.hv);
 
           for j in 1:N_ch loop
             dp_plates[j]   = sum(dp[j,:]);
@@ -2215,8 +2397,8 @@ package Design "Package for the component design"
 
       package Base_classes "Base classes for the heat transfer"
         class base_dp "Basic pressure drop correlation"
-            replaceable package Medium = Media.OneRandomOrganicFluid
-            "Medium model";
+            replaceable package Medium = Media.OneRandomOrganicFluid constrainedby
+            Modelica.Media.Interfaces.PartialMedium "Medium model" annotation(choicesAllMatching = true);
             parameter Integer N_cell_pc( start = 3)
             "Number of cells per channel";
             parameter Integer N_ch(start = 3) "Total number of channels";
@@ -2232,6 +2414,12 @@ package Design "Package for the component design"
             "Thermodynamic states";
         end base_dp;
       end Base_classes;
+      annotation (Icon(graphics={      Polygon(
+              points={{-32,-80},{28,-60},{28,80},{-32,60},{-32,-80}},
+              lineColor={0,0,0},
+              smooth=Smooth.None,
+              fillColor={255,255,255},
+              fillPattern=FillPattern.Solid)}));
     end Plates;
   annotation (Icon(graphics={
         Rectangle(
@@ -2273,7 +2461,6 @@ package Design "Package for the component design"
 
   package Heat_transfer "A package containing heat transfer correlations"
     package Tubes "heat transfer correlations in tubes"
-      extends Icons.tube;
       class Dittus_Boelter "Dittus Boelter correlation for tubes"
           extends Base_classes.base_ht;
           Modelica.SIunits.NusseltNumber Nu[Ncell] "Nusselt number";
@@ -2281,11 +2468,9 @@ package Design "Package for the component design"
           "Heat transfer coefficient";
           parameter Modelica.SIunits.Length Dhyd "Hydraulic diameter";
           parameter Real alfa "exponent for the Prandtl number";
-          Modelica.SIunits.ReynoldsNumber Re[Ncell](start=1e5*ones(Ncell))
-          "Reynolds number";
-          Modelica.SIunits.PrandtlNumber Pr[Ncell](start=4*ones(Ncell))
-          "Prandtl number";
-          Modelica.SIunits.Velocity u[Ncell](start=ones(Ncell)) "Velocity";
+          Modelica.SIunits.ReynoldsNumber Re[Ncell] "Reynolds number";
+          Modelica.SIunits.PrandtlNumber Pr[Ncell] "Prandtl number";
+          Modelica.SIunits.Velocity u[Ncell] "Velocity";
       equation
             for i in 1:Ncell loop
               u[i]   = mdot/state[i].d/Aflow;
@@ -2312,16 +2497,14 @@ package Design "Package for the component design"
       class Sieder_Tate "Sieder Tate correlation for tubes"
           extends Heat_transfer.Tubes.Base_classes.base_ht;
           Modelica.SIunits.NusseltNumber Nu[Ncell] "Nusselt number";
-          Modelica.SIunits.CoefficientOfHeatTransfer ht[Ncell](start=1e3*ones(Ncell))
+          Modelica.SIunits.CoefficientOfHeatTransfer ht[Ncell]
           "Heat transfer coefficient";
           parameter Modelica.SIunits.Length Dhyd "Hydraulic diameter";
           input Modelica.SIunits.DynamicViscosity eta_wall[Ncell]
           "exponent for the viscosity correction";
-          Modelica.SIunits.ReynoldsNumber Re[Ncell](start=1e5*ones(Ncell))
-          "Reynolds number";
-          Modelica.SIunits.PrandtlNumber Pr[Ncell](start=4*ones(Ncell))
-          "Prandtl number";
-          Modelica.SIunits.Velocity u[Ncell](start=ones(Ncell)) "Velocity";
+          Modelica.SIunits.ReynoldsNumber Re[Ncell] "Reynolds number";
+          Modelica.SIunits.PrandtlNumber Pr[Ncell] "Prandtl number";
+          Modelica.SIunits.Velocity u[Ncell] "Velocity";
       equation
             for i in 1:Ncell loop
               u[i]  = mdot/state[i].d/Aflow;
@@ -2352,11 +2535,9 @@ package Design "Package for the component design"
           extends Heat_transfer.Tubes.Base_classes.base_ht;
           parameter Modelica.SIunits.Length l "Lenght";
           parameter Modelica.SIunits.Length Dhyd "Hydraulic diameter";
-          Modelica.SIunits.ReynoldsNumber Re[Ncell](start=1e5*ones(Ncell))
-          "Reynolds number";
-          Modelica.SIunits.PrandtlNumber Pr[Ncell](start=4*ones(Ncell))
-          "Prandtl number";
-          Modelica.SIunits.Velocity u[Ncell](start=ones(Ncell)) "Velocity";
+          Modelica.SIunits.ReynoldsNumber Re[Ncell] "Reynolds number";
+          Modelica.SIunits.PrandtlNumber Pr[Ncell] "Prandtl number";
+          Modelica.SIunits.Velocity u[Ncell] "Velocity";
           Modelica.SIunits.NusseltNumber Nu[Ncell] "Nusselt number";
           Modelica.SIunits.CoefficientOfHeatTransfer ht[Ncell]
           "Heat transfer coefficient";
@@ -2389,7 +2570,7 @@ package Design "Package for the component design"
           extends Heat_transfer.Tubes.Base_classes.base_ht;
           Modelica.SIunits.NusseltNumber Nu[Ncell] "Nusselt number tubes ";
           parameter Modelica.SIunits.Length Dhyd "Hydraulic diameter";
-          Modelica.SIunits.Velocity u[Ncell](start=ones(Ncell)) "Velocity";
+          Modelica.SIunits.Velocity u[Ncell] "Velocity";
           Modelica.SIunits.CoefficientOfHeatTransfer ht[Ncell]
           "Heat transfer coefficient tubes";
 
@@ -2407,8 +2588,8 @@ package Design "Package for the component design"
 
       package Base_classes "Base classes for the heat transfer"
         class base_ht "Basic heat transfer correlation"
-            replaceable package Medium = Media.OneRandomOrganicFluid
-            "Medium model";
+            replaceable package Medium = Media.OneRandomOrganicFluid constrainedby
+            Modelica.Media.Interfaces.PartialMedium "Medium model" annotation(choicesAllMatching = true);
             parameter Integer Ncell(start=3) "Number of cell elements";
             input Modelica.SIunits.Area Aflow
             "Cross-sectional area (single tube)";
@@ -2416,23 +2597,43 @@ package Design "Package for the component design"
             input Medium.ThermodynamicState state[Ncell] "Thermodynamic state";
         end base_ht;
       end Base_classes;
+      annotation (Icon(graphics={
+            Rectangle(extent={{-80,-40},{60,-40}}, lineColor={85,170,255}),
+            Rectangle(extent={{-80,20},{60,20}}, lineColor={85,170,255}),
+            Line(
+              points={{60,20},{60,-40}},
+              color={85,170,255},
+              smooth=Smooth.None),
+            Line(
+              points={{-20,-40},{-24,-36}},
+              color={85,170,255},
+              smooth=Smooth.None),
+            Line(
+              points={{-20,-40},{-24,-44}},
+              color={85,170,255},
+              smooth=Smooth.None),
+            Line(
+              points={{-20,20},{-16,24}},
+              color={85,170,255},
+              smooth=Smooth.None),
+            Line(
+              points={{-20,20},{-16,16}},
+              color={85,170,255},
+              smooth=Smooth.None)}));
     end Tubes;
 
     package Shell "heat transfer correlations in shells"
-      extends Icons.shell;
 
       class single_phase_Kern
         "Kern method for shell side only single phase to single phase"
           extends Heat_transfer.Shell.Base_classes.base_Kern;
           Modelica.SIunits.NusseltNumber Nu[Ncell] "Nusselt number";
-          Modelica.SIunits.CoefficientOfHeatTransfer ht[Ncell](start=1e3*ones(Ncell))
+          Modelica.SIunits.CoefficientOfHeatTransfer ht[Ncell]
           "Heat transfer coefficient";
-          Modelica.SIunits.ReynoldsNumber Re[Ncell](start=1e5*ones(Ncell))
-          "Reynolds number";
-          Modelica.SIunits.PrandtlNumber Pr[Ncell](start=4*ones(Ncell))
-          "Prandtl number ";
+          Modelica.SIunits.ReynoldsNumber Re[Ncell] "Reynolds number";
+          Modelica.SIunits.PrandtlNumber Pr[Ncell] "Prandtl number ";
           Modelica.SIunits.Length d_s_eq "Equivalent shell diameter";
-          Modelica.SIunits.Velocity u[Ncell](start=ones(Ncell)) "Velocity";
+          Modelica.SIunits.Velocity u[Ncell] "Velocity";
 
       equation
           for i in 1:Ncell loop
@@ -2457,14 +2658,11 @@ package Design "Package for the component design"
       class condensation_Kern
         "Kern correlation for shell side for condensation outside tube bundles"
           extends Heat_transfer.Shell.Base_classes.base_Kern;
-          parameter Medium.ThermodynamicState state_l
-          "Thermodynamic state in saturated liquid";
-          parameter Medium.ThermodynamicState state_v
-          "Thermodynamic state in saturated vapor";
           parameter Boolean shear_vapor = true
           "= true, if shear vapor effect is considered";
           input Modelica.SIunits.Length l "Lenght";
           input Real N_tubes "Number of tubes in the bundle";
+          input Modelica.SIunits.AbsolutePressure p_in "Inlet pressure";
           Modelica.SIunits.CoefficientOfHeatTransfer ht[Ncell]
           "Heat transfer coefficient";
           Modelica.SIunits.CoefficientOfHeatTransfer ht_l
@@ -2474,30 +2672,30 @@ package Design "Package for the component design"
           Modelica.SIunits.NusseltNumber ht_sh[Ncell]
           "Nusselt number shear-controlled condensation";
           Modelica.SIunits.Length d_s_eq "Equivalent shell diameter";
-          Modelica.SIunits.ReynoldsNumber Re[Ncell](start=1e5*ones(Ncell))
-          "Reynolds number";
-          Modelica.SIunits.PrandtlNumber Pr[Ncell](start=4*ones(Ncell))
-          "Prandtl number";
-          Modelica.SIunits.ReynoldsNumber Re_l(start=1e5)
+          Modelica.SIunits.ReynoldsNumber Re[Ncell] "Reynolds number";
+          Modelica.SIunits.PrandtlNumber Pr[Ncell] "Prandtl number";
+          Modelica.SIunits.ReynoldsNumber Re_l
           "Reynolds number if all liquid phase";
-          Modelica.SIunits.PrandtlNumber Pr_l(start=4)
+          Modelica.SIunits.PrandtlNumber Pr_l
           "Prandtl number if all liquid phase";
-          Modelica.SIunits.Velocity u[Ncell](start=ones(Ncell)) "Velocity";
-          Modelica.SIunits.Velocity u_l(start=1) "Velocity if all liquid phase";
+          Modelica.SIunits.Velocity u[Ncell] "Velocity";
+          Modelica.SIunits.Velocity u_l "Velocity if all liquid phase";
           Real X_tt[Ncell] "Martinelli parameter";
           Real xq[Ncell] "Vapor quality";
+          Medium.SaturationProperties sat "Saturation properties";
+          Medium.ThermodynamicState state_l
+          "Thermodynamic state in saturated liquid";
+          Medium.ThermodynamicState state_v
+          "Thermodynamic state in saturated vapor";
 
       equation
-          u_l   = mdot/state_l.d/Aflow;
-          Re_l  =Miscellanea.numbers.Reynolds(
-                u_l,
-                state_l.d,
-                state_l.eta,
-                d_s_eq);
-          Pr_l  =Miscellanea.numbers.Prandtl(
-                state_l.cp,
-                state_l.eta,
-                state_l.lambda);
+          sat     = Medium.setSat_p(p_in);
+          state_l = Medium.setState_ph(p_in, sat.hl);
+          state_v = Medium.setState_ph(p_in, sat.hv);
+          u_l     = mdot/state_l.d/Aflow;
+          Re_l    = Miscellanea.numbers.Reynolds(u_l, state_l.d, state_l.eta, d_s_eq);
+          Pr_l    = Miscellanea.numbers.Prandtl(state_l.cp, state_l.eta,
+          state_l.lambda);
           ht_l  = 0.6246*Re_l^(-0.4989)*Re_l*Pr_l^(1/3)*state_l.lambda/d_s_eq;
 
           for i in 1:Ncell loop
@@ -2546,11 +2744,9 @@ package Design "Package for the component design"
           extends Heat_transfer.Shell.Base_classes.base_Bell_Delaware;
           Modelica.SIunits.CoefficientOfHeatTransfer ht[Ncell]
           "Heat transfer coefficient";
-          Modelica.SIunits.ReynoldsNumber Re[Ncell](start=1e5*ones(Ncell))
-          "Reynolds number";
-          Modelica.SIunits.PrandtlNumber Pr[Ncell](start=4*ones(Ncell))
-          "Prandtl number";
-          Modelica.SIunits.Velocity u[Ncell](start=ones(Ncell)) "Velocity";
+          Modelica.SIunits.ReynoldsNumber Re[Ncell] "Reynolds number";
+          Modelica.SIunits.PrandtlNumber Pr[Ncell] "Prandtl number";
+          Modelica.SIunits.Velocity u[Ncell] "Velocity";
       protected
           Real csi[Ncell] "Friction factor";
           Real a1[Ncell];
@@ -2629,12 +2825,9 @@ package Design "Package for the component design"
       class condensation_Bell_Delaware
         "Bell method for shell side for condensation outside tube bundles"
           extends Heat_transfer.Shell.Base_classes.base_Bell_Delaware;
-          parameter Medium.ThermodynamicState state_l
-          "Thermodynamic state in saturated liquid";
-          parameter Medium.ThermodynamicState state_v
-          "Thermodynamic state in saturated vapor";
           parameter Boolean shear_vapor = true
           "= true, if shear vapor effect is considered";
+          input Modelica.SIunits.AbsolutePressure p_in "Inlet pressure";
           input Modelica.SIunits.Length l "Lenght";
           input Real N_tubes "Number of tubes in the bundle";
           Modelica.SIunits.CoefficientOfHeatTransfer ht[Ncell]
@@ -2643,20 +2836,23 @@ package Design "Package for the component design"
           "Heat transfer coefficient if all liquid phase";
           Modelica.SIunits.NusseltNumber ht_g[Ncell]
           "Nusselt number gravity-controlled";
-          Modelica.SIunits.NusseltNumber ht_sh[Ncell]
+          Modelica.SIunits.NusseltNumber ht_sh[Ncell](start = 1e4*ones(Ncell),fixed = true)
           "Nusselt number shear-controlled condensation";
-          Modelica.SIunits.ReynoldsNumber Re[Ncell](start=1e5*ones(Ncell))
-          "Reynolds number";
-          Modelica.SIunits.PrandtlNumber Pr[Ncell](start=4*ones(Ncell))
-          "Prandtl number";
-          Modelica.SIunits.ReynoldsNumber Re_l(start=1e5)
+          Modelica.SIunits.ReynoldsNumber Re[Ncell] "Reynolds number";
+          Modelica.SIunits.PrandtlNumber Pr[Ncell] "Prandtl number";
+          Modelica.SIunits.ReynoldsNumber Re_l
           "Reynolds number if all liquid phase";
-          Modelica.SIunits.PrandtlNumber Pr_l(start=4)
+          Modelica.SIunits.PrandtlNumber Pr_l
           "Prandtl number if all liquid phase";
-          Modelica.SIunits.Velocity u[Ncell](start=ones(Ncell)) "Velocity";
-          Modelica.SIunits.Velocity u_l(start=1) "Velocity if all liquid phase";
+          Modelica.SIunits.Velocity u[Ncell] "Velocity";
+          Modelica.SIunits.Velocity u_l "Velocity if all liquid phase";
           Real X_tt[Ncell] "Martinelli parameter";
           Real xq[Ncell] "Vapor quality";
+          Medium.SaturationProperties sat "Saturation properties";
+          Medium.ThermodynamicState state_l
+          "Thermodynamic state in saturated liquid";
+          Medium.ThermodynamicState state_v
+          "Thermodynamic state in saturated vapor";
 
       protected
           Real csi[Ncell] "Friction factor";
@@ -2668,18 +2864,13 @@ package Design "Package for the component design"
           Real a2_l;
           Real a_l;
       equation
-
-        u_l   = mdot/state_l.d/S_m;
-        Re_l  =Miscellanea.numbers.Reynolds(
-                u_l,
-                state_l.d,
-                state_l.eta,
-                Dhyd_o);
-        Pr_l  =Miscellanea.numbers.Prandtl(
-                state_l.cp,
-                state_l.eta,
-                state_l.lambda);
-
+        sat     = Medium.setSat_p(p_in);
+        state_l = Medium.setState_ph(p_in, sat.hl);
+        state_v = Medium.setState_ph(p_in, sat.hv);
+        u_l     = mdot/state_l.d/S_m;
+        Re_l    = Miscellanea.numbers.Reynolds(u_l, state_l.d, state_l.eta, Dhyd_o);
+        Pr_l    = Miscellanea.numbers.Prandtl(state_l.cp, state_l.eta,
+        state_l.lambda);
         if (Re_l <= 1e1) then
           if (layout == 1) then
             a1_l  = 1.4;
@@ -2919,8 +3110,8 @@ package Design "Package for the component design"
         end base_Bell_Delaware;
 
         class base_ht "Basic heat transfer correlation"
-            replaceable package Medium = Media.OneRandomOrganicFluid
-            "Medium model";
+            replaceable package Medium = Media.OneRandomOrganicFluid constrainedby
+            Modelica.Media.Interfaces.PartialMedium "Medium model" annotation(choicesAllMatching = true);
             parameter Integer Ncell(start=3) "Number of cell elements";
             input Modelica.SIunits.Area Aflow
             "Cross-sectional area (single tube)";
@@ -2928,10 +3119,51 @@ package Design "Package for the component design"
             input Medium.ThermodynamicState state[Ncell];
         end base_ht;
       end Base_classes;
+      annotation (Icon(graphics={
+            Rectangle(
+              extent={{-80,40},{80,-40}},
+              lineColor={0,0,0}),
+            Rectangle(
+              extent={{-70,-40},{-50,-60}},
+              lineColor={0,0,0}),
+            Rectangle(
+              extent={{50,60},{70,40}},
+              lineColor={0,0,0}),
+            Line(
+              points={{60,70},{60,46}},
+              color={255,0,0},
+              smooth=Smooth.None),
+            Line(
+              points={{2,-2},{-2,2}},
+              color={255,0,0},
+              smooth=Smooth.None,
+              origin={62,48},
+              rotation=90),
+            Line(
+              points={{2,2},{-2,-2}},
+              color={255,0,0},
+              smooth=Smooth.None,
+              origin={58,48},
+              rotation=90),
+            Line(
+              points={{-60,-42},{-60,-66}},
+              color={255,0,0},
+              smooth=Smooth.None),
+            Line(
+              points={{2,-2},{-2,2}},
+              color={255,0,0},
+              smooth=Smooth.None,
+              origin={-58,-64},
+              rotation=90),
+            Line(
+              points={{2,2},{-2,-2}},
+              color={255,0,0},
+              smooth=Smooth.None,
+              origin={-62,-64},
+              rotation=90)}));
     end Shell;
 
     package Plates
-      extends Icons.plate;
       class single_phase_Martin
         "Martin heat transfer correlation for single phase heat transfer"
           extends Base_classes.base_ht;
@@ -3033,13 +3265,9 @@ package Design "Package for the component design"
         "Cooper heat transfer correlation for evaporation heat transfer. Martin for single phase."
           extends Base_classes.base_ht;
           parameter Modelica.SIunits.Angle beta "Plate inclination angle";
-          parameter Medium.ThermodynamicState state_l
-          "Thermodynamic state in saturated liquid";
-          parameter Medium.ThermodynamicState state_v
-          "Thermodynamic state in saturated vapor";
           parameter Modelica.SIunits.Length R_p = 1e-6
-          "Relative roughness of the surface";
-          input Modelica.SIunits.Area At "Width";
+          "Relative surface roughness";
+          input Modelica.SIunits.Area At "Plate cell area";
           parameter Modelica.SIunits.MolarMass M = Medium.fluidConstants[1].molarMass
           "Molar mass of the fluid";
           parameter Real pc = Medium.fluidConstants[1].criticalPressure
@@ -3047,7 +3275,6 @@ package Design "Package for the component design"
           parameter Modelica.SIunits.HeatFlux qdot_tilde_start
           "Heat flux start";
           input Modelica.SIunits.AbsolutePressure p_in "Inlet pressure";
-          input Modelica.SIunits.Length l "Length";
           input Modelica.SIunits.HeatFlowRate qdot[N_ch, N_cell_pc] "Heat rate";
           Modelica.SIunits.ReynoldsNumber Re[N_ch, N_cell_pc] "Reynolds number";
           Modelica.SIunits.PrandtlNumber Pr[N_ch, N_cell_pc] "Prandtl number";
@@ -3056,11 +3283,19 @@ package Design "Package for the component design"
           "Heat transfer coefficient";
           Modelica.SIunits.HeatFlux qdot_tilde[N_ch, N_cell_pc](
             start = fill(qdot_tilde_start, N_ch, N_cell_pc)) "Heat flux";
+          Medium.SaturationProperties sat "Saturation properties";
+          Medium.ThermodynamicState state_l
+          "Thermodynamic state in saturated liquid";
+          Medium.ThermodynamicState state_v
+          "Thermodynamic state in saturated vapor";
       protected
            Real csi[N_ch, N_cell_pc] "Friction factor";
            Real csi0[N_ch, N_cell_pc] "Friction factor 0";
            Real csi1[N_ch, N_cell_pc] "Friction factor 1";
       equation
+          sat     = Medium.setSat_p(p_in);
+          state_l = Medium.setState_ph(p_in, sat.hl);
+          state_v = Medium.setState_ph(p_in, sat.hv);
 
           for j in 1:N_ch loop
             for i in 1:N_cell_pc loop
@@ -3129,8 +3364,8 @@ package Design "Package for the component design"
 
       package Base_classes "Base classes for the heat transfer"
         class base_ht "Basic heat transfer correlation"
-            replaceable package Medium = Media.OneRandomOrganicFluid
-            "Medium model";
+            replaceable package Medium = Media.OneRandomOrganicFluid constrainedby
+            Modelica.Media.Interfaces.PartialMedium "Medium model" annotation(choicesAllMatching = true);
             parameter Integer N_ch(start = 3) "Total number of channels";
             parameter Integer N_cell_pc( start = 3)
             "Number of cells per channel";
@@ -3141,6 +3376,12 @@ package Design "Package for the component design"
             "Thermodynamic states";
         end base_ht;
       end Base_classes;
+      annotation (Icon(graphics={      Polygon(
+              points={{-30,-80},{30,-60},{30,80},{-30,60},{-30,-80}},
+              lineColor={0,0,0},
+              smooth=Smooth.None,
+              fillColor={255,255,255},
+              fillPattern=FillPattern.Solid)}));
     end Plates;
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics={
@@ -3173,202 +3414,6 @@ package Design "Package for the component design"
           fillPattern=FillPattern.Solid)}));
   end Heat_transfer;
 
-  package Icons "Icons for the virtual prototpying environment"
-    partial model shell_tube "Shell and tube icon"
-
-      annotation (Icon(graphics={
-            Rectangle(
-              extent={{-80,60},{90,-40}},
-              lineColor={0,0,0},
-              fillColor={255,255,255},
-              fillPattern=FillPattern.Solid),
-            Rectangle(
-              extent={{-60,-40},{-40,-60}},
-              lineColor={0,0,0},
-              fillColor={255,255,255},
-              fillPattern=FillPattern.Solid),
-            Rectangle(
-              extent={{60,80},{80,60}},
-              lineColor={0,0,0},
-              fillColor={255,255,255},
-              fillPattern=FillPattern.Solid),
-            Line(
-              points={{70,90},{70,66}},
-              color={255,0,0},
-              smooth=Smooth.None),
-            Line(
-              points={{2,-2},{-2,2}},
-              color={255,0,0},
-              smooth=Smooth.None,
-              origin={72,68},
-              rotation=90),
-            Line(
-              points={{2,2},{-2,-2}},
-              color={255,0,0},
-              smooth=Smooth.None,
-              origin={68,68},
-              rotation=90),
-            Line(
-              points={{-50,-42},{-50,-66}},
-              color={255,0,0},
-              smooth=Smooth.None),
-            Line(
-              points={{2,-2},{-2,2}},
-              color={255,0,0},
-              smooth=Smooth.None,
-              origin={-48,-64},
-              rotation=90),
-            Line(
-              points={{2,2},{-2,-2}},
-              color={255,0,0},
-              smooth=Smooth.None,
-              origin={-52,-64},
-              rotation=90),
-            Rectangle(extent={{-90,-20},{60,-20}}, lineColor={85,170,255}),
-            Rectangle(extent={{-90,40},{60,40}}, lineColor={85,170,255}),
-            Line(
-              points={{60,40},{60,-20}},
-              color={85,170,255},
-              smooth=Smooth.None),
-            Line(
-              points={{-20,-20},{-24,-16}},
-              color={85,170,255},
-              smooth=Smooth.None),
-            Line(
-              points={{-20,-20},{-24,-24}},
-              color={85,170,255},
-              smooth=Smooth.None),
-            Line(
-              points={{-20,40},{-16,44}},
-              color={85,170,255},
-              smooth=Smooth.None),
-            Line(
-              points={{-20,40},{-16,36}},
-              color={85,170,255},
-              smooth=Smooth.None)}));
-    end shell_tube;
-
-
-    partial package tube "tube icon"
-
-      annotation (Icon(graphics={
-            Rectangle(extent={{-80,-20},{60,-20}}, lineColor={85,170,255}),
-            Rectangle(extent={{-80,40},{60,40}}, lineColor={85,170,255}),
-            Line(
-              points={{60,40},{60,-20}},
-              color={85,170,255},
-              smooth=Smooth.None),
-            Line(
-              points={{-20,-20},{-24,-16}},
-              color={85,170,255},
-              smooth=Smooth.None),
-            Line(
-              points={{-20,-20},{-24,-24}},
-              color={85,170,255},
-              smooth=Smooth.None),
-            Line(
-              points={{-20,40},{-16,44}},
-              color={85,170,255},
-              smooth=Smooth.None),
-            Line(
-              points={{-20,40},{-16,36}},
-              color={85,170,255},
-              smooth=Smooth.None)}));
-    end tube;
-
-    partial package shell "Shell icon"
-
-      annotation (Icon(graphics={
-            Rectangle(
-              extent={{-80,40},{80,-40}},
-              lineColor={0,0,0}),
-            Rectangle(
-              extent={{-70,-40},{-50,-60}},
-              lineColor={0,0,0}),
-            Rectangle(
-              extent={{50,60},{70,40}},
-              lineColor={0,0,0}),
-            Line(
-              points={{60,70},{60,46}},
-              color={255,0,0},
-              smooth=Smooth.None),
-            Line(
-              points={{2,-2},{-2,2}},
-              color={255,0,0},
-              smooth=Smooth.None,
-              origin={62,48},
-              rotation=90),
-            Line(
-              points={{2,2},{-2,-2}},
-              color={255,0,0},
-              smooth=Smooth.None,
-              origin={58,48},
-              rotation=90),
-            Line(
-              points={{-60,-42},{-60,-66}},
-              color={255,0,0},
-              smooth=Smooth.None),
-            Line(
-              points={{2,-2},{-2,2}},
-              color={255,0,0},
-              smooth=Smooth.None,
-              origin={-58,-64},
-              rotation=90),
-            Line(
-              points={{2,2},{-2,-2}},
-              color={255,0,0},
-              smooth=Smooth.None,
-              origin={-62,-64},
-              rotation=90)}));
-    end shell;
-
-
-
-
-    partial package plate "Flat plate icon"
-
-      annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{
-                -100,-100},{100,100}}),
-                       graphics={
-            Line(
-              points={{66,52}},
-              color={0,0,0},
-              smooth=Smooth.None),     Polygon(
-              points={{-30,-70},{30,-50},{30,90},{-30,70},{-30,-70}},
-              lineColor={0,0,0},
-              smooth=Smooth.None,
-              fillColor={255,255,255},
-              fillPattern=FillPattern.Solid)}));
-    end plate;
-    annotation (Icon(graphics={
-          Rectangle(
-            lineColor={200,200,200},
-            fillColor={248,248,248},
-            fillPattern=FillPattern.HorizontalCylinder,
-            extent={{-100,-100},{100,100}},
-            radius=25.0),
-          Rectangle(
-            lineColor={128,128,128},
-            fillPattern=FillPattern.None,
-            extent={{-100,-100},{100,100}},
-            radius=25.0),                    Polygon(
-              origin={-8.167,-17},
-              fillColor={128,128,128},
-              pattern=LinePattern.None,
-              fillPattern=FillPattern.Solid,
-              points={{-15.833,20.0},{-15.833,30.0},{14.167,40.0},{24.167,20.0},{
-                  4.167,-30.0},{14.167,-30.0},{24.167,-30.0},{24.167,-40.0},{-5.833,
-                  -50.0},{-15.833,-30.0},{4.167,20.0},{-5.833,20.0}},
-              smooth=Smooth.Bezier,
-              lineColor={0,0,0}), Ellipse(
-              origin={-0.5,56.5},
-              fillColor={128,128,128},
-              pattern=LinePattern.None,
-              fillPattern=FillPattern.Solid,
-              extent={{-12.5,-12.5},{12.5,12.5}},
-              lineColor={0,0,0})}));
-  end Icons;
-
   package Media "Fluid library"
     package OneRandomOrganicFluid
       "Change the name to something more appropriate"
@@ -3378,9 +3423,6 @@ package Design "Package for the component design"
         substanceNames = {"cyclopentane"},
         ThermoStates = Modelica.Media.Interfaces.PartialMedium.Choices.IndependentVariables.ph);
     end OneRandomOrganicFluid;
-
-
-
 
   annotation (Icon(graphics={
           Rectangle(
