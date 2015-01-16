@@ -365,7 +365,11 @@ package Design "Package for the component design"
               Line(
                 points={{-20,30},{-16,26}},
                 color={85,170,255},
-                smooth=Smooth.None)}));
+                smooth=Smooth.None),                                                              Text(lineColor=
+                    {0,0,0},                                                                                                    extent={{
+                    -100,15},{100,-15}},                                                                                                    textString=  "%name",
+                origin={0,64},
+                rotation=0)}));
       end shell_and_tube;
 
       model Flat_plate "Flat plate heat exchanger"
@@ -543,7 +547,7 @@ package Design "Package for the component design"
       public
         Nodes.Node_out node_h_out(redeclare package Medium = Medium_hot)
           "Outlet node hot side"
-                                annotation (Placement(
+                               annotation (Placement(
               transformation(extent={{-108,-73},{-88,-53}}), iconTransformation(
                 extent={{-106,-66},{-94,-54}})));
         Nodes.Node_in node_c_in(redeclare package Medium = Medium_cold)
@@ -733,7 +737,11 @@ package Design "Package for the component design"
                 extent={{38,47},{42,-53}},
                 lineColor={0,0,0},
                 fillColor={255,255,255},
-                fillPattern=FillPattern.VerticalCylinder)}));
+                fillPattern=FillPattern.VerticalCylinder),                                        Text(lineColor=
+                    {0,0,0},                                                                                                    extent={{
+                    -100,15},{100,-15}},                                                                                                    textString=  "%name",
+                origin={0,114},
+                rotation=0)}));
       end Flat_plate;
       annotation (Icon(graphics={
             Ellipse(extent={{-80,80},{80,-80}}, lineColor={0,0,0},
@@ -765,15 +773,15 @@ package Design "Package for the component design"
 
       connector Node_in "Fluid connector with filled icon"
         extends hp_mdot;
-        annotation(Diagram(coordinateSystem(preserveAspectRatio = true, extent = {{-100, -100}, {100, 100}}), graphics={  Ellipse(extent = {{-100, 100}, {100, -100}}, lineColor=
+        annotation(Diagram(coordinateSystem(preserveAspectRatio = true, extent = {{-100, -100}, {100, 100}}), graphics={  Ellipse(extent=  {{-100, 100}, {100, -100}}, lineColor=
                     {0,127,255},                                                                                                    fillColor=
                     {255,255,255},
-                  fillPattern=FillPattern.Solid),                                                                                                    Ellipse(extent = {{-100, 100}, {100, -100}}, lineColor=
+                  fillPattern=FillPattern.Solid),                                                                                                    Ellipse(extent=  {{-100, 100}, {100, -100}}, lineColor=
                     {0,0,0}),                                                                                                    Text(extent={{
-                    -100,194},{100,100}},                                                                                                    textString = "%name", lineColor=
-                    {0,0,0})}),                                                                                                    Icon(coordinateSystem(preserveAspectRatio = true, extent = {{-100, -100}, {100, 100}}), graphics={  Ellipse(extent = {{-100, 100}, {100, -100}},
+                    -100,194},{100,100}},                                                                                                    textString=  "%name", lineColor=
+                    {0,0,0})}),                                                                                                    Icon(coordinateSystem(preserveAspectRatio = true, extent = {{-100, -100}, {100, 100}}), graphics={  Ellipse(extent=  {{-100, 100}, {100, -100}},
                 pattern=LinePattern.None,
-                lineColor={0,0,0}),                                                                                                    Ellipse(extent = {{-100, 100}, {100, -100}}, lineColor=
+                lineColor={0,0,0}),                                                                                                    Ellipse(extent=  {{-100, 100}, {100, -100}}, lineColor=
                     {0,0,0},
                 fillColor={255,255,255},
                 fillPattern=FillPattern.Solid)}),                                                                                                    Documentation(info = "<html>Modelica.Media.Examples.Tests.Components.FluidPort_a
@@ -782,15 +790,15 @@ package Design "Package for the component design"
 
       connector Node_out "Fluid connector with filled icon"
         extends hp_mdot;
-        annotation(Diagram(coordinateSystem(preserveAspectRatio = true, extent = {{-100, -100}, {100, 100}}), graphics={  Ellipse(extent = {{-100, 100}, {100, -100}}, lineColor=
+        annotation(Diagram(coordinateSystem(preserveAspectRatio = true, extent = {{-100, -100}, {100, 100}}), graphics={  Ellipse(extent=  {{-100, 100}, {100, -100}}, lineColor=
                     {0,127,255},                                                                                                    fillColor=
                     {0,0,0},
-                  fillPattern=FillPattern.Solid),                                                                                                    Ellipse(extent = {{-100, 100}, {100, -100}}, lineColor=
+                  fillPattern=FillPattern.Solid),                                                                                                    Ellipse(extent=  {{-100, 100}, {100, -100}}, lineColor=
                     {0,0,0}),                                                                                                    Text(extent={{
-                    -94,192},{106,98}},                                                                                                    textString = "%name", lineColor=
-                    {0,0,0})}),                                                                                                    Icon(coordinateSystem(preserveAspectRatio = true, extent = {{-100, -100}, {100, 100}}), graphics={  Ellipse(extent = {{-100, 100}, {100, -100}},
+                    -94,192},{106,98}},                                                                                                    textString=  "%name", lineColor=
+                    {0,0,0})}),                                                                                                    Icon(coordinateSystem(preserveAspectRatio = true, extent = {{-100, -100}, {100, 100}}), graphics={  Ellipse(extent=  {{-100, 100}, {100, -100}},
                 pattern=LinePattern.None,
-                lineColor={0,0,0}),                                                                                                    Ellipse(extent = {{-100, 100}, {100, -100}}, lineColor=
+                lineColor={0,0,0}),                                                                                                    Ellipse(extent=  {{-100, 100}, {100, -100}}, lineColor=
                     {0,0,0},
                 fillColor={0,0,0},
                 fillPattern=FillPattern.Solid)}),                                                                                                    Documentation(info = "<html>Modelica.Media.Examples.Tests.Components.FluidPort_a
@@ -908,7 +916,7 @@ package Design "Package for the component design"
                 lineColor={0,0,0},
                 textString="A"),                                                                  Text(lineColor=
                     {0,0,0},                                                                                                    extent={{
-                    -112,27.5},{112,-27.5}},                                                                                                textString = "%name",
+                    -112,27.5},{112,-27.5}},                                                                                                textString=  "%name",
                 origin={-162,150.5},
                 rotation=0)}));
       end ADDCO;
@@ -989,6 +997,17 @@ package Design "Package for the component design"
     algorithm
       d_b :=d_eq*(N_tubes/K[layout, K_ind[N_passes]])^(1/n[layout, K_ind[N_passes]]);
     end bundle_diameter;
+
+    function sqrtReg
+      "Symmetric square root approximation with finite derivative in zero"
+      extends Modelica.Icons.Function;
+      input Real x;
+      input Real delta=0.01 "Range of significant deviation from sqrt(x)";
+      output Real y;
+    algorithm
+      y := x/sqrt(sqrt(x*x + delta*delta));
+
+    end sqrtReg;
 
     class check_velocity
       "This class is used to check the velocities inside heat exchangers"
@@ -1849,8 +1868,8 @@ package Design "Package for the component design"
         state_l   = Medium.setState_ph(p_in, sat.hl);
         state_v   = Medium.setState_ph(p_in, sat.hv);
         u_l       = mdot/state_l.d/S_m;
-        Y         = sqrt(state_l.d/state_v.d)*(state_v.eta/state_l.eta)^0.23;
-        Y_w       = sqrt(state_l.d/state_v.d);
+        Y         = Miscellanea.sqrtReg(state_l.d/state_v.d)*(state_v.eta/state_l.eta)^0.23;
+        Y_w       = Miscellanea.sqrtReg(state_l.d/state_v.d);
         Re_l      = Miscellanea.numbers.Reynolds(u_l, state_l.d, state_l.eta, Dhyd_o);
 
           if (Re_l <= 1e1) then
@@ -2197,8 +2216,8 @@ package Design "Package for the component design"
                 csi0[j, i] = 1/(1.56*log(Re[j, i]) - 3)^2;
                 csi1[j, i] = 9.75/Re[j, i]^0.289;
               end if;
-              csi[j, i]    = 1/((1 - cos(beta))/sqrt(3.8*csi1[j, i]) + cos(beta)/
-              sqrt(0.045*tan(beta) + 0.09*sin(beta) + csi0[j, i]/cos(beta)))^2;
+              csi[j, i]    = 1/((1 - cos(beta))/Miscellanea.sqrtReg(3.8*csi1[j, i]) + cos(beta)/
+              Miscellanea.sqrtReg(0.045*tan(beta) + 0.09*sin(beta) + csi0[j, i]/cos(beta)))^2;
               dp[j, i]     = 2*csi[j, i]*(l/Dhyd)*state[j, i].d*u[j, i]^2;
             end for;
           end for;
@@ -2276,8 +2295,8 @@ package Design "Package for the component design"
                 csi0[j, i] = 1/(1.56*log(Re[j, i]) - 3)^2;
                 csi1[j, i] = 9.75/Re[j, i]^0.289;
               end if;
-              csi[j, i]    = 1/((1 - cos(beta))/sqrt(3.8*csi1[j, i]) + cos(beta)/
-              sqrt(0.045*tan(beta) + 0.09*sin(beta) + csi0[j, i]/cos(beta)))^2;
+              csi[j, i]    = 1/((1 - cos(beta))/Miscellanea.sqrtReg(3.8*csi1[j, i]) + cos(beta)/
+              Miscellanea.sqrtReg(0.045*tan(beta) + 0.09*sin(beta) + csi0[j, i]/cos(beta)))^2;
               if (state[j, i].h < state_l.h or state[j, i].h > state_v.h) then
                 xq[j, i]     = 0;
                 u_l[j, i]    = 0;
@@ -2325,7 +2344,7 @@ package Design "Package for the component design"
                 end if;
                 dp_l[j, i]   = 2*csi_l[j, i]*(l/Dhyd)*state_l.d*u_l[j, i]^2;
                 dp_v[j, i]   = 2*csi_v[j, i]*(l/Dhyd)*state_v.d*u_v[j, i]^2;
-                X_tt[j, i]   = sqrt(dp_l[j, i]/dp_v[j, i]);
+                X_tt[j, i]   = Miscellanea.sqrtReg(dp_l[j, i]/dp_v[j, i]);
                 if (Re_l[j, i] > 1.5e3 and Re_v[j, i] > 1.5e3) then
                   C[j, i]    = 20;
                 elseif (Re_l[j, i] <= 1.5e3 and Re_v[j, i] > 1.5e3) then
@@ -2521,7 +2540,7 @@ package Design "Package for the component design"
                 AssertionLevel.warning);
               assert(Pr[i] > 0.6, "Prandtl number is lower than 0.6 to be use Sieder and Tate",
                 AssertionLevel.warning);
-              Nu[i] = 2.3e-2*Re[i]^0.8*Pr[i]^(1.0/3)*(eta_wall[i]
+              Nu[i] = 2.3e-2*Re[i]^0.8*Pr[i]^0.33*(eta_wall[i]
               /state[i].eta)^0.14;
               ht[i]  =Miscellanea.numbers.Nusselt(
                   Nu[i],
@@ -2556,7 +2575,7 @@ package Design "Package for the component design"
                   state[i].eta,
                   state[i].lambda);
               csi[i] = 1/(0.78*log(Re[i]) - 1.5)^2;
-              Nu[i]  = ((csi[i]/8)*Re[i]*Pr[i])/(1 + 12.7*sqrt(csi[i]/8)*(Pr[i]^
+              Nu[i]  = ((csi[i]/8)*Re[i]*Pr[i])/(1 + 12.7*Miscellanea.sqrtReg(csi[i]/8)*(Pr[i]^
               (2.0/3) - 1))*(1 +  (Dhyd/l)^(2.0/3));
               ht[i]  =Miscellanea.numbers.Nusselt(
                   Nu[i],
@@ -2696,7 +2715,7 @@ package Design "Package for the component design"
           Re_l    = Miscellanea.numbers.Reynolds(u_l, state_l.d, state_l.eta, d_s_eq);
           Pr_l    = Miscellanea.numbers.Prandtl(state_l.cp, state_l.eta,
           state_l.lambda);
-          ht_l  = 0.6246*Re_l^(-0.4989)*Re_l*Pr_l^(1/3)*state_l.lambda/d_s_eq;
+          ht_l  = 0.6246*Re_l^(-0.4989)*Re_l*Pr_l^0.33*state_l.lambda/d_s_eq;
 
           for i in 1:Ncell loop
 
@@ -2713,7 +2732,7 @@ package Design "Package for the component design"
 
             if (state[i].h < state_l.h or state[i].h > state_v.h) then
 
-              ht_g[i]  = 0.6246*Re[i]^(-0.4989)*Re[i]*Pr[i]^(1/3)*state[i].lambda/d_s_eq;
+              ht_g[i]  = 0.6246*Re[i]^(-0.4989)*Re[i]*Pr[i]^0.33*state[i].lambda/d_s_eq;
               xq[i]    = 1;
               X_tt[i]  = 0;
               ht_sh[i] = ht_g[i];
@@ -2730,7 +2749,7 @@ package Design "Package for the component design"
             end if;
 
             if shear_vapor then
-              ht[i]    = sqrt(ht_g[i]^2 + ht_sh[i]^2);
+              ht[i]    = Miscellanea.sqrtReg(ht_g[i]^2 + ht_sh[i]^2);
             else
               ht[i]    = ht_g[i];
             end if;
@@ -3004,7 +3023,7 @@ package Design "Package for the component design"
           end if;
 
           if shear_vapor then
-            ht[i]    = sqrt(ht_g[i]^2 + ht_sh[i]^2);
+            ht[i]    = Miscellanea.sqrtReg(ht_g[i]^2 + ht_sh[i]^2);
           else
             ht[i]    = ht_g[i];
           end if;
@@ -3198,8 +3217,9 @@ package Design "Package for the component design"
                 csi0[j, i] = 1/(1.56*log(Re[j, i]) - 3)^2;
                 csi1[j, i] = 9.75/Re[j, i]^0.289;
               end if;
-              csi[j, i]       = 1/((1 - cos(beta))/sqrt(3.8*csi1[j, i]) + cos(beta)/
-              sqrt(0.045*tan(beta) + 0.09*sin(beta) + csi0[j, i]/cos(beta)))^2;
+              csi[j, i]       = 1/((1 - cos(beta))/Design.Miscellanea.sqrtReg(3.8*
+              csi1[j, i]) + cos(beta)/Design.Miscellanea.sqrtReg(0.045*tan(beta) +
+              0.09*sin(beta) + csi0[j, i]/cos(beta)))^2;
               Nu[j, i]  = 0.205*Pr[j, i]^(1/3)*(csi[j, i]*Re[j, i]^2*sin(2*beta))
               ^0.374;
               ht[j, i]  =Miscellanea.numbers.Nusselt(
@@ -3317,14 +3337,15 @@ package Design "Package for the component design"
                 csi0[j, i] = 1/(1.56*log(Re[j, i]) - 3)^2;
                 csi1[j, i] = 9.75/Re[j, i]^0.289;
               end if;
-              csi[j, i]       = 1/((1 - cos(beta))/sqrt(3.8*csi1[j, i]) + cos(beta)/
-              sqrt(0.045*tan(beta) + 0.09*sin(beta) + csi0[j, i]/cos(beta)))^2;
+              csi[j, i]       = 1/((1 - cos(beta))/Design.Miscellanea.sqrtReg(3.8*
+              csi1[j, i]) + cos(beta)/Design.Miscellanea.sqrtReg(0.045*tan(beta) +
+              0.09*sin(beta) + csi0[j, i]/cos(beta)))^2;
               if (state[j, i].h < state_l.h or state[j, i].h > state_v.h) then
                 ht[j, i]      = 0.205*Pr[j, i]^(1/3)*(csi[j, i]*Re[j, i]^2*sin(2*beta))
                 ^0.374*state[j, i].lambda/Dhyd;
               else
                  ht[j, i]      = 55*(p_in/pc)^(0.12 - 0.2*log10(R_p))/(-log10(
-                 p_in/pc))^0.55*abs(qdot_tilde[j, i])^0.67/sqrt(1e3*M);
+                 p_in/pc))^0.55*qdot_tilde[j, i]^0.67/sqrt(1e3*M);
               end if;
             end for;
           end for;
