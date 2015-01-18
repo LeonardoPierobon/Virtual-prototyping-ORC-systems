@@ -367,7 +367,7 @@ package Design "Package for the component design"
                 color={85,170,255},
                 smooth=Smooth.None),                                                              Text(lineColor=
                     {0,0,0},                                                                                                    extent={{
-                    -100,15},{100,-15}},                                                                                                    textString=  "%name",
+                    -100,15},{100,-15}},                                                                                                    textString = "%name",
                 origin={0,64},
                 rotation=0)}));
       end shell_and_tube;
@@ -401,19 +401,39 @@ package Design "Package for the component design"
         parameter Modelica.SIunits.Length l_start = 1 "Length" annotation (Dialog(tab="Start"));
         parameter Modelica.SIunits.Length l_od = 1
           "Length fixed for off-design"                                          annotation (Dialog(tab="Off-design"));
-        parameter Modelica.SIunits.SpecificEnthalpy h_hot_in_start
+        parameter Modelica.SIunits.Temperature t_hot_in_start = 288.15
+          "Inlet temperature start value hot side" annotation (Dialog(tab="Start"));
+        parameter Modelica.SIunits.Temperature t_hot_out_start = 288.15
+          "Outlet temperature start value hot side" annotation (Dialog(tab="Start"));
+        parameter Modelica.SIunits.Temperature t_cold_in_start = 288.15
+          "Inlet temperature start value cold side" annotation (Dialog(tab="Start"));
+        parameter Modelica.SIunits.Temperature t_cold_out_start = 288.15
+          "Outlet temperature start value cold side" annotation (Dialog(tab="Start"));
+        parameter Modelica.SIunits.AbsolutePressure p_hot_start
+          "Inlet pressure start value hot side" annotation (Dialog(tab="Start"));
+        parameter Modelica.SIunits.AbsolutePressure p_cold_start
+          "Outlet pressure start value cold side" annotation (Dialog(tab="Start"));
+        parameter Modelica.SIunits.MassFlowRate m_hot_start
+          "Mass flow start value hot side" annotation (Dialog(tab="Start"));
+        parameter Modelica.SIunits.MassFlowRate m_cold_start
+          "Mass flow start value cold side" annotation (Dialog(tab="Start"));
+        parameter Modelica.SIunits.SpecificEnthalpy h_hot_in_start=
+        Medium_hot.specificEnthalpy_pT(p_hot_start, t_hot_in_start)
           "Inlet specific enthalpy start value hot side" annotation (Dialog(tab="Start"));
-        parameter Modelica.SIunits.SpecificEnthalpy h_hot_out_start
+        parameter Modelica.SIunits.SpecificEnthalpy h_hot_out_start=
+        Medium_hot.specificEnthalpy_pT(p_hot_start, t_hot_out_start)
           "Outlet specific enthalpy start value hot side" annotation (Dialog(tab="Start"));
-        parameter Modelica.SIunits.SpecificEnthalpy h_cold_in_start
+        parameter Modelica.SIunits.SpecificEnthalpy h_cold_in_start=
+        Medium_cold.specificEnthalpy_pT(p_cold_start, t_cold_in_start)
           "Inlet specific enthalpy start value cold side" annotation (Dialog(tab="Start"));
-        parameter Modelica.SIunits.SpecificEnthalpy h_cold_out_start
+        parameter Modelica.SIunits.SpecificEnthalpy h_cold_out_start=
+        Medium_cold.specificEnthalpy_pT(p_cold_start, t_cold_out_start)
           "Outlet specific enthalpy start value cold side" annotation (Dialog(tab="Start"));
         Modelica.SIunits.Length l(start = l_start, fixed = true) "Length";
         Modelica.SIunits.CoefficientOfHeatTransfer U
           "Global heat transfer coefficient";
         Modelica.SIunits.Area A "Heat transfer area";
-        Modelica.SIunits.Area At(start = l_start*w/N_cell_pc)
+        Modelica.SIunits.Area At(start = l_start*w/N_cell_pc, fixed = true)
           "Area of one cell";
         Modelica.SIunits.Temp_C  DTML_tilde
           "Logarithmic mean temperature difference corrected";
@@ -446,7 +466,7 @@ package Design "Package for the component design"
           h_in_start = h_hot_in_start,
           h_out_start = h_hot_out_start,
           p_in = node_h_in.p,
-          boundary=false,
+          boundary=true,
           p_out = node_h_out.p) annotation(choicesAllMatching = true);
 
         //Heat transfer model for the hot side
@@ -545,20 +565,23 @@ package Design "Package for the component design"
          Modelica.SIunits.CoefficientOfHeatTransfer G_tot[2, N_ch, N_cell_pc]
           "Global thermal conductance of each cell";
       public
-        Nodes.Node_out node_h_out(redeclare package Medium = Medium_hot)
-          "Outlet node hot side"
-                               annotation (Placement(
+        Nodes.Node_out node_h_out(redeclare package Medium = Medium_hot,
+        m_flow(start=m_hot_start), h(start=h_hot_out_start), p(start=p_hot_start))
+          "Outlet node hot side" annotation (Placement(
               transformation(extent={{-108,-73},{-88,-53}}), iconTransformation(
                 extent={{-106,-66},{-94,-54}})));
-        Nodes.Node_in node_c_in(redeclare package Medium = Medium_cold)
+        Nodes.Node_in node_c_in(redeclare package Medium = Medium_cold,
+        m_flow(start=m_cold_start), h(start=h_cold_in_start), p(start=p_cold_start))
           "Inlet node cold side"  annotation (Placement(
               transformation(extent={{-104,-103},{-84,-83}}), iconTransformation(
                 extent={{-106,-97},{-94,-85}})));
-        Nodes.Node_out node_c_out(redeclare package Medium = Medium_cold)
+        Nodes.Node_out node_c_out(redeclare package Medium = Medium_cold,
+        m_flow(start=m_cold_start), h(start=h_cold_out_start), p(start=p_cold_start))
           "Outlet node cold side" annotation (Placement(
               transformation(extent={{-108,-74},{-88,-54}}), iconTransformation(
                 extent={{94,43},{106,56}})));
-        Nodes.Node_in node_h_in(redeclare package Medium = Medium_hot)
+        Nodes.Node_in node_h_in(redeclare package Medium = Medium_hot,
+        m_flow(start=m_hot_start), h(start=h_hot_in_start), p(start=p_hot_start))
           "Inlet node hot side"  annotation (Placement(
               transformation(extent={{-104,-103},{-84,-83}}), iconTransformation(
                 extent={{94,74},{106,86}})));
@@ -579,7 +602,6 @@ package Design "Package for the component design"
 
             //Energy balance
             Q                = node_h_in.m_flow*(node_h_in.h - node_h_out.h);
-            Q                = node_c_in.m_flow*(node_c_out.h - node_c_in.h);
 
             //Fixed length if off-design mode is active
             if offdesign then
@@ -739,7 +761,7 @@ package Design "Package for the component design"
                 fillColor={255,255,255},
                 fillPattern=FillPattern.VerticalCylinder),                                        Text(lineColor=
                     {0,0,0},                                                                                                    extent={{
-                    -100,15},{100,-15}},                                                                                                    textString=  "%name",
+                    -100,15},{100,-15}},                                                                                                    textString = "%name",
                 origin={0,114},
                 rotation=0)}));
       end Flat_plate;
@@ -773,15 +795,15 @@ package Design "Package for the component design"
 
       connector Node_in "Fluid connector with filled icon"
         extends hp_mdot;
-        annotation(Diagram(coordinateSystem(preserveAspectRatio = true, extent = {{-100, -100}, {100, 100}}), graphics={  Ellipse(extent=  {{-100, 100}, {100, -100}}, lineColor=
+        annotation(Diagram(coordinateSystem(preserveAspectRatio = true, extent = {{-100, -100}, {100, 100}}), graphics={  Ellipse(extent = {{-100, 100}, {100, -100}}, lineColor=
                     {0,127,255},                                                                                                    fillColor=
                     {255,255,255},
-                  fillPattern=FillPattern.Solid),                                                                                                    Ellipse(extent=  {{-100, 100}, {100, -100}}, lineColor=
+                  fillPattern=FillPattern.Solid),                                                                                                    Ellipse(extent = {{-100, 100}, {100, -100}}, lineColor=
                     {0,0,0}),                                                                                                    Text(extent={{
-                    -100,194},{100,100}},                                                                                                    textString=  "%name", lineColor=
-                    {0,0,0})}),                                                                                                    Icon(coordinateSystem(preserveAspectRatio = true, extent = {{-100, -100}, {100, 100}}), graphics={  Ellipse(extent=  {{-100, 100}, {100, -100}},
+                    -100,194},{100,100}},                                                                                                    textString = "%name", lineColor=
+                    {0,0,0})}),                                                                                                    Icon(coordinateSystem(preserveAspectRatio = true, extent = {{-100, -100}, {100, 100}}), graphics={  Ellipse(extent = {{-100, 100}, {100, -100}},
                 pattern=LinePattern.None,
-                lineColor={0,0,0}),                                                                                                    Ellipse(extent=  {{-100, 100}, {100, -100}}, lineColor=
+                lineColor={0,0,0}),                                                                                                    Ellipse(extent = {{-100, 100}, {100, -100}}, lineColor=
                     {0,0,0},
                 fillColor={255,255,255},
                 fillPattern=FillPattern.Solid)}),                                                                                                    Documentation(info = "<html>Modelica.Media.Examples.Tests.Components.FluidPort_a
@@ -790,15 +812,15 @@ package Design "Package for the component design"
 
       connector Node_out "Fluid connector with filled icon"
         extends hp_mdot;
-        annotation(Diagram(coordinateSystem(preserveAspectRatio = true, extent = {{-100, -100}, {100, 100}}), graphics={  Ellipse(extent=  {{-100, 100}, {100, -100}}, lineColor=
+        annotation(Diagram(coordinateSystem(preserveAspectRatio = true, extent = {{-100, -100}, {100, 100}}), graphics={  Ellipse(extent = {{-100, 100}, {100, -100}}, lineColor=
                     {0,127,255},                                                                                                    fillColor=
                     {0,0,0},
-                  fillPattern=FillPattern.Solid),                                                                                                    Ellipse(extent=  {{-100, 100}, {100, -100}}, lineColor=
+                  fillPattern=FillPattern.Solid),                                                                                                    Ellipse(extent = {{-100, 100}, {100, -100}}, lineColor=
                     {0,0,0}),                                                                                                    Text(extent={{
-                    -94,192},{106,98}},                                                                                                    textString=  "%name", lineColor=
-                    {0,0,0})}),                                                                                                    Icon(coordinateSystem(preserveAspectRatio = true, extent = {{-100, -100}, {100, 100}}), graphics={  Ellipse(extent=  {{-100, 100}, {100, -100}},
+                    -94,192},{106,98}},                                                                                                    textString = "%name", lineColor=
+                    {0,0,0})}),                                                                                                    Icon(coordinateSystem(preserveAspectRatio = true, extent = {{-100, -100}, {100, 100}}), graphics={  Ellipse(extent = {{-100, 100}, {100, -100}},
                 pattern=LinePattern.None,
-                lineColor={0,0,0}),                                                                                                    Ellipse(extent=  {{-100, 100}, {100, -100}}, lineColor=
+                lineColor={0,0,0}),                                                                                                    Ellipse(extent = {{-100, 100}, {100, -100}}, lineColor=
                     {0,0,0},
                 fillColor={0,0,0},
                 fillPattern=FillPattern.Solid)}),                                                                                                    Documentation(info = "<html>Modelica.Media.Examples.Tests.Components.FluidPort_a
@@ -916,7 +938,7 @@ package Design "Package for the component design"
                 lineColor={0,0,0},
                 textString="A"),                                                                  Text(lineColor=
                     {0,0,0},                                                                                                    extent={{
-                    -112,27.5},{112,-27.5}},                                                                                                textString=  "%name",
+                    -112,27.5},{112,-27.5}},                                                                                                textString = "%name",
                 origin={-162,150.5},
                 rotation=0)}));
       end ADDCO;
@@ -3198,6 +3220,7 @@ package Design "Package for the component design"
           Real csi0[N_ch, N_cell_pc] "Friction factor 0";
           Real csi1[N_ch, N_cell_pc] "Friction factor 1";
       equation
+
           for j in 1:N_ch loop
             for i in 1:N_cell_pc loop
               u[j, i]   = mdot/state[j, i].d/Aflow;
@@ -3233,10 +3256,6 @@ package Design "Package for the component design"
       class evaporation_Coulson
         "Cooper heat transfer correlation for evaporation heat transfer. Coulson for single phase."
           extends Base_classes.base_ht;
-          parameter Medium.ThermodynamicState state_l
-          "Thermodynamic state in saturated liquid";
-          parameter Medium.ThermodynamicState state_v
-          "Thermodynamic state in saturated vapor";
           parameter Modelica.SIunits.Length R_p = 1e-6
           "Relative roughness of the surface";
           input Modelica.SIunits.Area At "Width";
@@ -3256,8 +3275,10 @@ package Design "Package for the component design"
           "Heat transfer coefficient";
           Modelica.SIunits.HeatFlux qdot_tilde[N_ch, N_cell_pc](
            start = fill(qdot_tilde_start, N_ch, N_cell_pc)) "Heat flux";
+          Medium.SaturationProperties sat "Saturation properties";
 
       equation
+          sat     = Medium.setSat_p(p_in);
           for j in 1:N_ch loop
             for i in 1:N_cell_pc loop
               qdot_tilde[j, i] = qdot[j, i]/(2*At);
@@ -3271,7 +3292,7 @@ package Design "Package for the component design"
                     state[j, i].cp,
                     state[j, i].eta,
                     state[j, i].lambda);
-              if (state[j, i].h < state_l.h or state[j, i].h > state_v.h) then
+              if state[j, i].h < sat.hl or state[j, i].h > sat.hv then
                 ht[j, i]       = 0.26*Pr[j, i]^0.4*Re[j, i]^0.65*state[j, i].lambda/Dhyd;
               else
                 ht[j, i]      = 55*(p_in/pc)^(0.12 - 0.2*log10(R_p))/(-log10(
@@ -3304,18 +3325,14 @@ package Design "Package for the component design"
           Modelica.SIunits.HeatFlux qdot_tilde[N_ch, N_cell_pc](
             start = fill(qdot_tilde_start, N_ch, N_cell_pc)) "Heat flux";
           Medium.SaturationProperties sat "Saturation properties";
-          Medium.ThermodynamicState state_l
-          "Thermodynamic state in saturated liquid";
-          Medium.ThermodynamicState state_v
-          "Thermodynamic state in saturated vapor";
       protected
            Real csi[N_ch, N_cell_pc] "Friction factor";
            Real csi0[N_ch, N_cell_pc] "Friction factor 0";
            Real csi1[N_ch, N_cell_pc] "Friction factor 1";
       equation
           sat     = Medium.setSat_p(p_in);
-          state_l = Medium.setState_ph(p_in, sat.hl);
-          state_v = Medium.setState_ph(p_in, sat.hv);
+
+          homotopy(qdot_tilde,fill(qdot_tilde_start, N_ch, N_cell_pc));
 
           for j in 1:N_ch loop
             for i in 1:N_cell_pc loop
@@ -3340,7 +3357,7 @@ package Design "Package for the component design"
               csi[j, i]       = 1/((1 - cos(beta))/Design.Miscellanea.sqrtReg(3.8*
               csi1[j, i]) + cos(beta)/Design.Miscellanea.sqrtReg(0.045*tan(beta) +
               0.09*sin(beta) + csi0[j, i]/cos(beta)))^2;
-              if (state[j, i].h < state_l.h or state[j, i].h > state_v.h) then
+              if state[j, i].h < sat.hl or state[j, i].h > sat.hv then
                 ht[j, i]      = 0.205*Pr[j, i]^(1/3)*(csi[j, i]*Re[j, i]^2*sin(2*beta))
                 ^0.374*state[j, i].lambda/Dhyd;
               else
@@ -3382,6 +3399,72 @@ package Design "Package for the component design"
             end for;
           end for;
       end single_phase_Coulson;
+
+      class condensation_Longo
+        "Longo heat transfer correlation for condensation heat transfer. Martin for single phase."
+          extends Base_classes.base_ht;
+          parameter Modelica.SIunits.Angle beta "Plate inclination angle";
+          input Modelica.SIunits.AbsolutePressure p_in "Inlet pressure";
+          Modelica.SIunits.ReynoldsNumber Re[N_ch, N_cell_pc] "Reynolds number";
+          Modelica.SIunits.ReynoldsNumber Re_eq[N_ch, N_cell_pc]
+          "Equivalent Reynolds number two-phase";
+          Modelica.SIunits.PrandtlNumber Pr[N_ch, N_cell_pc] "Prandtl number";
+          Modelica.SIunits.Velocity u[N_ch, N_cell_pc] "Velocity";
+          Modelica.SIunits.CoefficientOfHeatTransfer ht[N_ch, N_cell_pc]
+          "Heat transfer coefficient";
+          Medium.SaturationProperties sat "Saturation properties";
+          Medium.ThermodynamicState state_l
+          "Thermodynamic state in saturated liquid";
+          Medium.ThermodynamicState state_v
+          "Thermodynamic state in saturated vapor";
+          Real xq[N_ch, N_cell_pc] "Vapor quality";
+      protected
+           Real csi[N_ch, N_cell_pc] "Friction factor";
+           Real csi0[N_ch, N_cell_pc] "Friction factor 0";
+           Real csi1[N_ch, N_cell_pc] "Friction factor 1";
+      equation
+          sat     = Medium.setSat_p(p_in);
+          state_l = Medium.setState_ph(p_in, sat.hl);
+          state_v = Medium.setState_ph(p_in, sat.hv);
+
+          for j in 1:N_ch loop
+            for i in 1:N_cell_pc loop
+              u[j, i]          = mdot/state[j, i].d/Aflow;
+              Re[j, i]         = Miscellanea.numbers.Reynolds(u[j, i], state[j, i].d,
+              state[j, i].eta, Dhyd);
+              if (Re[j, i] < 2e3) then
+                csi0[j, i]     = 16/Re[j, i];
+                csi1[j, i]     = 149.25/Re[j, i] + 0.9625;
+              else
+                csi0[j, i]     = 1/(1.56*log(Re[j, i]) - 3)^2;
+                csi1[j, i]     = 9.75/Re[j, i]^0.289;
+              end if;
+              if state[j, i].h < sat.hl or state[j, i].h > sat.hv then
+                Pr[j, i]         = Miscellanea.numbers.Prandtl(state[j, i].cp,
+                state[j, i].eta, state[j, i].lambda);
+                csi[j, i]      = 1/((1 - cos(beta))/Design.Miscellanea.sqrtReg(3.8*
+                csi1[j, i]) + cos(beta)/Design.Miscellanea.sqrtReg(0.045*tan(beta) +
+                0.09*sin(beta) + csi0[j, i]/cos(beta)))^2;
+                ht[j, i]       = 0.205*Pr[j, i]^(1/3)*(csi[j, i]*Re[j, i]^2*sin(2*beta))
+                  ^0.374*state[j, i].lambda/Dhyd;
+                xq[j, i]      = 0;
+                Re_eq[j, i]   = Re[j, i];
+              else
+                xq[j, i]      = (state[j, i].h - state_l.h)/(state_v.h - state_l.h);
+                Re_eq[j, i]   = mdot*((1 - xq[j, i]) + xq[j, i]*
+                Design.Miscellanea.sqrtReg(state_l.d/state_v.d))*Dhyd/(Aflow*state_l.eta);
+                Pr[j, i]     = Miscellanea.numbers.Prandtl(state_l.cp, state_l.eta,
+                state_l.lambda);
+                if (Re_eq[j, i] < 1750) then
+                  csi[j, i]   = 60;
+                else
+                  csi[j, i]   = 1.2e-2*(Re_eq[j, i] - 1750) + 60;
+                end if;
+                ht[j, i]      = csi[j, i]*state[j, i].lambda*Pr[j, i]^0.33/Dhyd;
+              end if;
+            end for;
+          end for;
+      end condensation_Longo;
 
       package Base_classes "Base classes for the heat transfer"
         class base_ht "Basic heat transfer correlation"

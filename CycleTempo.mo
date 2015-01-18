@@ -338,7 +338,8 @@ package CycleTempo "Cycle Tempo 2_0"
         parameter Modelica.SIunits.TemperatureDifference dT_int = 0
           "Temperature difference at the inlet of the evaporator" annotation (Dialog(tab="Addco"));
         parameter Boolean use_dT_int = false
-          "true if temperature difference at the inlet of the evaporator is given";
+          "true if temperature difference at the inlet of the evaporator is given"
+                                                                                   annotation (Dialog(tab="Addco"));
         parameter Modelica.SIunits.SpecificEnthalpy hh_in_start=
         Medium_h.specificEnthalpy_pT(1e5, 500)
           "Inlet enthalpy evaporator hot side start value" annotation (Dialog(tab="Start"));
