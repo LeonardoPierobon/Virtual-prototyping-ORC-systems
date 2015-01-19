@@ -39,14 +39,34 @@ package Design "Package for the component design"
           "The number of discretized baffles";
         final parameter Integer Ncell = N_baffles_d*N_passes
           "Number of cell elements";
-        parameter Modelica.SIunits.SpecificEnthalpy h_s_in_start
-          "Inlet specific enthalpy start value hot side" annotation (Dialog(tab="Start"));
-        parameter Modelica.SIunits.SpecificEnthalpy h_s_out_start
-          "Outlet specific enthalpy start value hot side" annotation (Dialog(tab="Start"));
-        parameter Modelica.SIunits.SpecificEnthalpy h_t_in_start
-          "Inlet specific enthalpy start value cold side" annotation (Dialog(tab="Start"));
-        parameter Modelica.SIunits.SpecificEnthalpy h_t_out_start
-          "Outlet specific enthalpy start value cold side" annotation (Dialog(tab="Start"));
+        parameter Modelica.SIunits.Temperature t_s_in_start = 288.15
+          "Inlet temperature start value shell side" annotation (Dialog(tab="Start"));
+        parameter Modelica.SIunits.Temperature t_s_out_start = 288.15
+          "Outlet temperature start value shell side" annotation (Dialog(tab="Start"));
+        parameter Modelica.SIunits.Temperature t_t_in_start = 288.15
+          "Inlet temperature start value tube side" annotation (Dialog(tab="Start"));
+        parameter Modelica.SIunits.Temperature t_t_out_start = 288.15
+          "Outlet temperature start value tube side" annotation (Dialog(tab="Start"));
+        parameter Modelica.SIunits.AbsolutePressure p_s_start
+          "Inlet pressure start value shell side" annotation (Dialog(tab="Start"));
+        parameter Modelica.SIunits.AbsolutePressure p_t_start
+          "Outlet pressure start value tube side" annotation (Dialog(tab="Start"));
+        parameter Modelica.SIunits.MassFlowRate m_s_start
+          "Mass flow start value shell side" annotation (Dialog(tab="Start"));
+        parameter Modelica.SIunits.MassFlowRate m_t_start
+          "Mass flow start value tube side" annotation (Dialog(tab="Start"));
+        parameter Modelica.SIunits.SpecificEnthalpy h_s_in_start=
+        Medium_s.specificEnthalpy_pT(p_s_start, t_s_in_start)
+          "Inlet specific enthalpy start value shell side" annotation (Dialog(tab="Start"));
+        parameter Modelica.SIunits.SpecificEnthalpy h_s_out_start=
+        Medium_s.specificEnthalpy_pT(p_s_start, t_s_out_start)
+          "Outlet specific enthalpy start value shell side" annotation (Dialog(tab="Start"));
+        parameter Modelica.SIunits.SpecificEnthalpy h_t_in_start=
+        Medium_t.specificEnthalpy_pT(p_t_start, t_t_in_start)
+          "Inlet specific enthalpy start value tube side" annotation (Dialog(tab="Start"));
+        parameter Modelica.SIunits.SpecificEnthalpy h_t_out_start=
+        Medium_t.specificEnthalpy_pT(p_t_start, t_t_out_start)
+          "Outlet specific enthalpy start value tube side" annotation (Dialog(tab="Start"));
         parameter Real N_tubes_start
           "Number of tubes in the bundle start value"                            annotation (Dialog(tab="Start"));
         parameter Modelica.SIunits.CoefficientOfHeatTransfer ht_t_f1 = 3e3
@@ -163,20 +183,24 @@ package Design "Package for the component design"
           "Wall heat transfer coefficient (array)";
 
       public
-        Nodes.Node_out shell_out(redeclare package Medium = Medium_s)
+        Nodes.Node_out shell_out(redeclare package Medium = Medium_s,
+        m_flow(start=m_s_start), h(start=h_s_out_start), p(start=p_s_start))
           "Outlet node shell side"
                                   annotation (Placement(
               transformation(extent={{-108,-73},{-88,-53}}), iconTransformation(
                 extent={{-56,-106},{-44,-94}})));
-        Nodes.Node_in tube_in(redeclare package Medium = Medium_t)
+        Nodes.Node_in tube_in(redeclare package Medium = Medium_t,
+        m_flow(start=m_t_start), h(start=h_t_in_start), p(start=p_t_start))
           "Inlet node tube side"  annotation (Placement(
               transformation(extent={{-104,-103},{-84,-83}}), iconTransformation(
                 extent={{-106,-36},{-94,-24}})));
-        Nodes.Node_out tube_out(redeclare package Medium = Medium_t)
+        Nodes.Node_out tube_out(redeclare package Medium = Medium_t,
+        m_flow(start=m_t_start), h(start=h_t_out_start), p(start=p_t_start))
           "Outlet node tube side" annotation (Placement(
               transformation(extent={{-108,-74},{-88,-54}}), iconTransformation(
                 extent={{-106,24},{-94,37}})));
-        Nodes.Node_in shell_in(redeclare package Medium = Medium_s)
+        Nodes.Node_in shell_in(redeclare package Medium = Medium_s,
+        m_flow(start=m_s_start), h(start=h_s_in_start), p(start=p_s_start))
           "Inlet node shell side"  annotation (Placement(
               transformation(extent={{-104,-103},{-84,-83}}), iconTransformation(
                 extent={{64,94},{76,106}})));

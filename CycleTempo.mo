@@ -209,6 +209,67 @@ package CycleTempo "Cycle Tempo 2_0"
                                                                                                    <p>This is a cycle model for turbine
                                                                                                    </html>"));
       end Turbine;
+
+      model Compressor "Compressor model"
+        replaceable package Medium = Test.Media.OneRandomOrganicFluid constrainedby
+          Modelica.Media.Interfaces.PartialMedium "Medium model hot cells" annotation(choicesAllMatching = true);
+        parameter Real eta_is "Isentropic efficiency";
+        parameter Real eta_m "Mechanical efficiency";
+        Modelica.SIunits.Power W "Power consumption";
+        Modelica.SIunits.SpecificEnthalpy h_is
+          "Outlet isentropic specific enthalpy";
+        Modelica.SIunits.SpecificEntropy s "Inlet specific entropy";
+        Nodes.Node_in node_in(redeclare package Medium = Medium) "Inlet node"
+          annotation (Placement(transformation(extent={{-50,90},{-30,110}}),
+              iconTransformation(extent={{14,-120},{34,-100}})));
+        Nodes.Node_out node_out(redeclare package Medium = Medium)
+          "Outlet node"
+          annotation (Placement(transformation(extent={{4,-130},{24,-110}}),
+              iconTransformation(extent={{-40,100},{-20,120}})));
+        Nodes.terminal terminal annotation (Placement(transformation(extent={{91,-10},
+                  {111,10}}), iconTransformation(extent={{99,0},{120,20}})));
+      equation
+
+        //Mass balance
+        node_in.m_flow = node_out.m_flow;
+
+        //Energy balance
+        W              = node_in.m_flow*(node_out.h - node_in.h)/eta_m;
+        W              = terminal.W;
+
+        //Component equations
+        s              = Medium.specificEntropy_ph(node_in.p, node_in.h);
+        h_is           = Medium.specificEnthalpy_ps(node_out.p, s);
+        node_out.h     = (h_is - node_in.h)/eta_is + node_in.h;
+
+        annotation(Documentation(info = "<HTML>
+                                                                                              <p>This is a cycle model for pumps.
+                                                                                              </html>"),  Icon(coordinateSystem(extent={{-100,
+                  -100},{100,100}},                                                                                                    preserveAspectRatio=false,  initialScale = 0.1, grid = {2, 2}), graphics={
+                                                                                                    Rectangle(extent={{
+                    24,20},{110,0}},                                                                                                    lineColor=
+                    {0,0,0},
+                fillColor={255,255,255},
+                fillPattern=FillPattern.Solid),                                                                                                    Polygon(points={{
+                    -30,38},{-30,-16},{24,-70},{24,90},{-30,38}},                                                                                                    lineColor=
+                    {0,0,0},
+                fillColor={255,255,255},
+                fillPattern=FillPattern.Solid),                                                   Text(lineColor=
+                    {0,0,0},                                                                                                    extent={{
+                    -100,15},{100,-15}},                                                                                                    textString = "%name",
+                origin={58,124},
+                rotation=0),
+              Line(
+                points={{24,-70},{24,-110}},
+                color={0,0,0},
+                smooth=Smooth.None),
+              Line(
+                points={{-30,38},{-30,110}},
+                color={0,0,0},
+                smooth=Smooth.None)}),
+          Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
+                  100}}), graphics));
+      end Compressor;
     end Turbomachinery;
 
     package Sources "Soruces and sinks"
