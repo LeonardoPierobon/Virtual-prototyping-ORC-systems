@@ -437,9 +437,13 @@ package Design "Package for the component design"
           "Inlet pressure start value hot side" annotation (Dialog(tab="Start"));
         parameter Modelica.SIunits.AbsolutePressure p_cold_start
           "Outlet pressure start value cold side" annotation (Dialog(tab="Start"));
-        parameter Modelica.SIunits.MassFlowRate m_hot_start
+        parameter Modelica.SIunits.AbsolutePressure dp_hot_start = 0
+          "Pressure drop start value hot side" annotation (Dialog(tab="Start"));
+        parameter Modelica.SIunits.AbsolutePressure dp_cold_start = 0
+          "Pressure drop start value cold side" annotation (Dialog(tab="Start"));
+        parameter Modelica.SIunits.MassFlowRate mdot_hot_start
           "Mass flow start value hot side" annotation (Dialog(tab="Start"));
-        parameter Modelica.SIunits.MassFlowRate m_cold_start
+        parameter Modelica.SIunits.MassFlowRate mdot_cold_start
           "Mass flow start value cold side" annotation (Dialog(tab="Start"));
         parameter Modelica.SIunits.SpecificEnthalpy h_hot_in_start=
         Medium_hot.specificEnthalpy_pT(p_hot_start, t_hot_in_start)
@@ -475,7 +479,8 @@ package Design "Package for the component design"
         N_ch = N_ch, mdot_hot = tpg_hot.mdot_p, pin_hot = tpg_hot.pin,
         mdot_cold = tpg_cold.mdot_p, p_hot_in = node_h_in.p, p_cold_in = node_c_in.p,
         pin_cold = tpg_cold.pin, h_hot_start = tpg_hot.h_start,
-        h_cold_start = tpg_cold.h_start);
+        h_cold_start = tpg_cold.h_start, mdot_cold_start = mdot_cold_start/N_ch_p,
+        mdot_hot_start = mdot_hot_start/N_ch_p);
 
         //Topologies
         replaceable Miscellanea.topology_PHE.parallel tpg_hot
@@ -590,23 +595,23 @@ package Design "Package for the component design"
           "Global thermal conductance of each cell";
       public
         Nodes.Node_out node_h_out(redeclare package Medium = Medium_hot,
-        m_flow(start=m_hot_start), h(start=h_hot_out_start), p(start=p_hot_start))
-          "Outlet node hot side" annotation (Placement(
+        m_flow(start=mdot_hot_start), h(start=h_hot_out_start), p(start=p_hot_start))
+          "Outlet node hot side"                                                                             annotation (Placement(
               transformation(extent={{-108,-73},{-88,-53}}), iconTransformation(
                 extent={{-106,-66},{-94,-54}})));
         Nodes.Node_in node_c_in(redeclare package Medium = Medium_cold,
-        m_flow(start=m_cold_start), h(start=h_cold_in_start), p(start=p_cold_start))
+        m_flow(start=mdot_cold_start), h(start=h_cold_in_start), p(start=p_cold_start))
           "Inlet node cold side"  annotation (Placement(
               transformation(extent={{-104,-103},{-84,-83}}), iconTransformation(
                 extent={{-106,-97},{-94,-85}})));
         Nodes.Node_out node_c_out(redeclare package Medium = Medium_cold,
-        m_flow(start=m_cold_start), h(start=h_cold_out_start), p(start=p_cold_start))
-          "Outlet node cold side" annotation (Placement(
+        m_flow(start=mdot_cold_start), h(start=h_cold_out_start), p(start=p_cold_start
+        -dp_cold_start)) "Outlet node cold side" annotation (Placement(
               transformation(extent={{-108,-74},{-88,-54}}), iconTransformation(
                 extent={{94,43},{106,56}})));
         Nodes.Node_in node_h_in(redeclare package Medium = Medium_hot,
-        m_flow(start=m_hot_start), h(start=h_hot_in_start), p(start=p_hot_start))
-          "Inlet node hot side"  annotation (Placement(
+        m_flow(start=mdot_hot_start), h(start=h_hot_in_start), p(start=p_hot_start+
+        dp_hot_start)) "Inlet node hot side"  annotation (Placement(
               transformation(extent={{-104,-103},{-84,-83}}), iconTransformation(
                 extent={{94,74},{106,86}})));
 
@@ -617,8 +622,8 @@ package Design "Package for the component design"
 
             //Pressure balance
             if use_dp then
-              node_h_out.p      = node_h_in.p - dp_hot.dp_tot;
-              node_c_out.p      = node_c_in.p - dp_cold.dp_tot;
+              node_h_in.p      = node_h_out.p + dp_hot.dp_tot;
+              node_c_in.p     = node_c_out.p + dp_cold.dp_tot;
             else
               node_h_in.p      = node_h_out.p;
               node_c_in.p      = node_c_out.p;
@@ -1515,8 +1520,13 @@ package Design "Package for the component design"
         "Hot stream temperature matrix";
         parameter Modelica.SIunits.SpecificEnthalpy h_cold_start[N_ch, N_cell_pc + 1]
         "Cold stream temperature matrix";
-        input Modelica.SIunits.MassFlowRate mdot_hot "Mass flow rate hot cells";
-        input Modelica.SIunits.MassFlowRate mdot_cold
+        parameter Modelica.SIunits.MassFlowRate mdot_hot_start
+        "Mass flow start value hot side";
+        parameter Modelica.SIunits.MassFlowRate mdot_cold_start
+        "Mass flow start value cold side";
+        input Modelica.SIunits.MassFlowRate mdot_hot(start=mdot_hot_start)
+        "Mass flow rate hot cells";
+        input Modelica.SIunits.MassFlowRate mdot_cold(start=mdot_cold_start)
         "Mass flow rate cold cells";
         input Real pin_hot[N_ch, N_cell_pc] "Pin hot cells";
         input Real pin_cold[N_ch, N_cell_pc] "Pin cold cells";
@@ -2246,6 +2256,7 @@ package Design "Package for the component design"
           Real csi0[N_ch, N_cell_pc] "Friction factor 0";
           Real csi1[N_ch, N_cell_pc] "Friction factor 1";
       equation
+
           for j in 1:N_ch loop
             dp_plates[j]   = sum(dp[j,:]);
             for i in 1:N_cell_pc loop
@@ -2321,6 +2332,7 @@ package Design "Package for the component design"
           Real C[N_ch, N_cell_pc] "Constant for the two phase multiplier";
       equation
 
+          homotopy(dp_tot, 0);
           sat     = Medium.setSat_p(p_in);
           state_l = Medium.setState_ph(p_in, sat.hl);
           state_v = Medium.setState_ph(p_in, sat.hv);
@@ -2437,6 +2449,7 @@ package Design "Package for the component design"
           Real csi[N_ch, N_cell_pc] "Friction factor";
       equation
 
+          homotopy(dp_tot, 0);
           for j in 1:N_ch loop
             dp_plates[j]   = sum(dp[j,:]);
             for i in 1:N_cell_pc loop
@@ -3356,7 +3369,7 @@ package Design "Package for the component design"
       equation
           sat     = Medium.setSat_p(p_in);
 
-          homotopy(qdot_tilde,fill(qdot_tilde_start, N_ch, N_cell_pc));
+      //     homotopy(qdot_tilde,fill(qdot_tilde_start, N_ch, N_cell_pc));
 
           for j in 1:N_ch loop
             for i in 1:N_cell_pc loop
@@ -3386,7 +3399,7 @@ package Design "Package for the component design"
                 ^0.374*state[j, i].lambda/Dhyd;
               else
                  ht[j, i]      = 55*(p_in/pc)^(0.12 - 0.2*log10(R_p))/(-log10(
-                 p_in/pc))^0.55*qdot_tilde[j, i]^0.67/sqrt(1e3*M);
+                 p_in/pc))^0.55*abs(qdot_tilde[j, i])^0.67/sqrt(1e3*M);
               end if;
             end for;
           end for;

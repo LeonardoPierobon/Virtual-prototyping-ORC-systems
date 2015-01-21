@@ -1,5 +1,6 @@
 within ;
 package CycleTempo "Cycle Tempo 2_0"
+  import Modelica.Constants.*;
   package Components "Component library"
     package Nodes "Node package"
 
@@ -80,10 +81,32 @@ package CycleTempo "Cycle Tempo 2_0"
           Modelica.Media.Interfaces.PartialMedium "Medium model hot cells" annotation(choicesAllMatching = true);
         parameter Real eta_is "Isentropic efficiency";
         parameter Real eta_m "Mechanical efficiency";
+        parameter Boolean activated = false "Off design mode on if true" annotation (Dialog(tab="Off-design"));
+        parameter Boolean constant_n = false
+          "Constant rotational speed if true"                                    annotation (Dialog(tab="Off-design"));
+        parameter Modelica.SIunits.Height head_d = 1 "Head at design" annotation (Dialog(tab="Off-design"));
+        parameter Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm n_d = 3e3
+          "rotational speed at design" annotation (Dialog(tab="Off-design"));
+        parameter Modelica.SIunits.VolumeFlowRate V_flow_d = 1
+          "Volume flow rate at design" annotation (Dialog(tab="Off-design"));
         Modelica.SIunits.Power W "Power consumption";
         Modelica.SIunits.SpecificEnthalpy h_is
           "Outlet isentropic specific enthalpy";
         Modelica.SIunits.SpecificEntropy s "Inlet specific entropy";
+
+        replaceable
+          CycleTempo.Components.Turbomachinery.Part_load.Pump.Exponential
+         off_design constrainedby
+          CycleTempo.Components.Turbomachinery.Part_load.Pump.Base_classes.base(
+          redeclare package Medium = Medium,
+          final offdesign=activated,
+          final constant_n=constant_n,
+          final node_in=node_in,
+          final node_out=node_out,
+          final head_d=head_d,
+          final V_flow_d=V_flow_d,
+          final n_d=n_d) annotation (Dialog(tab="Off-design"));
+
         Nodes.Node_in node_in(redeclare package Medium = Medium) "Inlet node"
           annotation (Placement(transformation(extent={{-108,-10},{-88,10}}),
               iconTransformation(extent={{-108,-10},{-88,10}})));
@@ -149,10 +172,19 @@ package CycleTempo "Cycle Tempo 2_0"
           Modelica.Media.Interfaces.PartialMedium "Medium model hot cells" annotation(choicesAllMatching = true);
         parameter Real eta_is "Isentropic efficiency";
         parameter Real eta_m "Mechanical efficiency";
+        parameter Boolean activated = false "Off design mode on if true" annotation (Dialog(tab="Off-design"));
         Modelica.SIunits.Power W "Power production";
         Modelica.SIunits.SpecificEnthalpy h_is
           "Outlet isentropic specific enthalpy";
         Modelica.SIunits.SpecificEntropy s "Inlet specific entropy";
+        replaceable
+          CycleTempo.Components.Turbomachinery.Part_load.Turbine.Stodola
+         off_design constrainedby
+          CycleTempo.Components.Turbomachinery.Part_load.Turbine.Base_classes.base(
+          redeclare package Medium = Medium,
+          offdesign=activated,
+          node_in=node_in,
+          node_out=node_out) annotation (choicesAllMatching = true, Dialog(tab="Off-design"));
 
         Nodes.Node_in node_in(redeclare package Medium = Medium) "Inlet node"
           annotation (Placement(transformation(extent={{-50,90},{-30,110}}),
@@ -270,127 +302,113 @@ package CycleTempo "Cycle Tempo 2_0"
           Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
                   100}}), graphics));
       end Compressor;
+
+      package Part_load "Curves to model the components at off-design"
+        package Turbine "Part load models for turbines"
+          class de_Laval "de Laval nozzle (chocked)"
+            extends Base_classes.base;
+            parameter Modelica.SIunits.Area A_d = 1
+              "Total nozzle area at design";
+            parameter Modelica.SIunits.AbsolutePressure p_is_t_start = 1e5
+              "Total nozzle area at design";
+            Modelica.SIunits.Velocity c "Speed of sound at the throat";
+            Modelica.SIunits.Area A "Total nozzle area";
+            Medium.ThermodynamicState state_in "Inlet thermodynamic state";
+            Medium.ThermodynamicState state_t "Throat thermodynamic state";
+            Modelica.SIunits.SpecificEnthalpy h_is_t
+              "Isentropic specific enthalpy at the throat";
+            Modelica.SIunits.AbsolutePressure p_is_t(start=p_is_t_start)
+              "Isentropic specific enthalpy at the throat";
+          equation
+            state_in = Medium.setState_ph(node_in.p, node_in.h);
+            h_is_t   = Medium.specificEnthalpy_ps(p_is_t, state_in.s);
+            state_t  = Medium.setState_ps(p_is_t, state_in.s);
+            c        = Medium.velocityOfSound(state_t);
+            h_is_t   = state_in.h - 0.5*c^2;
+            node_in.m_flow = A*state_t.d*c;
+
+            if offdesign then
+              A = A_d;
+            end if;
+
+          end de_Laval;
+
+          class Stodola "Stodola part load model"
+            extends Base_classes.base;
+            parameter Real CT_d = 1 "Stodola constant user defined";
+            Real CT "Stodola constant calculated";
+            Medium.ThermodynamicState state_in "Inlet thermodynamic state";
+          equation
+            state_in = Medium.setState_ph(node_in.p, node_in.h);
+            CT       = node_in.m_flow*Design.Miscellanea.sqrtReg(state_in.T)/
+            Design.Miscellanea.sqrtReg(node_in.p^2 - node_out.p^2);
+
+            if offdesign then
+              CT = CT_d;
+            end if;
+
+          end Stodola;
+
+          package Base_classes "Base classes for the turbine"
+            class base "Basic part load model"
+              replaceable package Medium = Test.Media.OneRandomOrganicFluid constrainedby
+                Modelica.Media.Interfaces.PartialMedium "Medium model" annotation(choicesAllMatching = true);
+              parameter Boolean offdesign = false "Off design mode on if true";
+              input Nodes.Node_in node_in(redeclare package Medium = Medium);
+              input Nodes.Node_out node_out(redeclare package Medium = Medium);
+            end base;
+          end Base_classes;
+        end Turbine;
+
+        package Pump "Part load models for pumps"
+          class Exponential
+            "Head versus volume flow rate part load model. The curve is exponential."
+            extends Base_classes.base;
+            parameter Real c[2] = {2.462215552,  -0.53791904}
+              "Default coefficients for head vs. volumetric flow curve";
+            Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm n(start=n_d)
+              "rotational speed at off-design";
+          equation
+            if offdesign then
+              head = head_d*(c[1] + c[2]*exp(V_flow/V_flow_d))*(n/n_d)^2;
+              if constant_n then
+                n  = n_d;
+              end if;
+            else
+              n    = n_d;
+            end if;
+
+          end Exponential;
+
+          package Base_classes "Base classes for the pump"
+            class base "Basic part load model"
+              replaceable package Medium = Test.Media.OneRandomOrganicFluid constrainedby
+                Modelica.Media.Interfaces.PartialMedium "Medium model" annotation(choicesAllMatching = true);
+              parameter Boolean offdesign = false "Off design mode on if true";
+              parameter Boolean constant_n = false
+                "Constant rotational speed if true";
+              parameter Modelica.SIunits.Height head_d "Head at design";
+              parameter
+                Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm         n_d
+                "rotational speed at design";
+              parameter Modelica.SIunits.VolumeFlowRate V_flow_d
+                "Volume flow rate at design";
+              input Nodes.Node_in node_in(redeclare package Medium = Medium);
+              input Nodes.Node_out node_out(redeclare package Medium = Medium);
+              Modelica.SIunits.Height head(start=head_d) "Head at off-design";
+              Modelica.SIunits.VolumeFlowRate V_flow(start=V_flow_d)
+                "Volume flow rate at off-design";
+              Medium.ThermodynamicState state_in
+                "Thermodynamic state at the in";
+            equation
+              state_in = Medium.setState_ph(node_in.p, node_in.h);
+              V_flow   = node_in.m_flow/state_in.d;
+              head     = (node_out.h - node_in.h)/g_n;
+            end base;
+          end Base_classes;
+        end Pump;
+      end Part_load;
     end Turbomachinery;
-
-    package Sources "Soruces and sinks"
-      model Source
-        replaceable package Medium = Test.Media.OneRandomOrganicFluid constrainedby
-          Modelica.Media.Interfaces.PartialMedium "Medium model hot cells" annotation(choicesAllMatching = true);
-
-        parameter Modelica.SIunits.MassFlowRate mdot "Mass flow rate" annotation(Dialog(tab="Addco"));
-        parameter Modelica.SIunits.Temperature T "Temperature" annotation(Dialog(tab="Addco"));
-        parameter Modelica.SIunits.AbsolutePressure p "Pressure" annotation(Dialog(tab="Addco"));
-        parameter Modelica.SIunits.SpecificEnthalpy h "Enthalpy" annotation(Dialog(tab="Addco"));
-        parameter Boolean use_mdot = false "True if mass flow is given" annotation(Dialog(tab="Addco"));
-        parameter Boolean use_T = false "True if temperature is given" annotation(Dialog(tab="Addco"));
-        parameter Boolean use_p = false "True if pressure is given" annotation(Dialog(tab="Addco"));
-        parameter Boolean use_h = false "True if enthalpy is given" annotation(Dialog(tab="Addco"));
-        Nodes.Node_out node_out(redeclare package Medium = Medium)
-          annotation (Placement(transformation(extent={{90,-10},{110,10}})));
-
-      equation
-        //Boundary equations
-        if use_mdot then
-          node_out.m_flow = mdot;
-        end if;
-        if use_T then
-          T               = Medium.temperature(Medium.setState_ph(node_out.p,
-          node_out.h));
-        end if;
-        if use_p then
-          node_out.p      = p;
-        end if;
-        if use_h then
-          node_out.h      = h;
-        end if;
-        annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},
-                  {100,100}}), graphics={                                                                                                    Polygon(lineColor=  {255, 255, 255}, fillColor=  {255, 255, 255},
-                  fillPattern=                                                                                                    FillPattern.Solid, points={{
-                    20,-75},{50,-85},{20,-95},{20,-75}}),                                                              Rectangle(extent={{
-                    20,60},{100,-60}},                                                                                                    lineColor=  {0, 0, 0},
-                  fillPattern=                                                                                                    FillPattern.HorizontalCylinder, fillColor=  {192, 192, 192}), Rectangle(extent={{
-                    38,40},{100,-40}},                                                                                                    lineColor=  {0, 0, 0},
-                  fillPattern=                                                                                                    FillPattern.HorizontalCylinder, fillColor=  {0, 127, 255}), Ellipse(extent={{
-                    -100,80},{60,-80}},                                                                                                    fillColor=  {255, 255, 255},
-                  fillPattern=                                                                                                    FillPattern.Solid, lineColor=  {0, 0, 255}), Polygon(points={{
-                    -60,70},{60,0},{-60,-68},{-60,70}},                                                                                                    lineColor=  {0, 0, 255}, fillColor=  {0, 0, 255},
-                  fillPattern=                                                                                                    FillPattern.Solid), Text(extent={{
-                    -54,32},{16,-30}},                                                                                                    lineColor=  {255, 0, 0}, textString=  "m"), Ellipse(extent={{
-                    -26,30},{-18,22}},                                                                                                    lineColor=  {255, 0, 0}, fillColor=  {255, 0, 0},
-                  fillPattern=                                                                                                    FillPattern.Solid)}));
-      end Source;
-
-      model CC "A component to close the cycle and avoid circular equalities"
-        replaceable package Medium = Test.Media.OneRandomOrganicFluid constrainedby
-          Modelica.Media.Interfaces.PartialMedium "Medium model hot cells" annotation(choicesAllMatching = true);
-
-        Nodes.Node_in node_in(redeclare package Medium = Medium)
-          annotation (Placement(transformation(extent={{-68,-10},{-48,10}}),
-              iconTransformation(extent={{-68,-10},{-48,10}})));
-        Nodes.Node_out node_out(redeclare package Medium = Medium)
-          annotation (Placement(transformation(extent={{50,-10},{70,10}}),
-              iconTransformation(extent={{50,-10},{70,10}})));
-      equation
-        //Component equations
-        node_in.h = node_out.h;
-        node_in.p = node_out.p;
-        annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
-                  -100},{100,100}}), graphics), Icon(coordinateSystem(
-                preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics={Ellipse(
-                extent={{-60,60},{60,-60}},
-                lineColor={255,0,0},
-                fillColor={255,0,0},
-                fillPattern=FillPattern.Sphere)}));
-      end CC;
-
-      model Sink
-        replaceable package Medium = Test.Media.OneRandomOrganicFluid constrainedby
-          Modelica.Media.Interfaces.PartialMedium "Medium model hot cells" annotation(choicesAllMatching = true);
-
-        parameter Modelica.SIunits.MassFlowRate mdot "Mass flow rate" annotation(Dialog(tab="Addco"));
-        parameter Modelica.SIunits.Temperature T "Temperature" annotation(Dialog(tab="Addco"));
-        parameter Modelica.SIunits.AbsolutePressure p "Pressure" annotation(Dialog(tab="Addco"));
-        parameter Modelica.SIunits.SpecificEnthalpy h "Enthalpy" annotation(Dialog(tab="Addco"));
-        parameter Boolean use_mdot = false "True if mass flow is given" annotation(Dialog(tab="Addco"));
-        parameter Boolean use_T = false "True if temperature is given" annotation(Dialog(tab="Addco"));
-        parameter Boolean use_p = false "True if pressure is given" annotation(Dialog(tab="Addco"));
-        parameter Boolean use_h = false "True if enthalpy is given" annotation(Dialog(tab="Addco"));
-        Nodes.Node_in node_in(redeclare package Medium = Medium)
-          annotation (Placement(transformation(extent={{90,-10},{110,10}})));
-
-      equation
-        //Boundary equations
-        if use_mdot then
-          node_in.m_flow = mdot;
-        end if;
-        if use_T then
-          T               = Medium.temperature(Medium.setState_ph(node_in.p,
-          node_in.h));
-        end if;
-        if use_p then
-          node_in.p      = p;
-        end if;
-        if use_h then
-          node_in.h      = h;
-        end if;
-
-        annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},
-                  {100,100}}), graphics={                                                                                                    Polygon(lineColor=  {255, 255, 255}, fillColor=  {255, 255, 255},
-                  fillPattern=                                                                                                    FillPattern.Solid, points={{
-                    20,-75},{50,-85},{20,-95},{20,-75}}),                                                              Rectangle(extent={{
-                    20,60},{100,-60}},                                                                                                    lineColor=  {0, 0, 0},
-                  fillPattern=                                                                                                    FillPattern.HorizontalCylinder, fillColor=  {192, 192, 192}), Rectangle(extent={{
-                    38,40},{100,-40}},                                                                                                    lineColor=  {0, 0, 0},
-                  fillPattern=                                                                                                    FillPattern.HorizontalCylinder, fillColor=  {0, 127, 255}), Ellipse(extent={{
-                    -100,80},{60,-80}},                                                                                                    fillColor=  {255, 255, 255},
-                  fillPattern=                                                                                                    FillPattern.Solid, lineColor=  {0, 0, 255}), Polygon(points={{
-                    -60,70},{60,0},{-60,-68},{-60,70}},                                                                                                    lineColor=  {0, 0, 255}, fillColor=  {0, 0, 255},
-                  fillPattern=                                                                                                    FillPattern.Solid), Text(extent={{
-                    -54,32},{16,-30}},                                                                                                    lineColor=  {255, 0, 0}, textString=  "m"), Ellipse(extent={{
-                    -26,30},{-18,22}},                                                                                                    lineColor=  {255, 0, 0}, fillColor=  {255, 0, 0},
-                  fillPattern=                                                                                                    FillPattern.Solid)}));
-      end Sink;
-    end Sources;
 
     package HEX "Heat exchangers"
       model Evaporator
@@ -601,9 +619,10 @@ package CycleTempo "Cycle Tempo 2_0"
         replaceable package Medium = Test.Media.OneRandomOrganicFluid constrainedby
           Modelica.Media.Interfaces.PartialMedium "Medium model hot cells" annotation(choicesAllMatching = true);
         parameter Modelica.SIunits.AbsolutePressure p = 1e5 "Pressure" annotation (Dialog(tab="Start"));
-        parameter Modelica.SIunits.SpecificEnthalpy h = 1e5 "Enthalpy" annotation (Dialog(tab="Start"));
+        parameter Modelica.SIunits.Temperature T = 273.15 "Temperature" annotation (Dialog(tab="Start"));
         parameter Modelica.SIunits.MassFlowRate m_flow = 1 "Mass flow" annotation (Dialog(tab="Start"));
-        Nodes.Node_in node(redeclare package Medium = Medium, p(start = p), h(start = h), m_flow(start = m_flow))
+        Nodes.Node_in node(redeclare package Medium = Medium, p(start = p),
+          h(start = Medium.specificEnthalpy(Medium.setState_pT(p,T))), m_flow(start = m_flow))
           annotation (Placement(transformation(extent={{90,-10},{110,10}}),
               iconTransformation(extent={{90,-10},{110,10}})));
 
@@ -744,6 +763,29 @@ package CycleTempo "Cycle Tempo 2_0"
                 rotation=0,
                 textString="%name")}));
       end ADDCOW;
+
+      model CC "A component to close the cycle and avoid circular equalities"
+        replaceable package Medium = Test.Media.OneRandomOrganicFluid constrainedby
+          Modelica.Media.Interfaces.PartialMedium "Medium model hot cells" annotation(choicesAllMatching = true);
+
+        Nodes.Node_in node_in(redeclare package Medium = Medium)
+          annotation (Placement(transformation(extent={{-68,-10},{-48,10}}),
+              iconTransformation(extent={{-68,-10},{-48,10}})));
+        Nodes.Node_out node_out(redeclare package Medium = Medium)
+          annotation (Placement(transformation(extent={{50,-10},{70,10}}),
+              iconTransformation(extent={{50,-10},{70,10}})));
+      equation
+        //Component equations
+        node_in.h = node_out.h;
+        node_in.p = node_out.p;
+        annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
+                  -100},{100,100}}), graphics), Icon(coordinateSystem(
+                preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics={Ellipse(
+                extent={{-60,60},{60,-60}},
+                lineColor={255,0,0},
+                fillColor={255,0,0},
+                fillPattern=FillPattern.Sphere)}));
+      end CC;
     end Flags;
 
     package Electrics "Package containing electric components"
