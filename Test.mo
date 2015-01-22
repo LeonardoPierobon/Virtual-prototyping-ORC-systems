@@ -2432,304 +2432,6 @@ extends Modelica.Icons.ExamplesPackage;
 
   package Merge "Merge cycle and component design"
 
-    model ORCHID "Design of the ORCHID test rig. No design of the components."
-      parameter Medium.SaturationProperties  sat =  Medium.setSat_p(0.33e5)
-        "Saturation properties";
-      package Hot = Media.CoolProp.THERM66 "Medium model hot cells";
-      package Medium = Media.CoolProp.Toluene "Medium model hot cells";
-      package Coolant = Media.CoolProp.Water_TTSE "Medium model hot cells";
-
-      CycleTempo.Components.Turbomachinery.Pump Pump(
-        redeclare package Medium = Medium,
-        eta_is=0.9,
-        eta_m=1) "Centrifugal pump"
-        annotation (Placement(transformation(extent={{13,14},{-13,-14}},
-            rotation=-90,
-            origin={77,-48})));
-      CycleTempo.Components.HEX.Evaporator evaporator(
-        dp_h=0,
-        redeclare package Medium_c = Medium,
-        redeclare package Medium_h = Hot,
-        dp_c=0,
-        dT_int=30,
-        use_dT_in=false,
-        use_dT_int=false,
-        hh_in_start=1e5)
-                        annotation (Placement(transformation(
-            extent={{-18,-15.5},{18,15.5}},
-            rotation=0,
-            origin={0,59.5})));
-      CycleTempo.Components.Turbomachinery.Turbine turbine(
-        redeclare package Medium = Medium,
-        eta_is=0.8,
-        eta_m=1) "Axial turbine"
-        annotation (Placement(transformation(extent={{53,17},{92,50}})));
-      CycleTempo.Components.HEX.Condenser condenser(
-        dp_h=0,
-        redeclare package Medium_h = Medium,
-        redeclare package Medium_c = Media.CoolProp.Water,
-        dp_c=0,
-        dT_int=20,
-        use_dT_int=true) "condenser model"  annotation (Placement(transformation(
-            extent={{-12,-11},{12,11}},
-            rotation=0,
-            origin={0,-72})));
-      CycleTempo.Components.Flags.CC CC(redeclare package Medium = Medium)
-        annotation (Placement(transformation(
-            extent={{10,-10},{-10,10}},
-            rotation=-90,
-            origin={77,-78})));
-      CycleTempo.Components.HEX.Heat_exchanger recuperator(
-        redeclare package Medium_h = Medium,
-        redeclare package Medium_c = Medium,
-        dp_h=0,
-        dp_c=0,
-        dT_out=20,
-        use_dT_out=false)
-        annotation (Placement(transformation(extent={{11,-32},{-11,-12}})));
-      CycleTempo.Components.Flags.ADDCO N3(redeclare package Medium = Medium)
-        annotation (Placement(transformation(extent={{-170,4},{-150,26}})));
-      CycleTempo.Components.Flags.ADDCO N20(
-        redeclare package Medium = Coolant,
-        use_T=true,
-        use_p=true,
-        T=278.15,
-        p=100000)
-        annotation (Placement(transformation(extent={{-97,-82},{-79,-63}})));
-      CycleTempo.Components.Flags.ADDCO N21(
-        redeclare package Medium = Coolant,
-        T=313.15,
-        use_T=false)
-                  annotation (Placement(transformation(extent={{45,-81},{23,-63}})));
-      CycleTempo.Components.Flags.ADDCO N2(
-        redeclare package Medium = Medium,
-        use_p=true,
-        p=1500000) annotation (Placement(transformation(
-            extent={{10,-10},{-10,10}},
-            rotation=0,
-            origin={87,-22})));
-      CycleTempo.Components.Flags.ADDCO N6(
-        redeclare package Medium = Medium,
-        use_T=true,
-        T=343.15) annotation (Placement(transformation(
-            extent={{9,9},{-9,-9}},
-            rotation=180,
-            origin={-158,-41})));
-      CycleTempo.Components.Flags.ADDCO N10(
-        redeclare package Medium = Hot,
-        m_flow=0.5,
-        use_T=true,
-        use_p=true,
-        use_m_flow=true,
-        T=618.15,
-        p=200000)         annotation (Placement(transformation(
-            extent={{-11,-10},{11,10}},
-            rotation=0,
-            origin={-11,96})));
-      CycleTempo.Components.Flags.ADDCO N11(
-        redeclare package Medium = Hot,
-        visible=true,
-        use_T=true,
-        T=513.15) annotation (Placement(transformation(
-            extent={{-10,-9},{10,9}},
-            rotation=0,
-            origin={-10,20})));
-      CycleTempo.Components.Flags.ADDCO N4(
-        redeclare package Medium = Medium,
-        T=593.15,
-        use_T=true)
-                  annotation (Placement(transformation(
-            extent={{-10,-10},{10,10}},
-            rotation=0,
-            origin={44,96})));
-      CycleTempo.Components.Flags.ADDCO N5(redeclare package Medium = Medium,
-          visible=true) annotation (Placement(transformation(
-            extent={{10.5,-9.5},{-10.5,9.5}},
-            rotation=0,
-            origin={134.5,3.5})));
-      CycleTempo.Components.Flags.ADDCO N1(
-        redeclare package Medium = Medium,
-        T=323.15,
-        p=33000,
-        use_T=true,
-        use_p=false)
-                 annotation (Placement(transformation(
-            extent={{-9,-9},{9,9}},
-            rotation=0,
-            origin={-88,-105})));
-      CycleTempo.Components.Flags.START START1(
-        redeclare package Medium = Medium,
-        m_flow=0.15,
-        p=1460000,
-        T=453.15)
-        annotation (Placement(transformation(extent={{-120,36},{-102,54}})));
-      CycleTempo.Components.Electrics.Generator generator(eta_el=0.98)
-        annotation (Placement(transformation(extent={{102,18},{133,49}})));
-      CycleTempo.Components.Flags.ADDCOW Pout(W=33e3, use_W=false)
-        annotation (Placement(transformation(extent={{162,23},{142,44}})));
-      CycleTempo.Components.Flags.ADDCOW Ppump(W=33e3, use_W=false)
-        annotation (Placement(transformation(extent={{152,-58},{132,-37}})));
-      CycleTempo.Components.Electrics.Motor motor(eta_el=0.9)
-        annotation (Placement(transformation(extent={{97,-60},{122,-36}})));
-      CycleTempo.Components.Flags.START START2(   redeclare package Medium = Medium,
-        m_flow=0.15,
-        p=33000,
-        T=343.15)
-        annotation (Placement(transformation(extent={{26,-50},{8,-32}})));
-      CycleTempo.Components.Flags.START START3(   redeclare package Medium = Medium,
-        m_flow=0.15,
-        p=33000,
-        T=593.15)
-        annotation (Placement(transformation(extent={{34,41},{52,59}})));
-
-        parameter Medium.ThermodynamicState hot_in = Medium.setState_pT(0.33e5, 276.9 + 273.15)
-        "Thermodynamic state at the inlet of the hot side";
-        parameter Medium.ThermodynamicState hot_out = Medium.setState_pT(0.33e5, 71.4 + 273.15)
-        "Thermodynamic state at the outlet of the hot side";
-        parameter Medium.ThermodynamicState cold_in = Medium.setState_pT(14.6e5, 51.4 + 273.15)
-        "Thermodynamic state at the inlet of the hot side";
-        parameter Medium.ThermodynamicState cold_out = Medium.setState_pT(14.6e5, 222.9 + 273.15)
-        "Thermodynamic state at the outlet of the hot side";
-      CycleTempo.Components.Flags.START START4(   redeclare package Medium = Medium,
-        m_flow=0.15,
-        p=33000)
-        annotation (Placement(transformation(extent={{20,19},{38,37}})));
-      CycleTempo.Components.Flags.START START5(   redeclare package Medium = Medium,
-        m_flow=0.15,
-        p=33000,
-        T=313.15)
-        annotation (Placement(transformation(extent={{118,-78},{100,-60}})));
-    equation
-      connect(CC.node_in, N1.node) annotation (Line(
-          points={{77,-83.8},{77,-105},{-78.91,-105}},
-          color={0,0,0},
-          pattern=LinePattern.None,
-          smooth=Smooth.None));
-      connect(N11.node, evaporator.node_h_out) annotation (Line(
-          points={{0.1,20},{0.1,30},{0,30},{0,37.8}},
-          color={0,0,0},
-          pattern=LinePattern.None,
-          smooth=Smooth.None));
-      connect(N10.node, evaporator.node_h_in) annotation (Line(
-          points={{0.11,96},{0.11,86},{0,86},{0,81.51}},
-          color={0,0,0},
-          pattern=LinePattern.None,
-          smooth=Smooth.None));
-      connect(N5.node, recuperator.node_h_in) annotation (Line(
-          points={{123.895,3.5},{0,3.5},{0,-7.8}},
-          color={0,0,0},
-          pattern=LinePattern.None,
-          smooth=Smooth.None));
-      connect(condenser.node_h_out, N1.node) annotation (Line(
-          points={{0,-87.4},{0,-105},{-78.91,-105}},
-          color={0,0,0},
-          pattern=LinePattern.None,
-          smooth=Smooth.None));
-      connect(CC.node_out, Pump.node_in) annotation (Line(
-          points={{77,-72},{77,-60.74}},
-          color={0,0,0},
-          pattern=LinePattern.None,
-          smooth=Smooth.None));
-      connect(Pump.node_out, N2.node) annotation (Line(
-          points={{77,-35},{77,-22},{76.9,-22}},
-          color={0,0,0},
-          pattern=LinePattern.None,
-          smooth=Smooth.None));
-      connect(recuperator.node_c_in, N2.node) annotation (Line(
-          points={{15.4,-22},{76.9,-22}},
-          color={0,0,0},
-          pattern=LinePattern.None,
-          smooth=Smooth.None));
-      connect(recuperator.node_c_out, N3.node) annotation (Line(
-          points={{-15.51,-22},{-149.9,-22},{-149.9,15}},
-          color={0,0,0},
-          pattern=LinePattern.None,
-          smooth=Smooth.None));
-      connect(N20.node, condenser.node_c_in) annotation (Line(
-          points={{-78.91,-72.5},{-26,-72.5},{-26,-72},{-16.8,-72}},
-          color={0,0,0},
-          pattern=LinePattern.None,
-          smooth=Smooth.None));
-      connect(condenser.node_c_out, N21.node) annotation (Line(
-          points={{16.92,-72},{22.89,-72}},
-          color={0,0,0},
-          pattern=LinePattern.None,
-          smooth=Smooth.None));
-      connect(N6.node, condenser.node_h_in) annotation (Line(
-          points={{-148.91,-41},{0,-41},{0,-56.38}},
-          color={0,0,0},
-          pattern=LinePattern.None,
-          smooth=Smooth.None));
-      connect(N3.node, START1.node) annotation (Line(
-          points={{-149.9,15},{-149.9,14.5},{-102,14.5},{-102,45}},
-          color={0,0,0},
-          pattern=LinePattern.None,
-          smooth=Smooth.None));
-      connect(START1.node, evaporator.node_c_in) annotation (Line(
-          points={{-102,45},{-102,59.5},{-25.2,59.5}},
-          color={0,0,0},
-          pattern=LinePattern.None,
-          smooth=Smooth.None));
-      connect(evaporator.node_c_out, turbine.node_in) annotation (Line(
-          points={{25.38,59.5},{64.7,59.5},{64.7,50}},
-          color={0,0,0},
-          pattern=LinePattern.None,
-          smooth=Smooth.None));
-      connect(turbine.node_out, N5.node) annotation (Line(
-          points={{75.23,13.7},{75.23,10.75},{123.895,10.75},{123.895,3.5}},
-          color={0,0,0},
-          pattern=LinePattern.None,
-          smooth=Smooth.None));
-      connect(turbine.terminal, generator.terminal_in) annotation (Line(
-          points={{91.9025,33.5},{102.31,33.5}},
-          color={0,0,0},
-          smooth=Smooth.None));
-      connect(generator.terminal_out, Pout.terminal) annotation (Line(
-          points={{133,33.5},{142,33.5}},
-          color={0,0,0},
-          smooth=Smooth.None));
-      connect(Ppump.terminal, motor.terminal_out) annotation (Line(
-          points={{132,-47.5},{122,-47.5},{122,-48}},
-          color={0,0,0},
-          smooth=Smooth.None));
-      connect(Pump.terminal, motor.terminal_in) annotation (Line(
-          points={{91,-48.065},{95.5,-48.065},{95.5,-48},{97.25,-48}},
-          color={0,0,0},
-          smooth=Smooth.None));
-      connect(N4.node, turbine.node_in) annotation (Line(
-          points={{54.1,96},{65,96},{65,60},{64.7,60},{64.7,50}},
-          color={0,0,0},
-          pattern=LinePattern.None,
-          smooth=Smooth.None));
-      connect(recuperator.node_h_out, condenser.node_h_in) annotation (Line(
-          points={{0,-36},{0,-56.38}},
-          color={0,0,0},
-          pattern=LinePattern.None,
-          smooth=Smooth.None));
-      connect(START2.node, condenser.node_h_in) annotation (Line(
-          points={{8,-41},{0,-41},{0,-56.38}},
-          color={0,0,0},
-          pattern=LinePattern.None,
-          smooth=Smooth.None));
-      connect(START3.node, turbine.node_in) annotation (Line(
-          points={{52,50},{64.7,50}},
-          color={0,0,0},
-          pattern=LinePattern.None,
-          smooth=Smooth.None));
-      connect(START4.node, turbine.node_out) annotation (Line(
-          points={{38,28},{46,28},{46,16},{75.23,16},{75.23,13.7}},
-          color={0,0,0},
-          pattern=LinePattern.None,
-          smooth=Smooth.None));
-      connect(Pump.node_in, START5.node) annotation (Line(
-          points={{77,-60.74},{90,-60.74},{90,-69},{100,-69}},
-          color={0,0,0},
-          pattern=LinePattern.None,
-          smooth=Smooth.None));
-      annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-180,
-                -120},{180,120}}),      graphics), Icon(coordinateSystem(extent={{-180,
-                -120},{180,120}})));
-    end ORCHID;
 
     model ORCHID_design
       "Design of the ORCHID test rig. Design of the components."
@@ -3471,6 +3173,604 @@ extends Modelica.Icons.ExamplesPackage;
         experiment(__Dymola_NumberOfIntervals=1, __Dymola_Algorithm="Dassl"),
         __Dymola_experimentSetupOutput);
     end ORCHID_od;
+
+    model ORCHID "Design of the ORCHID test rig. No design of the components."
+      parameter Modelica.SIunits.Temperature TIT = 320 + 273.15
+        "Temperature difference at the inlet of the evaporator";
+      parameter Modelica.SIunits.TemperatureDifference dT_int_rec = 20
+        "Temperature difference at the inlet of the recuperator";
+      parameter Modelica.SIunits.AbsolutePressure pmax = 15e5
+        "Evaporation pressure";
+      parameter Modelica.SIunits.AbsolutePressure pmin = 0.33e5
+        "Condensation pressure";
+      parameter Medium.SaturationProperties  sat =  Medium.setSat_p(pmin)
+        "Saturation properties";
+      replaceable package Hot = Media.CoolProp.THERM66 "Medium model hot cells";
+      replaceable package Medium = Media.CoolProp.Toluene
+        "Medium model hot cells";
+      replaceable package Coolant = Media.CoolProp.Water_TTSE
+        "Medium model hot cells";
+
+      CycleTempo.Components.Turbomachinery.Pump Pump(
+        redeclare package Medium = Medium,
+        eta_is=0.9,
+        eta_m=1) "Centrifugal pump"
+        annotation (Placement(transformation(extent={{13,14},{-13,-14}},
+            rotation=-90,
+            origin={77,-48})));
+      CycleTempo.Components.HEX.Evaporator evaporator(
+        dp_h=0,
+        redeclare package Medium_c = Medium,
+        redeclare package Medium_h = Hot,
+        dp_c=0,
+        dT_int=30,
+        use_dT_in=false,
+        use_dT_int=false,
+        hh_in_start=1e5)
+                        annotation (Placement(transformation(
+            extent={{-18,-15.5},{18,15.5}},
+            rotation=0,
+            origin={0,59.5})));
+      CycleTempo.Components.Turbomachinery.Turbine turbine(
+        redeclare package Medium = Medium,
+        eta_is=0.8,
+        eta_m=1) "Axial turbine"
+        annotation (Placement(transformation(extent={{53,17},{92,50}})));
+      CycleTempo.Components.HEX.Condenser condenser(
+        dp_h=0,
+        redeclare package Medium_h = Medium,
+        redeclare package Medium_c = Media.CoolProp.Water,
+        dp_c=0,
+        dT_int=20,
+        use_dT_int=true) "condenser model"  annotation (Placement(transformation(
+            extent={{-12,-11},{12,11}},
+            rotation=0,
+            origin={0,-72})));
+      CycleTempo.Components.Flags.CC CC(redeclare package Medium = Medium)
+        annotation (Placement(transformation(
+            extent={{10,-10},{-10,10}},
+            rotation=-90,
+            origin={77,-78})));
+      CycleTempo.Components.HEX.Heat_exchanger recuperator(
+        redeclare package Medium_h = Medium,
+        redeclare package Medium_c = Medium,
+        dp_h=0,
+        dp_c=0,
+        dT_out=dT_int_rec,
+        use_dT_out=false)
+        annotation (Placement(transformation(extent={{11,-32},{-11,-12}})));
+      CycleTempo.Components.Flags.ADDCO N3(redeclare package Medium = Medium)
+        annotation (Placement(transformation(extent={{-170,4},{-150,26}})));
+      CycleTempo.Components.Flags.ADDCO N20(
+        redeclare package Medium = Coolant,
+        use_T=true,
+        use_p=true,
+        T=278.15,
+        p=100000)
+        annotation (Placement(transformation(extent={{-97,-82},{-79,-63}})));
+      CycleTempo.Components.Flags.ADDCO N21(
+        redeclare package Medium = Coolant,
+        T=313.15,
+        use_T=false)
+                  annotation (Placement(transformation(extent={{45,-81},{23,-63}})));
+      CycleTempo.Components.Flags.ADDCO N2(
+        redeclare package Medium = Medium,
+        use_p=true,
+        p=pmax) annotation (Placement(transformation(
+            extent={{10,-10},{-10,10}},
+            rotation=0,
+            origin={87,-22})));
+      CycleTempo.Components.Flags.ADDCO N6(
+        redeclare package Medium = Medium,
+        use_T=true,
+        T=343.15) annotation (Placement(transformation(
+            extent={{9,9},{-9,-9}},
+            rotation=180,
+            origin={-158,-41})));
+      CycleTempo.Components.Flags.ADDCO N10(
+        redeclare package Medium = Hot,
+        m_flow=0.5,
+        use_T=true,
+        use_p=true,
+        use_m_flow=true,
+        T=618.15,
+        p=200000)         annotation (Placement(transformation(
+            extent={{-11,-10},{11,10}},
+            rotation=0,
+            origin={-11,96})));
+      CycleTempo.Components.Flags.ADDCO N11(
+        redeclare package Medium = Hot,
+        visible=true,
+        use_T=true,
+        T=513.15) annotation (Placement(transformation(
+            extent={{-10,-9},{10,9}},
+            rotation=0,
+            origin={-10,20})));
+      CycleTempo.Components.Flags.ADDCO N4(
+        redeclare package Medium = Medium,
+        T=TIT,
+        use_T=true)
+                  annotation (Placement(transformation(
+            extent={{-10,-10},{10,10}},
+            rotation=0,
+            origin={44,96})));
+      CycleTempo.Components.Flags.ADDCO N5(redeclare package Medium = Medium,
+          visible=true) annotation (Placement(transformation(
+            extent={{10.5,-9.5},{-10.5,9.5}},
+            rotation=0,
+            origin={134.5,3.5})));
+      CycleTempo.Components.Flags.ADDCO N1(
+        redeclare package Medium = Medium,
+        T=323.15,
+        p=pmin,
+        use_T=true,
+        use_p=false)
+                 annotation (Placement(transformation(
+            extent={{-9,-9},{9,9}},
+            rotation=0,
+            origin={-88,-105})));
+      CycleTempo.Components.Flags.START START1(
+        redeclare package Medium = Medium,
+        m_flow=0.15,
+        p=pmax,
+        T=453.15)
+        annotation (Placement(transformation(extent={{-120,36},{-102,54}})));
+      CycleTempo.Components.Electrics.Generator generator(eta_el=0.98)
+        annotation (Placement(transformation(extent={{102,18},{133,49}})));
+      CycleTempo.Components.Flags.ADDCOW Pout(W=33e3, use_W=false)
+        annotation (Placement(transformation(extent={{162,23},{142,44}})));
+      CycleTempo.Components.Flags.ADDCOW Ppump(W=33e3, use_W=false)
+        annotation (Placement(transformation(extent={{152,-58},{132,-37}})));
+      CycleTempo.Components.Electrics.Motor motor(eta_el=0.9)
+        annotation (Placement(transformation(extent={{97,-60},{122,-36}})));
+      CycleTempo.Components.Flags.START START2(   redeclare package Medium = Medium,
+        m_flow=0.15,
+        p=pmin,
+        T=343.15)
+        annotation (Placement(transformation(extent={{26,-50},{8,-32}})));
+      CycleTempo.Components.Flags.START START3(   redeclare package Medium = Medium,
+        m_flow=0.15,
+        p=pmin,
+        T=593.15)
+        annotation (Placement(transformation(extent={{34,41},{52,59}})));
+
+      CycleTempo.Components.Flags.START START4(   redeclare package Medium = Medium,
+        m_flow=0.15,
+        p=33000)
+        annotation (Placement(transformation(extent={{20,19},{38,37}})));
+      CycleTempo.Components.Flags.START START5(   redeclare package Medium = Medium,
+        m_flow=0.15,
+        p=33000,
+        T=313.15)
+        annotation (Placement(transformation(extent={{118,-78},{100,-60}})));
+    equation
+      connect(CC.node_in, N1.node) annotation (Line(
+          points={{77,-83.8},{77,-105},{-78.91,-105}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(N11.node, evaporator.node_h_out) annotation (Line(
+          points={{0.1,20},{0.1,30},{0,30},{0,37.8}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(N10.node, evaporator.node_h_in) annotation (Line(
+          points={{0.11,96},{0.11,86},{0,86},{0,81.51}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(N5.node, recuperator.node_h_in) annotation (Line(
+          points={{123.895,3.5},{0,3.5},{0,-7.8}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(condenser.node_h_out, N1.node) annotation (Line(
+          points={{0,-87.4},{0,-105},{-78.91,-105}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(CC.node_out, Pump.node_in) annotation (Line(
+          points={{77,-72},{77,-60.74}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(Pump.node_out, N2.node) annotation (Line(
+          points={{77,-35},{77,-22},{76.9,-22}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(recuperator.node_c_in, N2.node) annotation (Line(
+          points={{15.4,-22},{76.9,-22}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(recuperator.node_c_out, N3.node) annotation (Line(
+          points={{-15.51,-22},{-149.9,-22},{-149.9,15}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(N20.node, condenser.node_c_in) annotation (Line(
+          points={{-78.91,-72.5},{-26,-72.5},{-26,-72},{-16.8,-72}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(condenser.node_c_out, N21.node) annotation (Line(
+          points={{16.92,-72},{22.89,-72}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(N6.node, condenser.node_h_in) annotation (Line(
+          points={{-148.91,-41},{0,-41},{0,-56.38}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(N3.node, START1.node) annotation (Line(
+          points={{-149.9,15},{-149.9,14.5},{-102,14.5},{-102,45}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(START1.node, evaporator.node_c_in) annotation (Line(
+          points={{-102,45},{-102,59.5},{-25.2,59.5}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(evaporator.node_c_out, turbine.node_in) annotation (Line(
+          points={{25.38,59.5},{64.7,59.5},{64.7,50}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(turbine.node_out, N5.node) annotation (Line(
+          points={{75.23,13.7},{75.23,10.75},{123.895,10.75},{123.895,3.5}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(turbine.terminal, generator.terminal_in) annotation (Line(
+          points={{91.9025,33.5},{102.31,33.5}},
+          color={0,0,0},
+          smooth=Smooth.None));
+      connect(generator.terminal_out, Pout.terminal) annotation (Line(
+          points={{133,33.5},{142,33.5}},
+          color={0,0,0},
+          smooth=Smooth.None));
+      connect(Ppump.terminal, motor.terminal_out) annotation (Line(
+          points={{132,-47.5},{122,-47.5},{122,-48}},
+          color={0,0,0},
+          smooth=Smooth.None));
+      connect(Pump.terminal, motor.terminal_in) annotation (Line(
+          points={{91,-48.065},{95.5,-48.065},{95.5,-48},{97.25,-48}},
+          color={0,0,0},
+          smooth=Smooth.None));
+      connect(N4.node, turbine.node_in) annotation (Line(
+          points={{54.1,96},{65,96},{65,60},{64.7,60},{64.7,50}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(recuperator.node_h_out, condenser.node_h_in) annotation (Line(
+          points={{0,-36},{0,-56.38}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(START2.node, condenser.node_h_in) annotation (Line(
+          points={{8,-41},{0,-41},{0,-56.38}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(START3.node, turbine.node_in) annotation (Line(
+          points={{52,50},{64.7,50}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(START4.node, turbine.node_out) annotation (Line(
+          points={{38,28},{46,28},{46,16},{75.23,16},{75.23,13.7}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(Pump.node_in, START5.node) annotation (Line(
+          points={{77,-60.74},{90,-60.74},{90,-69},{100,-69}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-180,
+                -120},{180,120}}),      graphics), Icon(coordinateSystem(extent={{-180,
+                -120},{180,120}})));
+    end ORCHID;
+
+    model ORCHID_opti
+      "Design of the ORCHID test rig. No design of the components. Optimization on."
+      replaceable package Hot = Media.CoolProp.THERM66 "Medium model hot cells";
+      replaceable package Medium = Media.CoolProp.Toluene_TTSE
+        "Medium model hot cells";
+      replaceable package Coolant = Media.CoolProp.Water_TTSE
+        "Medium model hot cells";
+      input Modelica.SIunits.Temperature TIT
+        "Temperature difference at the inlet of the evaporator";
+      input Modelica.SIunits.TemperatureDifference dT_int_rec
+        "Temperature difference at the inlet of the recuperator";
+      input Modelica.SIunits.AbsolutePressure pmax "Evaporation pressure";
+      input Modelica.SIunits.AbsolutePressure pmin "Condensation pressure";
+      Medium.SaturationProperties  sat "Saturation properties";
+
+      CycleTempo.Components.Turbomachinery.Pump Pump(
+        redeclare package Medium = Medium,
+        eta_is=0.9,
+        eta_m=1) "Centrifugal pump"
+        annotation (Placement(transformation(extent={{13,14},{-13,-14}},
+            rotation=-90,
+            origin={77,-48})));
+      CycleTempo.Components.HEX.Evaporator evaporator(
+        dp_h=0,
+        redeclare package Medium_c = Medium,
+        redeclare package Medium_h = Hot,
+        dp_c=0,
+        dT_int=30,
+        use_dT_in=false,
+        use_dT_int=false,
+        hh_in_start=1e5)
+                        annotation (Placement(transformation(
+            extent={{-18,-15.5},{18,15.5}},
+            rotation=0,
+            origin={0,59.5})));
+      CycleTempo.Components.Turbomachinery.Turbine turbine(
+        redeclare package Medium = Medium,
+        eta_is=0.8,
+        eta_m=1) "Axial turbine"
+        annotation (Placement(transformation(extent={{53,17},{92,50}})));
+      CycleTempo.Components.HEX.Condenser condenser(
+        dp_h=0,
+        redeclare package Medium_h = Medium,
+        redeclare package Medium_c = Media.CoolProp.Water,
+        dp_c=0,
+        dT_int=20,
+        use_dT_int=true) "condenser model"  annotation (Placement(transformation(
+            extent={{-12,-11},{12,11}},
+            rotation=0,
+            origin={0,-72})));
+      CycleTempo.Components.Flags.CC CC(redeclare package Medium = Medium)
+        annotation (Placement(transformation(
+            extent={{10,-10},{-10,10}},
+            rotation=-90,
+            origin={77,-78})));
+      CycleTempo.Components.HEX.Heat_exchanger recuperator(
+        redeclare package Medium_h = Medium,
+        redeclare package Medium_c = Medium,
+        dp_h=0,
+        dp_c=0)
+        annotation (Placement(transformation(extent={{11,-32},{-11,-12}})));
+      CycleTempo.Components.Flags.ADDCO N3(redeclare package Medium = Medium)
+        annotation (Placement(transformation(extent={{-170,4},{-150,26}})));
+      CycleTempo.Components.Flags.ADDCO N20(
+        redeclare package Medium = Coolant,
+        use_T=true,
+        use_p=true,
+        T=278.15,
+        p=100000)
+        annotation (Placement(transformation(extent={{-97,-82},{-79,-63}})));
+      CycleTempo.Components.Flags.ADDCO N21(
+        redeclare package Medium = Coolant,
+        T=313.15,
+        use_T=false)
+                  annotation (Placement(transformation(extent={{45,-81},{23,-63}})));
+      CycleTempo.Components.Flags.ADDCO N2(
+        redeclare package Medium = Medium)
+                annotation (Placement(transformation(
+            extent={{10,-10},{-10,10}},
+            rotation=0,
+            origin={87,-22})));
+      CycleTempo.Components.Flags.ADDCO N6(
+        redeclare package Medium = Medium)
+                  annotation (Placement(transformation(
+            extent={{9,9},{-9,-9}},
+            rotation=180,
+            origin={-158,-41})));
+      CycleTempo.Components.Flags.ADDCO N10(
+        redeclare package Medium = Hot,
+        m_flow=0.5,
+        use_T=true,
+        use_p=true,
+        use_m_flow=true,
+        T=618.15,
+        p=200000)         annotation (Placement(transformation(
+            extent={{-11,-10},{11,10}},
+            rotation=0,
+            origin={-11,96})));
+      CycleTempo.Components.Flags.ADDCO N11(
+        redeclare package Medium = Hot,
+        visible=true,
+        use_T=true,
+        T=513.15) annotation (Placement(transformation(
+            extent={{-10,-9},{10,9}},
+            rotation=0,
+            origin={-10,20})));
+      CycleTempo.Components.Flags.ADDCO N4(
+        redeclare package Medium = Medium,
+        T=593.15,
+        use_T=false)
+                  annotation (Placement(transformation(
+            extent={{-10,-10},{10,10}},
+            rotation=0,
+            origin={44,96})));
+      CycleTempo.Components.Flags.ADDCO N5(redeclare package Medium = Medium,
+          visible=true) annotation (Placement(transformation(
+            extent={{10.5,-9.5},{-10.5,9.5}},
+            rotation=0,
+            origin={134.5,3.5})));
+      CycleTempo.Components.Flags.ADDCO N1(
+        redeclare package Medium = Medium)
+                 annotation (Placement(transformation(
+            extent={{-9,-9},{9,9}},
+            rotation=0,
+            origin={-88,-105})));
+      CycleTempo.Components.Flags.START START1(
+        redeclare package Medium = Medium,
+        m_flow=0.15,
+        p=15e5,
+        T=453.15)
+        annotation (Placement(transformation(extent={{-120,36},{-102,54}})));
+      CycleTempo.Components.Electrics.Generator generator(eta_el=0.98)
+        annotation (Placement(transformation(extent={{102,18},{133,49}})));
+      CycleTempo.Components.Flags.ADDCOW Pout(W=33e3, use_W=false)
+        annotation (Placement(transformation(extent={{162,23},{142,44}})));
+      CycleTempo.Components.Flags.ADDCOW Ppump(W=33e3, use_W=false)
+        annotation (Placement(transformation(extent={{152,-58},{132,-37}})));
+      CycleTempo.Components.Electrics.Motor motor(eta_el=0.9)
+        annotation (Placement(transformation(extent={{97,-60},{122,-36}})));
+      CycleTempo.Components.Flags.START START2(   redeclare package Medium = Medium,
+        m_flow=0.15,
+        p=1e4,
+        T=343.15)
+        annotation (Placement(transformation(extent={{26,-50},{8,-32}})));
+      CycleTempo.Components.Flags.START START3(   redeclare package Medium = Medium,
+        m_flow=0.15,
+        p=1e4,
+        T=593.15)
+        annotation (Placement(transformation(extent={{34,41},{52,59}})));
+
+      CycleTempo.Components.Flags.START START4(   redeclare package Medium = Medium,
+        m_flow=0.15,
+        p=1e4)
+        annotation (Placement(transformation(extent={{20,19},{38,37}})));
+      CycleTempo.Components.Flags.START START5(   redeclare package Medium = Medium,
+        m_flow=0.15,
+        p=1e4,
+        T=323)
+        annotation (Placement(transformation(extent={{118,-78},{100,-60}})));
+    equation
+      sat        =  Medium.setSat_p(pmin);
+      pmax       = N2.node.p;
+      N4.node.h  = Medium.specificEnthalpy_pT(N4.node.p, TIT);
+      dT_int_rec = Medium.temperature_ph(N6.node.p, N6.node.h) - Medium.temperature_ph(N2.node.p, N2.node.h);
+      pmin       = N1.node.p;
+
+      connect(CC.node_in, N1.node) annotation (Line(
+          points={{77,-83.8},{77,-105},{-78.91,-105}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(N11.node, evaporator.node_h_out) annotation (Line(
+          points={{0.1,20},{0.1,30},{0,30},{0,37.8}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(N10.node, evaporator.node_h_in) annotation (Line(
+          points={{0.11,96},{0.11,86},{0,86},{0,81.51}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(N5.node, recuperator.node_h_in) annotation (Line(
+          points={{123.895,3.5},{0,3.5},{0,-7.8}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(condenser.node_h_out, N1.node) annotation (Line(
+          points={{0,-87.4},{0,-105},{-78.91,-105}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(CC.node_out, Pump.node_in) annotation (Line(
+          points={{77,-72},{77,-60.74}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(Pump.node_out, N2.node) annotation (Line(
+          points={{77,-35},{77,-22},{76.9,-22}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(recuperator.node_c_in, N2.node) annotation (Line(
+          points={{15.4,-22},{76.9,-22}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(recuperator.node_c_out, N3.node) annotation (Line(
+          points={{-15.51,-22},{-149.9,-22},{-149.9,15}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(N20.node, condenser.node_c_in) annotation (Line(
+          points={{-78.91,-72.5},{-26,-72.5},{-26,-72},{-16.8,-72}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(condenser.node_c_out, N21.node) annotation (Line(
+          points={{16.92,-72},{22.89,-72}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(N6.node, condenser.node_h_in) annotation (Line(
+          points={{-148.91,-41},{0,-41},{0,-56.38}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(N3.node, START1.node) annotation (Line(
+          points={{-149.9,15},{-149.9,14.5},{-102,14.5},{-102,45}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(START1.node, evaporator.node_c_in) annotation (Line(
+          points={{-102,45},{-102,59.5},{-25.2,59.5}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(evaporator.node_c_out, turbine.node_in) annotation (Line(
+          points={{25.38,59.5},{64.7,59.5},{64.7,50}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(turbine.node_out, N5.node) annotation (Line(
+          points={{75.23,13.7},{75.23,10.75},{123.895,10.75},{123.895,3.5}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(turbine.terminal, generator.terminal_in) annotation (Line(
+          points={{91.9025,33.5},{102.31,33.5}},
+          color={0,0,0},
+          smooth=Smooth.None));
+      connect(generator.terminal_out, Pout.terminal) annotation (Line(
+          points={{133,33.5},{142,33.5}},
+          color={0,0,0},
+          smooth=Smooth.None));
+      connect(Ppump.terminal, motor.terminal_out) annotation (Line(
+          points={{132,-47.5},{122,-47.5},{122,-48}},
+          color={0,0,0},
+          smooth=Smooth.None));
+      connect(Pump.terminal, motor.terminal_in) annotation (Line(
+          points={{91,-48.065},{95.5,-48.065},{95.5,-48},{97.25,-48}},
+          color={0,0,0},
+          smooth=Smooth.None));
+      connect(N4.node, turbine.node_in) annotation (Line(
+          points={{54.1,96},{65,96},{65,60},{64.7,60},{64.7,50}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(recuperator.node_h_out, condenser.node_h_in) annotation (Line(
+          points={{0,-36},{0,-56.38}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(START2.node, condenser.node_h_in) annotation (Line(
+          points={{8,-41},{0,-41},{0,-56.38}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(START3.node, turbine.node_in) annotation (Line(
+          points={{52,50},{64.7,50}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(START4.node, turbine.node_out) annotation (Line(
+          points={{38,28},{46,28},{46,16},{75.23,16},{75.23,13.7}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(Pump.node_in, START5.node) annotation (Line(
+          points={{77,-60.74},{90,-60.74},{90,-69},{100,-69}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-180,
+                -120},{180,120}}),      graphics), Icon(coordinateSystem(extent={{-180,
+                -120},{180,120}})));
+    end ORCHID_opti;
   end Merge;
 
   package Part_load "Tests with part-load models"
@@ -3588,4 +3888,34 @@ extends Modelica.Icons.ExamplesPackage;
     end Turbine;
   end Part_load;
   annotation (uses(Modelica(version="3.2.1")));
+  package Optimization "Package for testing GenOpt"
+    model Optimize_ORCHID "Optimization of the ORCHID plant"
+      parameter String parameterFileName = "modelicaParameters.txt"
+        "File on which data is present";
+      parameter String inputFileName = "modelicaSchedule.txt"
+        "File on which data is present";
+      parameter String resultFileName = "result.txt"
+        "File on which data is present";
+      parameter String header = "Objective function value"
+        "Header for result file";
+      Modelica.Blocks.Sources.CombiTimeTable X(
+        tableOnFile=true,
+        columns[:]=2:5,
+        fileName=inputFileName,
+        tableName="tab1") "Table with control input";
+      Merge.ORCHID_opti ORCHID(TIT=Modelica.SIunits.Conversions.from_degC(X.y[2]), dT_int_rec=X.y[3], pmax=Modelica.SIunits.Conversions.from_bar(X.y[1]), pmin=Modelica.SIunits.Conversions.from_bar(X.y[4]))
+        "ORCHID ORC power system"
+        annotation (Placement(transformation(extent={{-34,-30},{36,30}})));
+    initial algorithm
+     if (resultFileName <> "") then
+        Modelica.Utilities.Files.removeFile(resultFileName);
+      end if;
+      Modelica.Utilities.Streams.print(fileName=resultFileName, string=header);
+    equation
+      when terminal() then
+      Modelica.Utilities.Streams.print("f(x) = " +
+      realString(number=-ORCHID.generator.terminal_out.W, minimumWidth=1, precision=16), resultFileName);
+      end when;
+    end Optimize_ORCHID;
+  end Optimization;
 end Test;
