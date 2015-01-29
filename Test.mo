@@ -72,6 +72,7 @@ extends Modelica.Icons.ExamplesPackage;
       package THERM66 "Therminol 66 properties from CoolProp"
         extends ExternalMedia.Media.IncompressibleCoolPropMedium(
           mediumName="T66",
+          reference_X={0},
           substanceNames={"T66|calc_transport=1"},
           ThermoStates=Modelica.Media.Interfaces.Choices.IndependentVariables.pT);
       end THERM66;
@@ -210,6 +211,1082 @@ extends Modelica.Icons.ExamplesPackage;
       end Mixture_propane_butane;
     end FluidProp;
 
+    package Gas "Ideal gases package"
+      package FlueGas "flue gas"
+        extends Test.Media.Gas.MixtureGasNasa(
+          mediumName="FlueGas",
+          data={Modelica.Media.IdealGases.Common.SingleGasesData.O2,
+                Modelica.Media.IdealGases.Common.SingleGasesData.Ar,
+                Modelica.Media.IdealGases.Common.SingleGasesData.H2O,
+                Modelica.Media.IdealGases.Common.SingleGasesData.CO2,
+                Modelica.Media.IdealGases.Common.SingleGasesData.N2},
+          fluidConstants={
+                Modelica.Media.IdealGases.Common.FluidData.O2,
+                Modelica.Media.IdealGases.Common.FluidData.Ar,
+                Modelica.Media.IdealGases.Common.FluidData.H2O,
+                Modelica.Media.IdealGases.Common.FluidData.CO2,
+                Modelica.Media.IdealGases.Common.FluidData.N2},
+          substanceNames={"Oxygen","Argon","Water","Carbondioxide","Nitrogen"},
+          reference_X={0.23,0.02,0.01,0.04,0.7});
+
+      end FlueGas;
+
+    partial package MixtureGasNasa
+        "Medium model of a mixture of ideal gases based on NASA source"
+
+      import Modelica.Math;
+      import Modelica.Media.Interfaces.Choices.ReferenceEnthalpy;
+
+      extends Modelica.Media.Interfaces.PartialMixtureMedium(
+         ThermoStates=Modelica.Media.Interfaces.Choices.IndependentVariables.pTX,
+         substanceNames=data[:].name,
+         reducedX = false,
+         singleState=false,
+         reference_X=fill(1/nX,nX),
+         SpecificEnthalpy(start=if referenceChoice==ReferenceEnthalpy.ZeroAt0K then 3e5 else
+            if referenceChoice==ReferenceEnthalpy.UserDefined then h_offset else 0, nominal=1.0e5),
+         Density(start=10, nominal=10),
+         AbsolutePressure(start=10e5, nominal=10e5),
+         Temperature(min=200, max=6000, start=500, nominal=500));
+
+        redeclare record ThermodynamicState "Thermodynamic state variables"
+          AbsolutePressure p "pressure";
+          Temperature T "temperature";
+          SpecificEntropy s "specific entropy";
+          MassFraction X[nX]
+            "Mass fractions (= (component mass)/total mass  m_i/m)";
+        //   VelocityOfSound a "velocity of sound";
+        //   Modelica.SIunits.CubicExpansionCoefficient beta
+        //     "isobaric expansion coefficient";
+          SpecificHeatCapacity cp "specific heat capacity cp";
+          SpecificHeatCapacity cv "specific heat capacity cv";
+          Density d "density";
+        //   DerDensityByEnthalpy ddhp
+        //     "derivative of density wrt enthalpy at constant pressure";
+        //   DerDensityByPressure ddph
+        //     "derivative of density wrt pressure at constant enthalpy";
+           DynamicViscosity eta "dynamic viscosity";
+           SpecificEnthalpy h "specific enthalpy";
+        //   Modelica.SIunits.Compressibility kappa "compressibility";
+           ThermalConductivity lambda "thermal conductivity";
+
+        end ThermodynamicState;
+
+    //   redeclare record extends FluidConstants "Fluid constants"
+    //   end FluidConstants;
+
+      constant Modelica.Media.IdealGases.Common.DataRecord[:] data
+          "Data records of ideal gas substances";
+        // ={Common.SingleGasesData.N2,Common.SingleGasesData.O2}
+
+      constant Boolean excludeEnthalpyOfFormation=true
+          "If true, enthalpy of formation Hf is not included in specific enthalpy h";
+      constant ReferenceEnthalpy referenceChoice=ReferenceEnthalpy.ZeroAt0K
+          "Choice of reference enthalpy";
+      constant SpecificEnthalpy h_offset=0.0
+          "User defined offset for reference enthalpy, if referenceChoice = UserDefined";
+
+    //   constant FluidConstants[nX] fluidConstants
+    //     "Additional data needed for transport properties";
+      constant MolarMass[nX] MMX=data[:].MM "Molar masses of components";
+      constant Integer methodForThermalConductivity(min=1,max=2)=1;
+      redeclare replaceable model extends BaseProperties(
+        T(stateSelect=if preferredMediumStates then StateSelect.prefer else StateSelect.default),
+        p(stateSelect=if preferredMediumStates then StateSelect.prefer else StateSelect.default),
+        Xi(each stateSelect=if preferredMediumStates then StateSelect.prefer else StateSelect.default),
+        final standardOrderComponents=true)
+          "Base properties (p, d, T, h, u, R, MM, X, and Xi of NASA mixture gas"
+      equation
+        assert(T >= 200 and T <= 6000, "
+Temperature T (="     + String(T) + " K = 200 K) is not in the allowed range
+200 K <= T <= 6000 K
+required from medium model \""     + mediumName + "\".");
+
+        MM = molarMass(state);
+        h = h_TX(T, X);
+        R = data.R*X;
+        u = h - R*T;
+        d = p/(R*T);
+        // connect state with BaseProperties
+        state.T = T;
+        state.p = p;
+        state.X = if fixedX then reference_X else X;
+      end BaseProperties;
+
+        redeclare function setState_pTX
+          "Return thermodynamic state as function of p, T and composition X"
+          extends Modelica.Icons.Function;
+          input AbsolutePressure p "Pressure";
+          input Temperature T "Temperature";
+          input MassFraction X[:]=reference_X "Mass fractions";
+          output ThermodynamicState state;
+        algorithm
+        //   state := if size(X,1) == 0 then ThermodynamicState(p=p,T=T,X=reference_X, a=  Test.Media.Gas.MixtureGasNasa.velocityOfSound(state),
+        //   beta=  Test.Media.Gas.MixtureGasNasa.isobaricExpansionCoefficient(state),cp=Test.Media.Gas.MixtureGasNasa.heatCapacity_cp(state), cv=Test.Media.Gas.MixtureGasNasa.heatCapacity_cv(state),
+        //   d=Test.Media.Gas.MixtureGasNasa.density_pTX(p,state.T,reference_X),eta=Test.Media.Gas.MixtureGasNasa.dynamicViscosity(state), h=Test.Media.Gas.MixtureGasNasa.specificEnthalpy(state), kappa=Test.Media.Gas.MixtureGasNasa.kappa(state),
+        //   lambda=Test.Media.Gas.MixtureGasNasa.thermalConductivity(state), s=  Test.Media.Gas.MixtureGasNasa.specificEntropy(state))
+        //  else
+        //   if size(X,1) == nX then ThermodynamicState(p=p,T=T,X=X,a=  Test.Media.Gas.MixtureGasNasa.velocityOfSound(state),beta=  Test.Media.Gas.MixtureGasNasa.isobaricExpansionCoefficient(state),
+        //   cp=Test.Media.Gas.MixtureGasNasa.heatCapacity_cp(state), cv=Test.Media.Gas.MixtureGasNasa.heatCapacity_cv(state),d=Test.Media.Gas.MixtureGasNasa.density_pTX(p,state.T,reference_X),
+        //   eta=Test.Media.Gas.MixtureGasNasa.dynamicViscosity(state), h=Test.Media.Gas.MixtureGasNasa.specificEnthalpy(state), kappa=Test.Media.Gas.MixtureGasNasa.kappa(state), lambda=Test.Media.Gas.MixtureGasNasa.thermalConductivity(state),
+        //   s=  Test.Media.Gas.MixtureGasNasa.specificEntropy(state)) else
+        //   ThermodynamicState(p=p,T=T, X=cat(1,X,{1-sum(X)}), a=  Test.Media.Gas.MixtureGasNasa.velocityOfSound(state),beta=  Test.Media.Gas.MixtureGasNasa.isobaricExpansionCoefficient(state),
+        //   cp=Test.Media.Gas.MixtureGasNasa.heatCapacity_cp(state), cv=Test.Media.Gas.MixtureGasNasa.heatCapacity_cv(state),d=Test.Media.Gas.MixtureGasNasa.density_pTX(p,state.T,reference_X),
+        //   eta=Test.Media.Gas.MixtureGasNasa.dynamicViscosity(state), h=Test.Media.Gas.MixtureGasNasa.specificEnthalpy(state), kappa=Test.Media.Gas.MixtureGasNasa.kappa(state), lambda=Test.Media.Gas.MixtureGasNasa.thermalConductivity(state),
+        //   s=  Test.Media.Gas.MixtureGasNasa.specificEntropy(state));
+        //   state :=if size(X, 1) == 0 then ThermodynamicState(
+        //     p=p,
+        //     T=T,
+        //     X=reference_X,
+        //     cp=specificHeatCapacityCp_TX(T, reference_X),
+        //     cv=specificHeatCapacityCv_TX(T, reference_X),
+        //     d=Test.Media.Gas.MixtureGasNasa.density_pTX2(T,p,reference_X))
+        //     else if size(X, 1) == nX then ThermodynamicState(
+        //     p=p,
+        //     T=T,
+        //     X=X,
+        //     cp=specificHeatCapacityCp_TX(T, X),
+        //     cv=specificHeatCapacityCv_TX(T, X),
+        //     d=Test.Media.Gas.MixtureGasNasa.density_pTX2(T,p,X))
+        //     else ThermodynamicState(
+        //     p=p,
+        //     T=T,
+        //     X=cat(
+        //       1,
+        //       X,
+        //       {1 - sum(X)}),
+        //     cp=specificHeatCapacityCp_TX(T, X),
+        //     cv=specificHeatCapacityCv_TX(T, X),
+        //     d=Test.Media.Gas.MixtureGasNasa.density_pTX2(T,p,X));
+          state.T       := T;
+          state.p       := p;
+          state.h       := h_TX(T, X);
+          state.X       := X;
+          state.cp      := specificHeatCapacityCp_TX(T, X);
+          state.cv      := specificHeatCapacityCv_TX(T, X);
+          state.d       := p/(X*data.R*T);
+          state.lambda  := thermalConductivity_TX(T, X);
+          state.s       := s_TX(T, X);
+          state.eta     := dynamicViscosity_pTX(T, X);
+
+        annotation(Inline=true,smoothOrder=2);
+        end setState_pTX;
+
+        redeclare function setState_phX
+          "Return thermodynamic state as function of p, h and composition X"
+          extends Modelica.Icons.Function;
+          input AbsolutePressure p "Pressure";
+          input SpecificEnthalpy h "Specific enthalpy";
+          input MassFraction X[:]=reference_X "Mass fractions";
+          output ThermodynamicState state;
+        algorithm
+        //   state := if size(X,1) == 0 then ThermodynamicState(p=p,T=T_hX(h,reference_X),X=reference_X, a=  Test.Media.Gas.MixtureGasNasa.velocityOfSound(state),
+        //   beta=  Test.Media.Gas.MixtureGasNasa.isobaricExpansionCoefficient(state),cp=Test.Media.Gas.MixtureGasNasa.heatCapacity_cp(state), cv=Test.Media.Gas.MixtureGasNasa.heatCapacity_cv(state),
+        //   d=Test.Media.Gas.MixtureGasNasa.density(state),eta=Test.Media.Gas.MixtureGasNasa.dynamicViscosity(state), h=h, kappa=Test.Media.Gas.MixtureGasNasa.kappa(state),
+        //   lambda=Test.Media.Gas.MixtureGasNasa.thermalConductivity(state), s=  Test.Media.Gas.MixtureGasNasa.specificEntropy(state))
+        //  else
+        //   if size(X,1) == nX then ThermodynamicState(p=p,T=T_hX(h,X),X=X,a=  Test.Media.Gas.MixtureGasNasa.velocityOfSound(state),beta=  Test.Media.Gas.MixtureGasNasa.isobaricExpansionCoefficient(state),
+        //   cp=Test.Media.Gas.MixtureGasNasa.specificHeatCapacityCp_TX(T_hX(h,X),X), cv=Test.Media.Gas.MixtureGasNasa.specificHeatCapacityCv_TX(T_hX(h,X),X),d=Test.Media.Gas.MixtureGasNasa.density(state),
+        //   eta=Test.Media.Gas.MixtureGasNasa.dynamicViscosity(state), h=h, kappa=Test.Media.Gas.MixtureGasNasa.kappa(state), lambda=Test.Media.Gas.MixtureGasNasa.thermalConductivity(state),
+        //   s=  Test.Media.Gas.MixtureGasNasa.specificEntropy(state)) else
+        //   ThermodynamicState(p=p,T=T_hX(h,X), X=cat(1,X,{1-sum(X)}), a=  Test.Media.Gas.MixtureGasNasa.velocityOfSound(state),beta=  Test.Media.Gas.MixtureGasNasa.isobaricExpansionCoefficient(state),
+        //   cp=Test.Media.Gas.MixtureGasNasa.heatCapacity_cp(state), cv=Test.Media.Gas.MixtureGasNasa.heatCapacity_cv(state),d=Test.Media.Gas.MixtureGasNasa.density(state),
+        //   eta=Test.Media.Gas.MixtureGasNasa.dynamicViscosity(state), h=h, kappa=Test.Media.Gas.MixtureGasNasa.kappa(state), lambda=Test.Media.Gas.MixtureGasNasa.thermalConductivity(state),
+        //   s=  Test.Media.Gas.MixtureGasNasa.specificEntropy(state));
+
+          state.T      :=T_hX(h, X);
+          state.p      :=p;
+          state.h      :=h;
+          state.X      :=X;
+          state.cp     :=specificHeatCapacityCp_TX(state.T, X);
+          state.cv     :=specificHeatCapacityCv_TX(state.T, X);
+          state.d      :=p/(X*data.R*state.T);
+          state.lambda := thermalConductivity_TX(state.T, X);
+          state.s      :=s_TX(state.T, X);
+          state.eta    := dynamicViscosity_pTX(state.T, X);
+
+        //   state :=if size(X, 1) == 0 then ThermodynamicState(
+        //     p=p,
+        //     T=T_hX(h, reference_X),
+        //     X=reference_X,
+        //     cp=specificHeatCapacityCp_TX(T_hX(h, reference_X), reference_X),
+        //     cv=specificHeatCapacityCv_TX(T_hX(h, reference_X), reference_X),
+        //     d=density_pTX2(T_hX(h, reference_X),p,reference_X))
+        //     else if size(X, 1) == nX then ThermodynamicState(
+        //     p=p,
+        //     T=T_hX(h, X),
+        //     X=X,
+        //     cp=specificHeatCapacityCp_TX(T_hX(h, X), X),
+        //     cv=specificHeatCapacityCv_TX(T_hX(h, X), X),
+        //     d=Test.Media.Gas.MixtureGasNasa.density_pTX2(T_hX(h, X),p,X))
+        //     else ThermodynamicState(
+        //     p=p,
+        //     T=T_hX(h, X),
+        //     X=cat(
+        //       1,
+        //       X,
+        //       {1 - sum(X)}),
+        //     cp=specificHeatCapacityCp_TX(T_hX(h, X), X),
+        //     cv=specificHeatCapacityCv_TX(T_hX(h, X), X),
+        //     d=Test.Media.Gas.MixtureGasNasa.density_pTX2(T_hX(h, X),p,X));
+          annotation(Inline=true,smoothOrder=2);
+        end setState_phX;
+
+        redeclare function setState_psX
+          "Return thermodynamic state as function of p, s and composition X"
+          extends Modelica.Icons.Function;
+          input AbsolutePressure p "Pressure";
+          input SpecificEntropy s "Specific entropy";
+          input MassFraction X[:]=reference_X "Mass fractions";
+          output ThermodynamicState state;
+        algorithm
+          state := if size(X,1) == 0 then ThermodynamicState(p=p,T=T_psX(p,s,reference_X),X=reference_X) else if size(X,1) == nX then ThermodynamicState(p=p,T=T_psX(p,s,X),X=X) else
+                 ThermodynamicState(p=p,T=T_psX(p,s,X), X=cat(1,X,{1-sum(X)}));
+          annotation(Inline=true,smoothOrder=2);
+        end setState_psX;
+
+        redeclare function setState_dTX
+          "Return thermodynamic state as function of d, T and composition X"
+          extends Modelica.Icons.Function;
+          input Density d "Density";
+          input Temperature T "Temperature";
+          input MassFraction X[:]=reference_X "Mass fractions";
+          output ThermodynamicState state;
+        algorithm
+          state := if size(X,1) == 0 then ThermodynamicState(p=d*(data.R*reference_X)*T,T=T,X=reference_X) else if size(X,1) == nX then ThermodynamicState(p=d*(data.R*X)*T,T=T,X=X) else
+                 ThermodynamicState(p=d*(data.R*cat(1,X,{1-sum(X)}))*T,T=T, X=cat(1,X,{1-sum(X)}));
+          annotation(Inline=true,smoothOrder=2);
+        end setState_dTX;
+
+          redeclare function extends setSmoothState
+          "Return thermodynamic state so that it smoothly approximates: if x > 0 then state_a else state_b"
+          algorithm
+          state := ThermodynamicState(
+                      p=Modelica.Media.Common.smoothStep(
+                        x,
+                        state_a.p,
+                        state_b.p,
+                        x_small),
+                      T=Modelica.Media.Common.smoothStep(
+                        x,
+                        state_a.T,
+                        state_b.T,
+                        x_small),
+                      X=Modelica.Media.Common.smoothStep(
+                        x,
+                        state_a.X,
+                        state_b.X,
+                        x_small));
+            annotation(Inline=true,smoothOrder=2);
+          end setSmoothState;
+
+        redeclare function extends pressure "Return pressure of ideal gas"
+        algorithm
+          p := state.p;
+          annotation(Inline=true,smoothOrder=2);
+        end pressure;
+
+        redeclare function extends temperature
+          "Return temperature of ideal gas"
+        algorithm
+          T := state.T;
+          annotation(Inline=true,smoothOrder=2);
+        end temperature;
+
+        redeclare function extends density "Return density of ideal gas"
+        algorithm
+          d := state.p/((state.X*data.R)*state.T);
+          annotation(Inline = true, smoothOrder = 3);
+        end density;
+
+      redeclare function extends specificEnthalpy "Return specific enthalpy"
+        extends Modelica.Icons.Function;
+      algorithm
+        h := h_TX(state.T,state.X);
+        annotation(Inline=true,smoothOrder=2);
+      end specificEnthalpy;
+
+      redeclare function extends specificInternalEnergy
+          "Return specific internal energy"
+        extends Modelica.Icons.Function;
+      algorithm
+        u := h_TX(state.T,state.X) - gasConstant(state)*state.T;
+        annotation(Inline=true,smoothOrder=2);
+      end specificInternalEnergy;
+
+      redeclare function extends specificEntropy "Return specific entropy"
+        protected
+        Real[nX] Y(unit="mol/mol")=massToMoleFractions(state.X, data.MM)
+            "Molar fractions";
+      algorithm
+      s :=  s_TX(state.T, state.X) - sum(state.X[i]*Modelica.Constants.R/MMX[i]*
+          (if state.X[i]<Modelica.Constants.eps then Y[i] else
+          Modelica.Math.log(Y[i]*state.p/reference_p)) for i in 1:nX);
+        annotation(Inline=true,smoothOrder=2);
+      end specificEntropy;
+
+      redeclare function extends specificGibbsEnergy
+          "Return specific Gibbs energy"
+        extends Modelica.Icons.Function;
+      algorithm
+        g := h_TX(state.T,state.X) - state.T*specificEntropy(state);
+        annotation(Inline=true,smoothOrder=2);
+      end specificGibbsEnergy;
+
+      redeclare function extends specificHelmholtzEnergy
+          "Return specific Helmholtz energy"
+        extends Modelica.Icons.Function;
+      algorithm
+        f := h_TX(state.T,state.X) - gasConstant(state)*state.T - state.T*specificEntropy(state);
+        annotation(Inline=true,smoothOrder=2);
+      end specificHelmholtzEnergy;
+
+      function h_TX "Return specific enthalpy"
+        import Modelica.Media.Interfaces.Choices;
+         extends Modelica.Icons.Function;
+         input Modelica.SIunits.Temperature T "Temperature";
+         input MassFraction X[:]=reference_X
+            "Independent Mass fractions of gas mixture";
+         input Boolean exclEnthForm=excludeEnthalpyOfFormation
+            "If true, enthalpy of formation Hf is not included in specific enthalpy h";
+         input Modelica.Media.Interfaces.Choices.ReferenceEnthalpy
+                                         refChoice=referenceChoice
+            "Choice of reference enthalpy";
+         input Modelica.SIunits.SpecificEnthalpy h_off=h_offset
+            "User defined offset for reference enthalpy, if referenceChoice = UserDefined";
+         output Modelica.SIunits.SpecificEnthalpy h
+            "Specific enthalpy at temperature T";
+      algorithm
+        h :=(if fixedX then reference_X else X)*
+             {Modelica.Media.IdealGases.Common.Functions.h_T(
+                                data[i], T, exclEnthForm, refChoice, h_off) for i in 1:nX};
+        annotation(Inline=false,smoothOrder=2);
+      end h_TX;
+
+      function h_TX_der "Return specific enthalpy derivative"
+        import Modelica.Media.Interfaces.Choices;
+         extends Modelica.Icons.Function;
+         input Modelica.SIunits.Temperature T "Temperature";
+         input MassFraction X[nX] "Independent Mass fractions of gas mixture";
+         input Boolean exclEnthForm=excludeEnthalpyOfFormation
+            "If true, enthalpy of formation Hf is not included in specific enthalpy h";
+         input Modelica.Media.Interfaces.Choices.ReferenceEnthalpy
+                                         refChoice=referenceChoice
+            "Choice of reference enthalpy";
+         input Modelica.SIunits.SpecificEnthalpy h_off=h_offset
+            "User defined offset for reference enthalpy, if referenceChoice = UserDefined";
+        input Real dT "Temperature derivative";
+        input Real dX[nX] "Independent mass fraction derivative";
+        output Real h_der "Specific enthalpy at temperature T";
+      algorithm
+        h_der := if fixedX then
+          dT*sum((Modelica.Media.IdealGases.Common.Functions.cp_T(
+                                     data[i], T)*reference_X[i]) for i in 1:nX) else
+          dT*sum((Modelica.Media.IdealGases.Common.Functions.cp_T(
+                                     data[i], T)*X[i]) for i in 1:nX)+
+          sum((Modelica.Media.IdealGases.Common.Functions.h_T(
+                                 data[i], T)*dX[i]) for i in 1:nX);
+        annotation (Inline = false, smoothOrder=1);
+      end h_TX_der;
+
+      redeclare function extends gasConstant "Return gasConstant"
+      algorithm
+        R := data.R*state.X;
+        annotation(Inline = true, smoothOrder = 3);
+      end gasConstant;
+
+      redeclare function extends specificHeatCapacityCp
+          "Return specific heat capacity at constant pressure"
+      algorithm
+        cp := {Modelica.Media.IdealGases.Common.Functions.cp_T(
+                                  data[i], state.T) for i in 1:nX}*state.X;
+        annotation(Inline=true,smoothOrder=1);
+      end specificHeatCapacityCp;
+
+      redeclare function extends specificHeatCapacityCv
+          "Return specific heat capacity at constant volume from temperature and gas data"
+      algorithm
+        cv := {Modelica.Media.IdealGases.Common.Functions.cp_T(
+                                  data[i], state.T) for i in 1:nX}*state.X -data.R*state.X;
+        annotation(Inline=true, smoothOrder = 1);
+      end specificHeatCapacityCv;
+
+      function MixEntropy "Return mixing entropy of ideal gases / R"
+        extends Modelica.Icons.Function;
+        input Modelica.SIunits.MoleFraction x[:] "Mole fraction of mixture";
+        output Real smix "Mixing entropy contribution, divided by gas constant";
+      algorithm
+        smix := sum(if x[i] > Modelica.Constants.eps then -x[i]*Modelica.Math.log(x[i]) else
+                         x[i] for i in 1:size(x,1));
+        annotation(Inline=true,smoothOrder=2);
+      end MixEntropy;
+
+      function s_TX
+          "Return temperature dependent part of the entropy, expects full entropy vector"
+        extends Modelica.Icons.Function;
+        input Temperature T "Temperature";
+        input MassFraction[nX] X "Mass fraction";
+        output SpecificEntropy s "Specific entropy";
+      algorithm
+        s := sum(Modelica.Media.IdealGases.Common.Functions.s0_T(
+                                    data[i], T)*X[i] for i in 1:size(X,1));
+        annotation(Inline=true,smoothOrder=2);
+      end s_TX;
+
+      redeclare function extends isentropicExponent
+          "Return isentropic exponent"
+      algorithm
+        gamma := specificHeatCapacityCp(state)/specificHeatCapacityCv(state);
+        annotation(Inline=true,smoothOrder=2);
+      end isentropicExponent;
+
+      redeclare function extends velocityOfSound "Return velocity of sound"
+        extends Modelica.Icons.Function;
+        input ThermodynamicState state "Properties at upstream location";
+      algorithm
+        a := sqrt(max(0,gasConstant(state)*state.T*specificHeatCapacityCp(state)/specificHeatCapacityCv(state)));
+        annotation(Inline=true,smoothOrder=2);
+      end velocityOfSound;
+
+      function isentropicEnthalpyApproximation
+          "Approximate method of calculating h_is from upstream properties and downstream pressure"
+        extends Modelica.Icons.Function;
+        input AbsolutePressure p2 "Downstream pressure";
+        input ThermodynamicState state
+            "Thermodynamic state at upstream location";
+        output SpecificEnthalpy h_is "Isentropic enthalpy";
+        protected
+        SpecificEnthalpy h "Specific enthalpy at upstream location";
+        SpecificEnthalpy h_component[nX]
+            "Specific enthalpy at upstream location";
+        IsentropicExponent gamma =  isentropicExponent(state)
+            "Isentropic exponent";
+        protected
+        MassFraction[nX] X "Complete X-vector";
+      algorithm
+        X := if reducedX then cat(1,state.X,{1-sum(state.X)}) else state.X;
+        h_component :={Modelica.Media.IdealGases.Common.Functions.h_T(
+                                         data[i], state.T, excludeEnthalpyOfFormation,
+          referenceChoice, h_offset) for i in 1:nX};
+        h :=h_component*X;
+        h_is := h + gamma/(gamma - 1.0)*(state.T*gasConstant(state))*
+          ((p2/state.p)^((gamma - 1)/gamma) - 1.0);
+        annotation(smoothOrder=2);
+      end isentropicEnthalpyApproximation;
+
+      redeclare function extends isentropicEnthalpy
+          "Return isentropic enthalpy"
+        input Boolean exact = false
+            "Flag whether exact or approximate version should be used";
+      algorithm
+        h_is := if exact then specificEnthalpy_psX(p_downstream,specificEntropy(refState),refState.X) else
+               isentropicEnthalpyApproximation(p_downstream,refState);
+        annotation(Inline=true,smoothOrder=2);
+      end isentropicEnthalpy;
+
+    function gasMixtureViscosity
+          "Return viscosities of gas mixtures at low pressures (Wilke method)"
+      extends Modelica.Icons.Function;
+      input MoleFraction[:] yi "Mole fractions";
+      input MolarMass[:] M "Mole masses";
+      input DynamicViscosity[:] eta "Pure component viscosities";
+      output DynamicViscosity etam "Viscosity of the mixture";
+        protected
+      Real fi[size(yi,1),size(yi,1)];
+    algorithm
+      for i in 1:size(eta,1) loop
+        assert(fluidConstants[i].hasDipoleMoment,"Dipole moment for " + fluidConstants[i].chemicalFormula +
+           " not known. Can not compute viscosity.");
+        assert(fluidConstants[i].hasCriticalData, "Critical data for "+ fluidConstants[i].chemicalFormula +
+           " not known. Can not compute viscosity.");
+        for j in 1:size(eta,1) loop
+          if i==1 then
+            fi[i,j] := (1 + (eta[i]/eta[j])^(1/2)*(M[j]/M[i])^(1/4))^2/(8*(1 + M[i]/M[j]))^(1/2);
+          elseif j<i then
+              fi[i,j] := eta[i]/eta[j]*M[j]/M[i]*fi[j,i];
+            else
+              fi[i,j] := (1 + (eta[i]/eta[j])^(1/2)*(M[j]/M[i])^(1/4))^2/(8*(1 + M[i]/M[j]))^(1/2);
+          end if;
+        end for;
+      end for;
+      etam := sum(yi[i]*eta[i]/sum(yi[j]*fi[i,j] for j in 1:size(eta,1)) for i in 1:size(eta,1));
+
+      annotation (smoothOrder=2,
+                 Documentation(info="<html>
+
+<p>
+Simplification of the kinetic theory (Chapman and Enskog theory)
+approach neglecting the second-order effects.<br>
+<br>
+This equation has been extensively tested (Amdur and Mason, 1958;
+Bromley and Wilke, 1951; Cheung, 1958; Dahler, 1959; Gandhi and Saxena,
+1964; Ranz and Brodowsky, 1962; Saxena and Gambhir, 1963a; Strunk, et
+al., 1964; Vanderslice, et al. 1962; Wright and Gray, 1962). In most
+cases, only nonpolar mixtures were compared, and very good results
+obtained. For some systems containing hydrogen as one component, less
+satisfactory agreement was noted. Wilke's method predicted mixture
+viscosities that were larger than experimental for the H2-N2 system,
+but for H2-NH3, it underestimated the viscosities. <br>
+Gururaja, et al. (1967) found that this method also overpredicted in
+the H2-O2 case but was quite accurate for the H2-CO2 system. <br>
+Wilke's approximation has proved reliable even for polar-polar gas
+mixtures of aliphatic alcohols (Reid and Belenyessy, 1960). The
+principal reservation appears to lie in those cases where Mi&gt;&gt;Mj
+and etai&gt;&gt;etaj.<br>
+</p>
+
+</html>"));
+    end gasMixtureViscosity;
+
+        function dynamicViscosity_pTX "Return mixture dynamic viscosity"
+          input Temperature T "Temperature";
+          input MassFraction X[nX] "Mass fractions";
+          output DynamicViscosity eta "dynamic viscosity";
+        protected
+          DynamicViscosity[nX] etaX "Component dynamic viscosities";
+        algorithm
+          for i in 1:nX loop
+        etaX[i] := Modelica.Media.IdealGases.Common.Functions.dynamicViscosityLowPressure(
+                                                             T,
+                           fluidConstants[i].criticalTemperature,
+                           fluidConstants[i].molarMass,
+                           fluidConstants[i].criticalMolarVolume,
+                           fluidConstants[i].acentricFactor,
+                           fluidConstants[i].dipoleMoment);
+          end for;
+          eta := gasMixtureViscosity(massToMoleFractions(X,
+                                 fluidConstants[:].molarMass),
+                     fluidConstants[:].molarMass,
+                     etaX);
+          annotation (smoothOrder=2);
+        end dynamicViscosity_pTX;
+
+      function mixtureViscosityChung
+          "Return the viscosity of gas mixtures without access to component viscosities (Chung, et. al. rules)"
+      extends Modelica.Icons.Function;
+
+        input Temperature T "Temperature";
+        input Temperature[:] Tc "Critical temperatures";
+        input MolarVolume[:] Vcrit "Critical volumes (m3/mol)";
+        input Real[:] w "Acentric factors";
+        input Real[:] mu "Dipole moments (debyes)";
+        input MolarMass[:] MolecularWeights "Molecular weights (kg/mol)";
+        input MoleFraction[:] y "Molar Fractions";
+        input Real[:] kappa =  zeros(nX) "Association Factors";
+        output DynamicViscosity etaMixture "Mixture viscosity (Pa.s)";
+        protected
+      constant Real[size(y,1)] Vc =  Vcrit*1000000 "Critical volumes (cm3/mol)";
+      constant Real[size(y,1)] M =  MolecularWeights*1000
+            "Molecular weights (g/mol)";
+      Integer n = size(y,1) "Number of mixed elements";
+      Real sigmam3 "Mixture sigma3 in Angstrom";
+      Real sigma[size(y,1),size(y,1)];
+      Real edivkm;
+      Real edivk[size(y,1),size(y,1)];
+      Real Mm;
+      Real Mij[size(y,1),size(y,1)];
+      Real wm "Accentric factor";
+      Real wij[size(y,1),size(y,1)];
+      Real kappam
+            "Correlation for highly polar substances such as alcohols and acids";
+      Real kappaij[size(y,1),size(y,1)];
+      Real mum;
+      Real Vcm;
+      Real Tcm;
+      Real murm "Dimensionless dipole moment of the mixture";
+      Real Fcm "Factor to correct for shape and polarity";
+      Real omegav;
+      Real Tmstar;
+      Real etam "Mixture viscosity in microP";
+      algorithm
+      //combining rules
+      for i in 1:n loop
+        for j in 1:n loop
+          Mij[i,j] := 2*M[i]*M[j]/(M[i]+M[j]);
+          if i==j then
+            sigma[i,j] := 0.809*Vc[i]^(1/3);
+            edivk[i,j] := Tc[i]/1.2593;
+            wij[i,j] := w[i];
+            kappaij[i,j] := kappa[i];
+          else
+            sigma[i,j] := (0.809*Vc[i]^(1/3)*0.809*Vc[j]^(1/3))^(1/2);
+            edivk[i,j] := (Tc[i]/1.2593*Tc[j]/1.2593)^(1/2);
+            wij[i,j] := (w[i] + w[j])/2;
+            kappaij[i,j] := (kappa[i]*kappa[j])^(1/2);
+          end if;
+        end for;
+      end for;
+      //mixing rules
+      sigmam3 := (sum(sum(y[i]*y[j]*sigma[i,j]^3 for j in 1:n) for i in 1:n));
+      //(epsilon/k)m
+      edivkm := (sum(sum(y[i]*y[j]*edivk[i,j]*sigma[i,j]^3 for j in 1:n) for i in 1:n))/sigmam3;
+      Mm := ((sum(sum(y[i]*y[j]*edivk[i,j]*sigma[i,j]^2*Mij[i,j]^(1/2) for j in 1:n) for i in 1:n))/(edivkm*sigmam3^(2/3)))^2;
+      wm := (sum(sum(y[i]*y[j]*wij[i,j]*sigma[i,j]^3 for j in 1:n) for i in 1:n))/sigmam3;
+      mum := (sigmam3*(sum(sum(y[i]*y[j]*mu[i]^2*mu[j]^2/sigma[i,j]^3 for j in 1:n) for i in 1:n)))^(1/4);
+      Vcm := sigmam3/(0.809)^3;
+      Tcm := 1.2593*edivkm;
+      murm := 131.3*mum/(Vcm*Tcm)^(1/2);
+      kappam := (sigmam3*(sum(sum(y[i]*y[j]*kappaij[i,j] for j in 1:n) for i in 1:n)));
+      Fcm := 1 - 0.275*wm + 0.059035*murm^4 + kappam;
+      Tmstar := T/edivkm;
+      omegav := 1.16145*(Tmstar)^(-0.14874) + 0.52487*Math.exp(-0.77320*Tmstar) + 2.16178*Math.exp(-2.43787*Tmstar);
+      etam := 26.69*Fcm*(Mm*T)^(1/2)/(sigmam3^(2/3)*omegav);
+      etaMixture := etam*1e7;
+
+        annotation (smoothOrder=2,
+                  Documentation(info="<html>
+
+<p>
+Equation to estimate the viscosity of gas mixtures at low pressures.<br>
+It is a simplification of an extension of the rigorous kinetic theory
+of Chapman and Enskog to determine the viscosity of multicomponent
+mixtures, at low pressures and with a factor to correct for molecule
+shape and polarity.
+</p>
+
+<p>
+The input argument Kappa is a special correction for highly polar substances such as
+alcohols and acids.<br>
+Values of kappa for a few such materials:
+</p>
+
+<table style=\"text-align: left; width: 302px; height: 200px;\" border=\"1\"
+cellspacing=\"0\" cellpadding=\"2\">
+<tbody>
+<tr>
+<td style=\"vertical-align: top;\">Compound <br>
+</td>
+<td style=\"vertical-align: top; text-align: center;\">Kappa<br>
+</td>
+<td style=\"vertical-align: top;\">Compound<br>
+</td>
+<td style=\"vertical-align: top;\">Kappa<br>
+</td>
+</tr>
+<tr>
+<td style=\"vertical-align: top;\">Methanol<br>
+</td>
+<td style=\"vertical-align: top;\">0.215<br>
+</td>
+<td style=\"vertical-align: top;\">n-Pentanol<br>
+</td>
+<td style=\"vertical-align: top;\">0.122<br>
+</td>
+</tr>
+<tr>
+<td style=\"vertical-align: top;\">Ethanol<br>
+</td>
+<td style=\"vertical-align: top;\">0.175<br>
+</td>
+<td style=\"vertical-align: top;\">n-Hexanol<br>
+</td>
+<td style=\"vertical-align: top;\">0.114<br>
+</td>
+</tr>
+<tr>
+<td style=\"vertical-align: top;\">n-Propanol<br>
+</td>
+<td style=\"vertical-align: top;\">0.143<br>
+</td>
+<td style=\"vertical-align: top;\">n-Heptanol<br>
+</td>
+<td style=\"vertical-align: top;\">0.109<br>
+</td>
+</tr>
+<tr>
+<td style=\"vertical-align: top;\">i-Propanol<br>
+</td>
+<td style=\"vertical-align: top;\">0.143<br>
+</td>
+<td style=\"vertical-align: top;\">Acetic Acid<br>
+</td>
+<td style=\"vertical-align: top;\">0.0916<br>
+</td>
+</tr>
+<tr>
+<td style=\"vertical-align: top;\">n-Butanol<br>
+</td>
+<td style=\"vertical-align: top;\">0.132<br>
+</td>
+<td style=\"vertical-align: top;\">Water<br>
+</td>
+<td style=\"vertical-align: top;\">0.076<br>
+</td>
+</tr>
+<tr>
+<td style=\"vertical-align: top;\">i-Butanol<br>
+</td>
+<td style=\"vertical-align: top;\">0.132</td>
+<td style=\"vertical-align: top;\"><br>
+</td>
+<td style=\"vertical-align: top;\"><br>
+</td>
+</tr>
+</tbody>
+</table>
+<p>
+Chung, et al. (1984) suggest that for other alcohols not shown in the
+table:<br>
+&nbsp;&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; kappa = 0.0682 + 4.704*[(number of -OH
+groups)]/[molecular weight]<br>
+<br>
+<span style=\"font-weight: normal;\">S.I. units relation for the
+debyes:&nbsp;</span><br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; 1 debye = 3.162e-25 (J.m^3)^(1/2)<br>
+</p>
+<h4>References</h4>
+<p>
+[1] THE PROPERTIES OF GASES AND LIQUIDS, Fifth Edition,<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; Bruce E. Poling, John M.
+Prausnitz, John P. O'Connell.<br>
+[2] Chung, T.-H., M. Ajlan, L. L. Lee, and K. E. Starling: Ind. Eng.
+Chem. Res., 27: 671 (1988).<br>
+[3] Chung, T.-H., L. L. Lee, and K. E. Starling; Ing. Eng. Chem.
+Fundam., 23: 3 ()1984).<br>
+</p>
+</html>"));
+      end mixtureViscosityChung;
+
+    function lowPressureThermalConductivity
+          "Return thermal conductivities of low-pressure gas mixtures (Mason and Saxena Modification)"
+      extends Modelica.Icons.Function;
+      input MoleFraction[:] y
+            "Mole fraction of the components in the gas mixture";
+      input Temperature T "Temperature";
+      input Temperature[:] Tc "Critical temperatures";
+      input AbsolutePressure[:] Pc "Critical pressures";
+      input MolarMass[:] M "Molecular weights";
+      input ThermalConductivity[:] lambda
+            "Thermal conductivities of the pure gases";
+      output ThermalConductivity lambdam
+            "Thermal conductivity of the gas mixture";
+        protected
+      MolarMass[size(y,1)] gamma;
+      Real[size(y,1)] Tr "Reduced temperature";
+      Real[size(y,1),size(y,1)] A "Mason and Saxena Modification";
+      constant Real epsilon =  1.0 "Numerical constant near unity";
+    algorithm
+      for i in 1:size(y,1) loop
+        gamma[i] := 210*(Tc[i]*M[i]^3/Pc[i]^4)^(1/6);
+        Tr[i] := T/Tc[i];
+      end for;
+      for i in 1:size(y,1) loop
+        for j in 1:size(y,1) loop
+          A[i,j] := epsilon*(1 + (gamma[j]*(Math.exp(0.0464*Tr[i]) - Math.exp(-0.2412*Tr[i]))/
+          (gamma[i]*(Math.exp(0.0464*Tr[j]) - Math.exp(-0.2412*Tr[j]))))^(1/2)*(M[i]/M[j])^(1/4))^2/
+          (8*(1 + M[i]/M[j]))^(1/2);
+        end for;
+      end for;
+      lambdam := sum(y[i]*lambda[i]/(sum(y[j]*A[i,j] for j in 1:size(y,1))) for i in 1:size(y,1));
+
+      annotation (smoothOrder=2,
+                  Documentation(info="<html>
+
+<p>
+This function applies the Masson and Saxena modification of the
+Wassiljewa Equation for the thermal conductivity for gas mixtures of
+n elements at low pressure.
+</p>
+
+<p>
+For nonpolar gas mixtures errors will generally be less than 3 to 4%.
+For mixtures of nonpolar-polar and polar-polar gases, errors greater
+than 5 to 8% may be expected. For mixtures in which the sizes and
+polarities of the constituent molecules are not greatly different, the
+thermal conductivity can be estimated satisfactorily by a mole fraction
+average of the pure component conductivities.
+</p>
+
+</html>"));
+    end lowPressureThermalConductivity;
+
+        redeclare replaceable function extends thermalConductivity
+          "Return thermal conductivity for low pressure gas mixtures"
+          input Integer method=methodForThermalConductivity
+            "Method to compute single component thermal conductivity";
+        protected
+          ThermalConductivity[nX] lambdaX "Component thermal conductivities";
+          DynamicViscosity[nX] eta "Component thermal dynamic viscosities";
+          SpecificHeatCapacity[nX] cp "Component heat capacity";
+        algorithm
+          for i in 1:nX loop
+        assert(fluidConstants[i].hasCriticalData, "Critical data for "+ fluidConstants[i].chemicalFormula +
+           " not known. Can not compute thermal conductivity.");
+        eta[i] := Modelica.Media.IdealGases.Common.Functions.dynamicViscosityLowPressure(
+                                                            state.T,
+                           fluidConstants[i].criticalTemperature,
+                           fluidConstants[i].molarMass,
+                           fluidConstants[i].criticalMolarVolume,
+                           fluidConstants[i].acentricFactor,
+                           fluidConstants[i].dipoleMoment);
+        cp[i] := Modelica.Media.IdealGases.Common.Functions.cp_T(
+                                    data[i],state.T);
+        lambdaX[i] :=Modelica.Media.IdealGases.Common.Functions.thermalConductivityEstimate(
+                                                               Cp=cp[i], eta=
+              eta[i], method=method,data=data[i]);
+          end for;
+          lambda := lowPressureThermalConductivity(massToMoleFractions(state.X,
+                                       fluidConstants[:].molarMass),
+                               state.T,
+                               fluidConstants[:].criticalTemperature,
+                               fluidConstants[:].criticalPressure,
+                               fluidConstants[:].molarMass,
+                               lambdaX);
+          annotation (smoothOrder=2);
+        end thermalConductivity;
+
+      redeclare function extends isobaricExpansionCoefficient
+          "Return isobaric expansion coefficient beta"
+      algorithm
+        beta := 1/state.T;
+        annotation(Inline=true,smoothOrder=2);
+      end isobaricExpansionCoefficient;
+
+      redeclare function extends isothermalCompressibility
+          "Return isothermal compressibility factor"
+      algorithm
+        kappa := 1.0/state.p;
+        annotation(Inline=true,smoothOrder=2);
+      end isothermalCompressibility;
+
+      redeclare function extends density_derp_T
+          "Return density derivative by pressure at constant temperature"
+      algorithm
+        ddpT := 1/(state.T*gasConstant(state));
+        annotation(Inline=true,smoothOrder=2);
+      end density_derp_T;
+
+      redeclare function extends density_derT_p
+          "Return density derivative by temperature at constant pressure"
+      algorithm
+        ddTp := -state.p/(state.T*state.T*gasConstant(state));
+        annotation(Inline=true,smoothOrder=2);
+      end density_derT_p;
+
+      redeclare function density_derX
+          "Return density derivative by mass fraction"
+        extends Modelica.Icons.Function;
+        input ThermodynamicState state "Thermodynamic state record";
+        output Density[nX] dddX "Derivative of density w.r.t. mass fraction";
+      algorithm
+        dddX := {-state.p/(state.T*gasConstant(state))*molarMass(state)/data[
+          i].MM for i in 1:nX};
+        annotation(Inline=true,smoothOrder=2);
+      end density_derX;
+
+      redeclare function extends molarMass "Return molar mass of mixture"
+      algorithm
+        MM := 1/sum(state.X[j]/data[j].MM for j in 1:size(state.X, 1));
+        annotation(Inline=true,smoothOrder=2);
+      end molarMass;
+
+      function T_hX
+          "Return temperature from specific enthalpy and mass fraction"
+        extends Modelica.Icons.Function;
+        input SpecificEnthalpy h "Specific enthalpy";
+        input MassFraction[:] X "Mass fractions of composition";
+         input Boolean exclEnthForm=excludeEnthalpyOfFormation
+            "If true, enthalpy of formation Hf is not included in specific enthalpy h";
+         input Modelica.Media.Interfaces.Choices.ReferenceEnthalpy
+                                         refChoice=referenceChoice
+            "Choice of reference enthalpy";
+         input Modelica.SIunits.SpecificEnthalpy h_off=h_offset
+            "User defined offset for reference enthalpy, if referenceChoice = UserDefined";
+        output Temperature T "Temperature";
+        protected
+        MassFraction[nX] Xfull = if size(X,1) == nX then X else cat(1,X,{1-sum(X)});
+      package Internal
+            "Solve h(data,T) for T with given h (use only indirectly via temperature_phX)"
+        extends Modelica.Media.Common.OneNonLinearEquation;
+        redeclare record extends f_nonlinear_Data
+              "Data to be passed to non-linear function"
+          extends Modelica.Media.IdealGases.Common.DataRecord;
+        end f_nonlinear_Data;
+
+        redeclare function extends f_nonlinear
+        algorithm
+            y := h_TX(x,X);
+        end f_nonlinear;
+
+        // Dummy definition has to be added for current Dymola
+        redeclare function extends solve
+        end solve;
+      end Internal;
+
+      algorithm
+        T := Internal.solve(h, 200, 6000, 1.0e5, Xfull, data[1]);
+        annotation(inverse(h = h_TX(T,X,exclEnthForm,refChoice,h_off)));
+      end T_hX;
+
+      function T_psX
+          "Return temperature from pressure, specific entropy and mass fraction"
+        extends Modelica.Icons.Function;
+        input AbsolutePressure p "Pressure";
+        input SpecificEntropy s "Specific entropy";
+        input MassFraction[:] X "Mass fractions of composition";
+        output Temperature T "Temperature";
+        protected
+        MassFraction[nX] Xfull = if size(X,1) == nX then X else cat(1,X,{1-sum(X)});
+      package Internal
+            "Solve h(data,T) for T with given h (use only indirectly via temperature_phX)"
+        extends Modelica.Media.Common.OneNonLinearEquation;
+        redeclare record extends f_nonlinear_Data
+              "Data to be passed to non-linear function"
+          extends Modelica.Media.IdealGases.Common.DataRecord;
+        end f_nonlinear_Data;
+
+        redeclare function extends f_nonlinear
+              "Note that this function always sees the complete mass fraction vector"
+            protected
+        MassFraction[nX] Xfull = if size(X,1) == nX then X else cat(1,X,{1-sum(X)});
+        Real[nX] Y(unit="mol/mol")=massToMoleFractions(if size(X,1) == nX then X else cat(1,X,{1-sum(X)}), data.MM)
+                "Molar fractions";
+        algorithm
+          y := s_TX(x,Xfull) - sum(Xfull[i]*Modelica.Constants.R/MMX[i]*
+          (if Xfull[i]<Modelica.Constants.eps then Y[i] else
+          Modelica.Math.log(Y[i]*p/reference_p)) for i in 1:nX);
+            // s_TX(x,X)- data[:].R*X*(Modelica.Math.log(p/reference_p)
+            //       + MixEntropy(massToMoleFractions(X,data[:].MM)));
+        end f_nonlinear;
+
+        // Dummy definition has to be added for current Dymola
+        redeclare function extends solve
+        end solve;
+      end Internal;
+
+      algorithm
+        T := Internal.solve(s, 200, 6000, p, Xfull, data[1]);
+      end T_psX;
+
+    //   redeclare function extends specificEnthalpy_psX
+    //   protected
+    //     Temperature T "Temperature";
+    //   algorithm
+    //     T := temperature_psX(p,s,X);
+    //     h := specificEnthalpy_pTX(p,T,X);
+    //   end extends;
+
+    //   redeclare function extends density_phX
+    //     "Compute density from pressure, specific enthalpy and mass fraction"
+    //     protected
+    //     Temperature T "Temperature";
+    //     SpecificHeatCapacity R "Gas constant";
+    //   algorithm
+    //     T := temperature_phX(p,h,X);
+    //     R := if (not reducedX) then
+    //       sum(data[i].R*X[i] for i in 1:size(substanceNames, 1)) else
+    //       sum(data[i].R*X[i] for i in 1:size(substanceNames, 1)-1) + data[end].R*(1-sum(X[i]));
+    //     d := p/(R*T);
+    //   end density_phX;
+
+      function velocityOfSound_pTX "Return velocity of sound"
+        extends Modelica.Icons.Function;
+        input ThermodynamicState state "Properties at upstream location";
+      algorithm
+        a := sqrt(max(0,gasConstant(state)*state.T*specificHeatCapacityCp(state)/specificHeatCapacityCv(state)));
+        annotation(Inline=true,smoothOrder=2);
+      end velocityOfSound_pTX;
+
+      function specificHeatCapacityCp_TX
+          "Return specific heat capacity at constant pressure"
+        input Temperature T "Temperature";
+        input MassFraction X[nX] "Mass fractions";
+        output Modelica.SIunits.SpecificHeatCapacityAtConstantPressure cp
+            "specific heat capacity cp";
+      algorithm
+        cp := {Modelica.Media.IdealGases.Common.Functions.cp_T(data[i], T)
+        for i in 1:nX}*X;
+        annotation(Inline=true,smoothOrder=1);
+      end specificHeatCapacityCp_TX;
+
+      function specificHeatCapacityCv_TX
+          "Return specific heat capacity at constant volume from temperature and gas data"
+        input Temperature T "Temperature";
+        input MassFraction X[nX] "Mass fractions";
+        output Modelica.SIunits.SpecificHeatCapacityAtConstantVolume cv
+            "specific heat capacity cv";
+      algorithm
+        cv := {Modelica.Media.IdealGases.Common.Functions.cp_T(data[i], T)
+        for i in 1:nX}*X -data.R*X;
+        annotation(Inline=true, smoothOrder = 1);
+      end specificHeatCapacityCv_TX;
+
+        function thermalConductivity_TX
+          "Return thermal conductivity for low pressure gas mixtures"
+          input Temperature T "Temperature";
+          input MassFraction X[nX] "Mass fractions";
+          output ThermalConductivity lambda "thermal conductivity";
+        protected
+          ThermalConductivity[nX] lambdaX "Component thermal conductivities";
+          DynamicViscosity[nX] eta "Component thermal dynamic viscosities";
+          SpecificHeatCapacity[nX] cp "Component heat capacity";
+        algorithm
+          for i in 1:nX loop
+        assert(fluidConstants[i].hasCriticalData, "Critical data for "+ fluidConstants[i].chemicalFormula +
+           " not known. Can not compute thermal conductivity.");
+        eta[i] := Modelica.Media.IdealGases.Common.Functions.dynamicViscosityLowPressure(
+                                                            T,
+                           fluidConstants[i].criticalTemperature,
+                           fluidConstants[i].molarMass,
+                           fluidConstants[i].criticalMolarVolume,
+                           fluidConstants[i].acentricFactor,
+                           fluidConstants[i].dipoleMoment);
+        cp[i] := Modelica.Media.IdealGases.Common.Functions.cp_T(
+                                    data[i],T);
+        lambdaX[i] :=Modelica.Media.IdealGases.Common.Functions.thermalConductivityEstimate(
+                                                               Cp=cp[i], eta=
+              eta[i], method=methodForThermalConductivity,data=data[i]);
+          end for;
+          lambda := lowPressureThermalConductivity(massToMoleFractions(X,
+                                       fluidConstants[:].molarMass),
+                               T,
+                               fluidConstants[:].criticalTemperature,
+                               fluidConstants[:].criticalPressure,
+                               fluidConstants[:].molarMass,
+                               lambdaX);
+          annotation (smoothOrder=2);
+        end thermalConductivity_TX;
+
+        function density_pTX2 "Return density of ideal gas"
+          input Temperature T "Temperature";
+          input AbsolutePressure p "pressure";
+          input MassFraction X[nX] "Mass fractions";
+          output Modelica.SIunits.Density d "density";
+        algorithm
+          d := p/(X*data.R*T);
+          annotation(Inline = true, smoothOrder = 3);
+        end density_pTX2;
+      annotation (Documentation(info="<HTML>
+<p>
+This model calculates the medium properties for single component ideal gases.
+</p>
+<p>
+<b>Sources for model and literature:</b><br>
+Original Data: Computer program for calculation of complex chemical
+equilibrium compositions and applications. Part 1: Analysis
+Document ID: 19950013764 N (95N20180) File Series: NASA Technical Reports
+Report Number: NASA-RP-1311  E-8017  NAS 1.61:1311
+Authors: Gordon, Sanford (NASA Lewis Research Center)
+ Mcbride, Bonnie J. (NASA Lewis Research Center)
+Published: Oct 01, 1994.
+</p>
+<p><b>Known limits of validity:</b></br>
+The data is valid for
+temperatures between 200 K and 6000 K.  A few of the data sets for
+monatomic gases have a discontinuous 1st derivative at 1000 K, but
+this never caused problems so far.
+</p>
+<p>
+This model has been copied from the ThermoFluid library.
+It has been developed by Hubertus Tummescheit.
+</p>
+</HTML>"));
+    end MixtureGasNasa;
+    end Gas;
   annotation (Icon(graphics={
           Rectangle(
             lineColor={200,200,200},
@@ -281,7 +1358,7 @@ extends Modelica.Icons.ExamplesPackage;
         redeclare package Medium_c = Medium,
         redeclare package Medium_h = Hot,
         dp_c=0,
-        hh_in_start=Hot.specificEnthalpy(Hot.setState_pT(2e5, 500)))
+        hh_in_start=1e3)
                         annotation (Placement(transformation(
             extent={{-18,-15.5},{18,15.5}},
             rotation=0,
@@ -295,7 +1372,8 @@ extends Modelica.Icons.ExamplesPackage;
         dp_h=0,
         redeclare package Medium_h = Medium,
         redeclare package Medium_c = Coolant,
-        dp_c=0) "condenser model"           annotation (Placement(transformation(
+        dp_c=0,
+        hc_in_start=1e3) "condenser model"  annotation (Placement(transformation(
             extent={{-12,-11},{12,11}},
             rotation=0,
             origin={0,-72})));
@@ -340,16 +1418,16 @@ extends Modelica.Icons.ExamplesPackage;
             rotation=180,
             origin={-88,-41})));
       CycleTempo.Components.Flags.ADDCO N10(
-        redeclare package Medium = Hot,
         m_flow=0.5,
         use_T=true,
         use_p=true,
         use_m_flow=true,
+        redeclare package Medium = Hot,
         T=618.15,
-        p=200000)         annotation (Placement(transformation(
+        p=200000) annotation (Placement(transformation(
             extent={{-11,-10},{11,10}},
             rotation=0,
-            origin={-11,96})));
+            origin={-11,98})));
       CycleTempo.Components.Flags.ADDCO N11(
         redeclare package Medium = Hot,
         visible=true,
@@ -409,7 +1487,7 @@ extends Modelica.Icons.ExamplesPackage;
           pattern=LinePattern.None,
           smooth=Smooth.None));
       connect(N10.node, evaporator.node_h_in) annotation (Line(
-          points={{0.11,96},{0.11,86},{0,86},{0,81.51}},
+          points={{0.11,98},{0.11,86},{0,86},{0,81.51}},
           color={0,0,0},
           pattern=LinePattern.None,
           smooth=Smooth.None));
@@ -519,7 +1597,7 @@ extends Modelica.Icons.ExamplesPackage;
     model ORCHID2 "Design of the ORCHID test rig. Air as heat source."
       parameter Medium.SaturationProperties  sat =  Medium.setSat_p(0.33e5)
         "Saturation properties";
-      package Hot = Media.CoolProp.Air "Medium model hot cells";
+      package Hot = Media.Gas.FlueGas "Medium model hot cells";
       package Medium = Media.RefProp.MM "Medium model hot cells";
       package Coolant = Media.CoolProp.Water "Medium model hot cells";
 
@@ -535,9 +1613,7 @@ extends Modelica.Icons.ExamplesPackage;
         redeclare package Medium_c = Medium,
         redeclare package Medium_h = Hot,
         dp_c=0,
-        use_dT_int=true,
-        dT_int=30,
-        hh_in_start=7e5)
+        hh_in_start=4.8e5)
                         annotation (Placement(transformation(
             extent={{-18,-15.5},{18,15.5}},
             rotation=0,
@@ -553,7 +1629,8 @@ extends Modelica.Icons.ExamplesPackage;
         redeclare package Medium_c = Coolant,
         dp_c=0,
         dT_int=20,
-        use_dT_int=true) "condenser model"  annotation (Placement(transformation(
+        use_dT_int=true,
+        hc_in_start=1e3) "condenser model"  annotation (Placement(transformation(
             extent={{-12,-11},{12,11}},
             rotation=0,
             origin={0,-72})));
@@ -619,8 +1696,9 @@ extends Modelica.Icons.ExamplesPackage;
             origin={-10,20})));
       CycleTempo.Components.Flags.ADDCO N4(
         redeclare package Medium = Medium,
-        use_T=false,
-        T=593.15) annotation (Placement(transformation(
+        T=593.15,
+        use_T=true)
+                  annotation (Placement(transformation(
             extent={{-10,-10},{10,10}},
             rotation=0,
             origin={44,96})));
@@ -1878,17 +2956,8 @@ extends Modelica.Icons.ExamplesPackage;
 
         model Aspen_eva
           "Verification with the results given by Aspen. We test evaporation in this example."
-          package Medium_hot =
-               Media.CoolProp.THERM66 "Medium model";
+          package Medium_hot = Media.CoolProp.THERM66 "Medium model";
           package Medium_cold = Media.RefProp.MM "Medium model";
-          parameter Medium_hot.ThermodynamicState hot_in = Medium_hot.setState_pT(2e5, 345 + 273.15)
-            "Thermodynamic state at the inlet of the hot side";
-          parameter Medium_hot.ThermodynamicState hot_out = Medium_hot.setState_pT(2e5, 231.9 + 273.15)
-            "Thermodynamic state at the outlet of the hot side";
-           parameter Medium_cold.ThermodynamicState cold_in = Medium_cold.setState_pT(14.6e5, 216.9 + 273.15)
-            "Thermodynamic state at the inlet of the hot side";
-           parameter Medium_cold.ThermodynamicState cold_out = Medium_cold.setState_pT(14.6e5, 325 + 273.15)
-            "Thermodynamic state at the outlet of the hot side";
 
             Design.Components.HEX.Flat_plate FP(
             redeclare package Medium_hot = Medium_hot,
@@ -1918,20 +2987,17 @@ extends Modelica.Icons.ExamplesPackage;
               beta=FP.beta),
             redeclare Design.Miscellanea.check_velocity check_hot(T_sat=500),
             redeclare Design.Miscellanea.check_velocity check_cold(umin=min(FP.ht_cold.u)),
-            h_hot_in_start=hot_in.h,
-            h_hot_out_start=hot_out.h,
-            l_start=0.5,
-            N_cell_pc=10,
-            offdesign=false,
+            N_cell_pc=7,
             mdot_cold_start=0.15,
+            mdot_hot_start=0.19,
+            l_start=0.6,
             beta=1.0471975511966,
             t_hot_in_start=618.15,
-            t_hot_out_start=513.15,
-            t_cold_in_start=500.15,
-            t_cold_out_start=593.15,
+            t_hot_out_start=505.05,
+            t_cold_in_start=490.05,
+            t_cold_out_start=598.15,
             p_hot_start=200000,
-            p_cold_start=1460000,
-            mdot_hot_start=0.19)
+            p_cold_start=1460000)
             "Model of a flat plate heat exchanger. Therminol 66 evaporates MM."
             annotation (Placement(transformation(extent={{-90,-82},{86,60}})));
 
@@ -2040,8 +3106,8 @@ extends Modelica.Icons.ExamplesPackage;
             mdot_hot_start=0.19,
             beta=1.0471975511966,
             t_hot_in_start=618.15,
-            t_hot_out_start=513.15,
-            t_cold_in_start=489.15,
+            t_hot_out_start=505.05,
+            t_cold_in_start=490.05,
             t_cold_out_start=598.15,
             p_hot_start=200000,
             p_cold_start=1460000,
@@ -2431,7 +3497,6 @@ extends Modelica.Icons.ExamplesPackage;
   end Project;
 
   package Merge "Merge cycle and component design"
-
 
     model ORCHID_design
       "Design of the ORCHID test rig. Design of the components."
@@ -3222,7 +4287,8 @@ extends Modelica.Icons.ExamplesPackage;
         redeclare package Medium_c = Media.CoolProp.Water,
         dp_c=0,
         dT_int=20,
-        use_dT_int=true) "condenser model"  annotation (Placement(transformation(
+        use_dT_int=true,
+        hc_in_start=1E3) "condenser model"  annotation (Placement(transformation(
             extent={{-12,-11},{12,11}},
             rotation=0,
             origin={0,-72})));
@@ -3288,8 +4354,9 @@ extends Modelica.Icons.ExamplesPackage;
             origin={-10,20})));
       CycleTempo.Components.Flags.ADDCO N4(
         redeclare package Medium = Medium,
-        T=TIT,
-        use_T=true)
+        use_T=true,
+        T=593.15,
+        use_h=false)
                   annotation (Placement(transformation(
             extent={{-10,-10},{10,10}},
             rotation=0,
@@ -3521,7 +4588,8 @@ extends Modelica.Icons.ExamplesPackage;
         redeclare package Medium_c = Media.CoolProp.Water,
         dp_c=0,
         dT_int=20,
-        use_dT_int=true) "condenser model"  annotation (Placement(transformation(
+        use_dT_int=true,
+        hc_in_start=1E3) "condenser model"  annotation (Placement(transformation(
             extent={{-12,-11},{12,11}},
             rotation=0,
             origin={0,-72})));
@@ -3887,7 +4955,7 @@ extends Modelica.Icons.ExamplesPackage;
                 -100},{100,100}}),      graphics));
     end Turbine;
   end Part_load;
-  annotation (uses(Modelica(version="3.2.1")));
+
   package Optimization "Package for testing GenOpt"
     model Optimize_ORCHID "Optimization of the ORCHID plant"
       parameter String parameterFileName = "modelicaParameters.txt"
@@ -3918,4 +4986,770 @@ extends Modelica.Icons.ExamplesPackage;
       end when;
     end Optimize_ORCHID;
   end Optimization;
+
+  package WHR_TRUCK "Waste heat recovery from truck engines"
+
+    model Cycle "Waste Heat
+Recovery From a Heavy-Duty
+Truck Engine by Means of an
+ORC Turbogenerator"
+      package Hot = Media.CoolProp.Air_TTSE;
+      package Medium = Media.CoolProp.Toluene_TTSE;
+      package Coolant = Media.CoolProp.Water_TTSE;
+
+      CycleTempo.Components.HEX.Evaporator EVA_EGR(
+        dp_h=0,
+        redeclare package Medium_c = Medium,
+        redeclare package Medium_h = Hot,
+        dT_int=30,
+        use_dT_int=false,
+        hh_in_start=5.5e5,
+        dp_c=7000) "Evaporator exhaust gas ricirculation"        annotation (
+          Placement(transformation(
+            extent={{-18,-15.5},{18,15.5}},
+            rotation=0,
+            origin={22,71.5})));
+      CycleTempo.Components.Flags.ADDCO N10(
+        redeclare package Medium = Hot,
+        use_T=true,
+        use_p=true,
+        use_m_flow=true,
+        m_flow=0.066,
+        T=673.15,
+        p=120000)         annotation (Placement(transformation(
+            extent={{-11,-10},{11,10}},
+            rotation=0,
+            origin={11,122})));
+      CycleTempo.Components.Flags.ADDCO N11(
+        redeclare package Medium = Hot,
+        visible=true,
+        use_T=true,
+        T=473.15) annotation (Placement(transformation(
+            extent={{-10,-9},{10,9}},
+            rotation=0,
+            origin={12,22})));
+      CycleTempo.Components.Flow.Splitter splitter1(redeclare package Medium =
+            Test.Media.CoolProp.Toluene_TTSE)
+        annotation (Placement(transformation(extent={{14,-15},{-14,15}},
+            rotation=90,
+            origin={-74,139})));
+      CycleTempo.Components.Flags.ADDCO N1(
+        redeclare package Medium = Hot,
+        visible=true,
+        use_T=true,
+        T=473.15) annotation (Placement(transformation(
+            extent={{-10,-9},{10,9}},
+            rotation=0,
+            origin={10,154})));
+      CycleTempo.Components.HEX.Evaporator EVA_exhaust(
+        redeclare package Medium_c = Medium,
+        redeclare package Medium_h = Hot,
+        dT_int=30,
+        use_dT_int=false,
+        hh_in_start=5.5e5,
+        dp_h=0,
+        dp_c=7000) "Evaporator fed by the exhaust gases"        annotation (
+          Placement(transformation(
+            extent={{-18,-15.5},{18,15.5}},
+            rotation=0,
+            origin={20,203.5})));
+      CycleTempo.Components.Flags.ADDCO N2(
+        redeclare package Medium = Hot,
+        use_T=true,
+        use_p=true,
+        use_m_flow=true,
+        m_flow=0.131,
+        T=587.15,
+        p=120000)         annotation (Placement(transformation(
+            extent={{-11,-10},{11,10}},
+            rotation=0,
+            origin={9,254})));
+      CycleTempo.Components.Flags.ADDCO N4(
+        redeclare package Medium = Medium,
+        use_T=true,
+        T=553.15) annotation (Placement(transformation(
+            extent={{-10,-10},{10,10}},
+            rotation=0,
+            origin={130,226})));
+      CycleTempo.Components.Flags.ADDCO N5(
+        redeclare package Medium = Medium,
+        use_p=true,
+        use_T=false,
+        T=433.15,
+        p=700000) annotation (Placement(transformation(
+            extent={{-10,-10},{10,10}},
+            rotation=0,
+            origin={-114,139})));
+      CycleTempo.Components.Flow.Mixer mixer(redeclare package Medium = Medium)
+        annotation (Placement(transformation(
+            extent={{-17,17},{17,-17}},
+            rotation=90,
+            origin={157,140})));
+      CycleTempo.Components.Flags.ADDCO N3(
+        redeclare package Medium = Medium,
+        use_T=true,
+        T=553.15) annotation (Placement(transformation(
+            extent={{-10,-10},{10,10}},
+            rotation=0,
+            origin={130,48})));
+      CycleTempo.Components.Turbomachinery.Turbine turbine(
+        redeclare package Medium = Medium,
+        eta_m=1,
+        eta_is=0.7) "Axial turbine"
+        annotation (Placement(transformation(extent={{166,6},{230,60}})));
+      CycleTempo.Components.Flags.ADDCO N6(
+        redeclare package Medium = Medium,
+        use_p=false,
+        T=358.15,
+        p=10000,
+        use_T=true)
+                  annotation (Placement(transformation(
+            extent={{10,-10},{-10,10}},
+            rotation=0,
+            origin={282,-115})));
+      CycleTempo.Components.Flags.ADDCOW Pout(W=33e3, use_W=false)
+        annotation (Placement(transformation(extent={{334,11},{288,55}})));
+      CycleTempo.Components.HEX.Heat_exchanger recuperator(
+        redeclare package Medium_h = Medium,
+        redeclare package Medium_c = Medium,
+        dT_out=20,
+        use_dT_out=false,
+        dp_h=500,
+        dp_c=7000)
+        annotation (Placement(transformation(extent={{35,-47},{6,-19}})));
+      CycleTempo.Components.HEX.Condenser condenser(
+        redeclare package Medium_h = Medium,
+        redeclare package Medium_c = Coolant,
+        dp_c=0,
+        use_dT_int=true,
+        hc_in_start=1e3,
+        dp_h=500,
+        dT_int=10) "condenser model"        annotation (Placement(transformation(
+            extent={{15,-14},{-15,14}},
+            rotation=0,
+            origin={20,-98})));
+      CycleTempo.Components.Turbomachinery.Pump Pump(
+        redeclare package Medium = Medium,
+        eta_m=1,
+        eta_is=0.65) "Centrifugal pump"
+        annotation (Placement(transformation(extent={{19.5,20.5},{-19.5,-20.5}},
+            rotation=-90,
+            origin={200.5,-71.5})));
+      CycleTempo.Components.Flags.CC CC(redeclare package Medium = Medium)
+        annotation (Placement(transformation(
+            extent={{13,-12.5},{-13,12.5}},
+            rotation=-90,
+            origin={200.5,-117})));
+      CycleTempo.Components.Flags.ADDCO N20(
+        redeclare package Medium = Coolant,
+        use_T=true,
+        use_p=true,
+        T=343.15,
+        p=120000)
+        annotation (Placement(transformation(extent={{113,-108},{95,-89}})));
+      CycleTempo.Components.Flags.ADDCO N21(
+        redeclare package Medium = Coolant,
+        T=333.15,
+        use_T=false)
+                  annotation (Placement(transformation(extent={{-77,-107},{-55,-89}})));
+      CycleTempo.Components.Flags.ADDCO N7(
+        redeclare package Medium = Medium,
+        use_T=true,
+        T=373.15) annotation (Placement(transformation(
+            extent={{10.5,10},{-10.5,-10}},
+            rotation=180,
+            origin={-66.5,-55})));
+      CycleTempo.Components.Flags.START START1(
+        redeclare package Medium = Medium,
+        m_flow=0.03,
+        p=1460000,
+        T=439.15)
+        annotation (Placement(transformation(extent={{-104,195},{-70,225}})));
+      CycleTempo.Components.Flags.START START2(
+        redeclare package Medium = Medium,
+        p=1460000,
+        T=439.15,
+        m_flow=0.06)
+        annotation (Placement(transformation(extent={{-143,173},{-109,203}})));
+      CycleTempo.Components.Electrics.Motor motor(eta_el=0.9)
+        annotation (Placement(transformation(extent={{230,-87},{260,-56}})));
+      CycleTempo.Components.Flags.ADDCOW Ppump(W=33e3, use_W=false)
+        annotation (Placement(transformation(extent={{298,-87},{270,-56}})));
+      CycleTempo.Components.Flags.START START3(
+        redeclare package Medium = Medium,
+        m_flow=0.06,
+        p=30000,
+        T=373.15)
+        annotation (Placement(transformation(extent={{143,-105},{177,-75}})));
+      CycleTempo.Components.Mechanics.GearBox gearBox(eta_m=0.98)
+        annotation (Placement(transformation(extent={{242,16},{274,47}})));
+      CycleTempo.Components.Flags.ADDCO N8(
+        redeclare package Medium = Medium,
+        T=553.15,
+        use_T=false)
+                  annotation (Placement(transformation(
+            extent={{10,-10},{-10,10}},
+            rotation=0,
+            origin={280,0})));
+      CycleTempo.Components.Flags.ADDCO N9(
+        redeclare package Medium = Medium,
+        use_T=false,
+        T=553.15) annotation (Placement(transformation(
+            extent={{10,-10},{-10,10}},
+            rotation=0,
+            origin={234,-38})));
+    equation
+      connect(N11.node, EVA_EGR.node_h_out) annotation (Line(
+          points={{22.1,22},{22.1,42},{22,42},{22,49.8}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(N10.node, EVA_EGR.node_h_in) annotation (Line(
+          points={{22.11,122},{22.11,98},{22,98},{22,93.51}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(N1.node, EVA_exhaust.node_h_out) annotation (Line(
+          points={{20.1,154},{20.1,168},{20,168},{20,181.8}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(N2.node, EVA_exhaust.node_h_in) annotation (Line(
+          points={{20.11,254},{20,254},{20,225.51}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(N5.node, splitter1.node_in) annotation (Line(
+          points={{-103.9,139},{-77,139}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(splitter1.node_out_1, EVA_EGR.node_c_in) annotation (Line(
+          points={{-59,133.4},{-59,71.5},{-3.2,71.5}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(splitter1.node_out_2, EVA_exhaust.node_c_in) annotation (Line(
+          points={{-59,144.6},{-59,203.5},{-5.2,203.5}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(N4.node, mixer.node_in_1) annotation (Line(
+          points={{140.1,226},{140,226},{140,146.8}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(EVA_exhaust.node_c_out, mixer.node_in_1) annotation (Line(
+          points={{45.38,203.5},{100,203.5},{100,146.8},{140,146.8}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(EVA_EGR.node_c_out, mixer.node_in_2) annotation (Line(
+          points={{47.38,71.5},{100,71.5},{100,133.2},{140,133.2}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(N3.node, mixer.node_in_2) annotation (Line(
+          points={{140.1,48},{140,48},{140,133.2}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(mixer.node_out, turbine.node_in) annotation (Line(
+          points={{160.4,140},{185.2,140},{185.2,60}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(recuperator.node_h_in, turbine.node_out) annotation (Line(
+          points={{20.5,-13.12},{20.5,0.6},{202.48,0.6}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(recuperator.node_h_out, condenser.node_h_in) annotation (Line(
+          points={{20.5,-52.6},{20.5,-68.8},{20,-68.8},{20,-78.12}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(recuperator.node_c_out, N5.node) annotation (Line(
+          points={{0.055,-33},{-103.9,-33},{-103.9,139}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(recuperator.node_c_in, Pump.node_out) annotation (Line(
+          points={{40.8,-33},{200.5,-33},{200.5,-52}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(Pump.node_in, CC.node_out) annotation (Line(
+          points={{200.5,-90.61},{200.5,-109.2}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(CC.node_in, condenser.node_h_out) annotation (Line(
+          points={{200.5,-124.54},{200.5,-138},{20,-138},{20,-117.6}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(Pump.node_in, N6.node) annotation (Line(
+          points={{200.5,-90.61},{241.25,-90.61},{241.25,-115},{271.9,-115}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(condenser.node_c_in, N20.node) annotation (Line(
+          points={{41,-98},{68,-98},{68,-98.5},{94.91,-98.5}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(N21.node, condenser.node_c_out) annotation (Line(
+          points={{-54.89,-98},{-1.15,-98}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(N7.node, recuperator.node_h_out) annotation (Line(
+          points={{-55.895,-55},{-18,-55},{-18,-52.6},{20.5,-52.6}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(START1.node, EVA_exhaust.node_c_in) annotation (Line(
+          points={{-70,210},{-5.2,210},{-5.2,203.5}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(START2.node, N5.node) annotation (Line(
+          points={{-109,188},{-103.9,188},{-103.9,139}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(Pump.terminal, motor.terminal_in) annotation (Line(
+          points={{221,-71.5975},{225.5,-71.5975},{225.5,-71.5},{230.3,-71.5}},
+          color={0,0,0},
+          smooth=Smooth.None));
+      connect(motor.terminal_out, Ppump.terminal) annotation (Line(
+          points={{260,-71.5},{270,-71.5}},
+          color={0,0,0},
+          smooth=Smooth.None));
+      connect(START3.node, Pump.node_in) annotation (Line(
+          points={{177,-90},{187.5,-90},{187.5,-90.61},{200.5,-90.61}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(turbine.terminal, gearBox.terminal_in) annotation (Line(
+          points={{229.84,33},{235.92,33},{235.92,33.05},{242,33.05}},
+          color={0,0,0},
+          smooth=Smooth.None));
+      connect(gearBox.terminal_out, Pout.terminal) annotation (Line(
+          points={{277.2,33.05},{281.5,33.05},{281.5,33},{288,33}},
+          color={0,0,0},
+          smooth=Smooth.None));
+      connect(N8.node, turbine.node_out) annotation (Line(
+          points={{269.9,0},{236,0},{236,0.6},{202.48,0.6}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(N9.node, Pump.node_out) annotation (Line(
+          points={{223.9,-38},{212,-38},{212,-52},{200.5,-52}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-160,
+                -140},{320,280}}),      graphics), Icon(coordinateSystem(extent={{-160,
+                -140},{320,280}})),
+        experiment(__Dymola_NumberOfIntervals=1, __Dymola_Algorithm="Dassl"),
+        __Dymola_experimentSetupOutput);
+    end Cycle;
+
+    model EVA_EGR "Design of the evaporator for EGR"
+      package Hot = Test.Media.Gas.FlueGas;
+      package Cold = Media.CoolProp.Toluene_TTSE;
+
+        Design.Components.HEX.Flat_plate EVA_EGR(
+        redeclare package Medium_hot = Hot,
+        redeclare package Medium_cold = Cold,
+        redeclare function cost = Design.Miscellanea.Cost.FP_Rafferty,
+        ht_hot_f1=1e9,
+        ht_cold_f1=1e9,
+        X=1,
+        w=0.325,
+        d_pt=100e-3,
+        redeclare Design.Heat_transfer.Plates.evaporation_Martin ht_cold(
+          p_in=EVA_EGR.node_c_in.p,
+          At=EVA_EGR.At,
+          beta=EVA_EGR.beta,
+          qdot=EVA_EGR.plate.qdot_cold,
+          qdot_tilde_start=EVA_EGR.mdot_hot_start*(EVA_EGR.h_hot_in_start - EVA_EGR.h_hot_out_start)
+              /(EVA_EGR.l_start*EVA_EGR.w*EVA_EGR.N_ch_p)),
+        redeclare Design.Materials.SS_AISI_304 material,
+        thick=0.8e-3,
+        b=2.3e-3,
+        redeclare Design.Pressure_drops.Plates.evaporation_Martin dp_cold(p_in=
+              EVA_EGR.node_c_in.p, beta=EVA_EGR.beta),
+        redeclare Design.Miscellanea.check_velocity check_hot(T_sat=500),
+        redeclare Design.Miscellanea.check_velocity check_cold(umin=min(EVA_EGR.ht_cold.u)),
+        mdot_cold_start=0.0286474,
+        mdot_hot_start=0.066,
+        N_ch_p=8,
+        l_start=0.5,
+        N_cell_pc=7,
+        use_dp=true,
+        beta=1.0471975511966,
+        t_hot_in_start=673.15,
+        t_hot_out_start=473.15,
+        t_cold_in_start=460.55,
+        t_cold_out_start=553.15,
+        p_hot_start=120000,
+        p_cold_start=700000)
+        "Model of a flat plate heat exchanger. Evaporator for the ricirculated exhaust gases."
+        annotation (Placement(transformation(extent={{-88,-82},{88,60}})));
+
+    //      redeclare Design.Miscellanea.topology_PHE.two_pass_two_pass tpg_hot(N_ch_p=
+    //            EVA_EGR.N_ch_p, stype=1),
+    //      redeclare Design.Miscellanea.topology_PHE.two_pass_two_pass tpg_cold(N_ch_p=
+    //           EVA_EGR.N_ch_p, stype=2),
+
+      Design.Components.Flags.ADDCO HOT_OUT(
+        redeclare package Medium = Hot,
+        T=473.15,
+        use_T=false)
+        annotation (Placement(transformation(extent={{-133,-8},{-100,22}})));
+      Design.Components.Flags.ADDCO COLD_IN(
+        use_T=true,
+        use_p=true,
+        redeclare package Medium = Cold,
+        m_flow=0.0286474,
+        use_m_flow=true,
+        T=460.55,
+        p=700000)
+        annotation (Placement(transformation(extent={{-133,-116},{-104,-88}})));
+      Design.Components.Flags.ADDCO COLD_OUT(
+        redeclare package Medium = Cold,
+        T=553.15,
+        use_T=true)
+        annotation (Placement(transformation(extent={{79,-116},{108,-88}})));
+      Design.Components.Flags.ADDCO HOT_IN(
+        use_T=true,
+        use_p=true,
+        redeclare package Medium = Hot,
+        m_flow=0.066,
+        T=673.15,
+        p=120000,
+        use_m_flow=true)
+                  annotation (Placement(transformation(extent={{49,100},{78,128}})));
+    equation
+      connect(HOT_OUT.node, EVA_EGR.node_h_out) annotation (Line(
+          points={{-99.835,7},{-99.835,-53.6},{-88,-53.6}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(COLD_IN.node, EVA_EGR.node_c_in) annotation (Line(
+          points={{-103.855,-102},{-104,-102},{-104,-75.61},{-88,-75.61}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(EVA_EGR.node_c_out, COLD_OUT.node) annotation (Line(
+          points={{88,24.145},{130,24.145},{130,-102},{108.145,-102}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(HOT_IN.node, EVA_EGR.node_h_in) annotation (Line(
+          points={{78.145,114},{130,114},{130,45.8},{88,45.8}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+     annotation (Placement(transformation(extent={{-108,-74},{88,66}})),
+        experiment(__Dymola_NumberOfIntervals=1),
+        __Dymola_experimentSetupOutput,
+        Diagram(coordinateSystem(extent={{-160,-120},{140,140}},
+              preserveAspectRatio=false), graphics),
+        Icon(coordinateSystem(extent={{-160,-120},{140,140}})));
+    end EVA_EGR;
+
+    model EVA_Exh "Design of the evaporator for the exhaust gases"
+      package Hot = Test.Media.Gas.FlueGas;
+      package Cold = Media.CoolProp.Toluene_TTSE;
+
+        Design.Components.HEX.Flat_plate EVA_EXH(
+        redeclare package Medium_hot = Hot,
+        redeclare package Medium_cold = Cold,
+        redeclare function cost = Design.Miscellanea.Cost.FP_Rafferty,
+        ht_hot_f1=1e9,
+        ht_cold_f1=1e9,
+        X=1,
+        w=0.325,
+        d_pt=100e-3,
+        redeclare Design.Heat_transfer.Plates.evaporation_Martin ht_cold(
+          p_in=EVA_EXH.node_c_in.p,
+          At=EVA_EXH.At,
+          beta=EVA_EXH.beta,
+          qdot=EVA_EXH.plate.qdot_cold,
+          qdot_tilde_start=EVA_EXH.mdot_hot_start*(EVA_EXH.h_hot_in_start - EVA_EXH.h_hot_out_start)
+              /(2*EVA_EXH.l_start*EVA_EXH.w*EVA_EXH.N_ch_p)),
+        redeclare Design.Materials.SS_AISI_304 material,
+        thick=0.8e-3,
+        b=2.3e-3,
+        redeclare Design.Pressure_drops.Plates.evaporation_Martin dp_cold(p_in=
+              EVA_EXH.node_c_in.p, beta=EVA_EXH.beta),
+        redeclare Design.Miscellanea.check_velocity check_hot(T_sat=500),
+        redeclare Design.Miscellanea.check_velocity check_cold(umin=min(EVA_EXH.ht_cold.u)),
+        N_ch_p=16,
+        mdot_hot_start=0.131,
+        mdot_cold_start=0.032,
+        use_dp=true,
+        l_start=0.5,
+        N_cell_pc=7,
+        beta=1.0471975511966,
+        t_hot_in_start=587.15,
+        t_hot_out_start=473.15,
+        t_cold_in_start=460.55,
+        t_cold_out_start=553.15,
+        p_hot_start=120000,
+        p_cold_start=700000,
+        dp_hot_start=20000)
+        "Model of a flat plate heat exchanger. Evaporator for the exhaust gases."
+        annotation (Placement(transformation(extent={{-88,-82},{88,60}})));
+
+      Design.Components.Flags.ADDCO HOT_OUT(
+        redeclare package Medium = Hot,
+        use_T=false,
+        T=473.15,
+        p=100000,
+        use_p=true)
+        annotation (Placement(transformation(extent={{-133,-8},{-100,22}})));
+      Design.Components.Flags.ADDCO COLD_IN(
+        use_T=true,
+        use_p=true,
+        redeclare package Medium = Cold,
+        use_m_flow=true,
+        m_flow=0.0321154,
+        T=460.55,
+        p=700000)
+        annotation (Placement(transformation(extent={{-133,-116},{-104,-88}})));
+      Design.Components.Flags.ADDCO COLD_OUT(
+        redeclare package Medium = Cold,
+        T=553.15,
+        use_T=true)
+        annotation (Placement(transformation(extent={{79,-116},{108,-88}})));
+      Design.Components.Flags.ADDCO HOT_IN(
+        use_T=true,
+        redeclare package Medium = Hot,
+        use_m_flow=true,
+        m_flow=0.131,
+        T=587.15,
+        p=120000,
+        use_p=false)
+                  annotation (Placement(transformation(extent={{49,100},{78,128}})));
+    equation
+      connect(HOT_OUT.node,EVA_EXH. node_h_out) annotation (Line(
+          points={{-99.835,7},{-99.835,-53.6},{-88,-53.6}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(COLD_IN.node,EVA_EXH. node_c_in) annotation (Line(
+          points={{-103.855,-102},{-104,-102},{-104,-75.61},{-88,-75.61}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(EVA_EXH.node_c_out, COLD_OUT.node) annotation (Line(
+          points={{88,24.145},{130,24.145},{130,-102},{108.145,-102}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(HOT_IN.node,EVA_EXH. node_h_in) annotation (Line(
+          points={{78.145,114},{130,114},{130,45.8},{88,45.8}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+     annotation (Placement(transformation(extent={{-108,-74},{88,66}})),
+        experiment(__Dymola_NumberOfIntervals=1),
+        __Dymola_experimentSetupOutput,
+        Diagram(coordinateSystem(extent={{-160,-120},{140,140}},
+              preserveAspectRatio=false), graphics),
+        Icon(coordinateSystem(extent={{-160,-120},{140,140}})));
+    end EVA_Exh;
+
+    model Recuperator "Design of the recuperator"
+      package Hot = Media.CoolProp.Toluene_TTSE;
+      package Cold = Media.CoolProp.Toluene_TTSE;
+
+        Design.Components.HEX.Flat_plate REC(
+        redeclare package Medium_hot = Hot,
+        redeclare package Medium_cold = Cold,
+        redeclare function cost = Design.Miscellanea.Cost.FP_Rafferty,
+        ht_hot_f1=1e9,
+        ht_cold_f1=1e9,
+        X=1,
+        w=0.325,
+        d_pt=100e-3,
+        redeclare Design.Materials.SS_AISI_304 material,
+        thick=0.8e-3,
+        b=2.3e-3,
+        redeclare Design.Miscellanea.check_velocity check_hot(T_sat=500),
+        redeclare Design.Miscellanea.check_velocity check_cold(umin=min(REC.ht_cold.u)),
+        N_ch_p=8,
+        l_start=0.5,
+        N_cell_pc=3,
+        use_dp=true,
+        mdot_hot_start=0.0607628,
+        mdot_cold_start=0.0607628,
+        beta=1.0471975511966,
+        t_hot_in_start=503.15,
+        t_hot_out_start=373.15,
+        t_cold_in_start=358.15,
+        t_cold_out_start=460.15,
+        p_hot_start=47000,
+        p_cold_start=700000)
+        "Model of a flat plate heat exchanger. Recuperator."
+        annotation (Placement(transformation(extent={{-88,-82},{88,60}})));
+
+      Design.Components.Flags.ADDCO HOT_OUT(
+        redeclare package Medium = Hot,
+        T=373.15,
+        use_T=true)
+        annotation (Placement(transformation(extent={{-133,-8},{-100,22}})));
+      Design.Components.Flags.ADDCO COLD_IN(
+        use_T=true,
+        use_p=true,
+        redeclare package Medium = Cold,
+        use_m_flow=true,
+        T=358.5704,
+        p=700000,
+        m_flow=0.0607628)
+        annotation (Placement(transformation(extent={{-133,-116},{-104,-88}})));
+      Design.Components.Flags.ADDCO COLD_OUT(
+        redeclare package Medium = Cold,
+        T=553.15,
+        use_T=false)
+        annotation (Placement(transformation(extent={{79,-116},{108,-88}})));
+      Design.Components.Flags.ADDCO HOT_IN(
+        use_T=true,
+        use_p=true,
+        redeclare package Medium = Hot,
+        use_m_flow=true,
+        m_flow=0.0607628,
+        T=502.732,
+        p=47000)  annotation (Placement(transformation(extent={{49,100},{78,128}})));
+    equation
+      connect(HOT_OUT.node, REC.node_h_out) annotation (Line(
+          points={{-99.835,7},{-99.835,-53.6},{-88,-53.6}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(COLD_IN.node, REC.node_c_in) annotation (Line(
+          points={{-103.855,-102},{-104,-102},{-104,-75.61},{-88,-75.61}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(REC.node_c_out, COLD_OUT.node) annotation (Line(
+          points={{88,24.145},{130,24.145},{130,-102},{108.145,-102}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(HOT_IN.node, REC.node_h_in) annotation (Line(
+          points={{78.145,114},{130,114},{130,45.8},{88,45.8}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+     annotation (Placement(transformation(extent={{-108,-74},{88,66}})),
+        experiment(__Dymola_NumberOfIntervals=1),
+        __Dymola_experimentSetupOutput,
+        Diagram(coordinateSystem(extent={{-160,-120},{140,140}},
+              preserveAspectRatio=false), graphics),
+        Icon(coordinateSystem(extent={{-160,-120},{140,140}})));
+    end Recuperator;
+
+    model Condenser "Design of the recuperator"
+      package Hot = Media.CoolProp.Toluene_TTSE;
+      package Cold = Media.CoolProp.Water_TTSE;
+
+        Design.Components.HEX.Flat_plate COND(
+        redeclare package Medium_hot = Hot,
+        redeclare package Medium_cold = Cold,
+        redeclare function cost = Design.Miscellanea.Cost.FP_Rafferty,
+        ht_hot_f1=1e9,
+        ht_cold_f1=1e9,
+        X=1,
+        w=0.325,
+        d_pt=100e-3,
+        redeclare Design.Heat_transfer.Plates.condensation_Longo ht_hot(beta=COND.beta,
+        p_in=COND.node_h_in.p),
+        redeclare Design.Pressure_drops.Plates.evaporation_Martin dp_hot(
+          p_in=COND.node_h_in.p,
+          beta=COND.beta),
+        redeclare Design.Materials.SS_AISI_304 material,
+        thick=0.8e-3,
+        b=2.3e-3,
+        redeclare Design.Miscellanea.check_velocity check_hot(T_sat=500),
+        redeclare Design.Miscellanea.check_velocity check_cold(umin=min(COND.ht_cold.u)),
+        l_start=0.5,
+        N_cell_pc=10,
+        mdot_hot_start=0.0607628,
+        mdot_cold_start=1.09,
+        use_dp=false,
+        N_ch_p=6,
+        beta=1.0471975511966,
+        t_hot_in_start=373.15,
+        t_hot_out_start=358.15,
+        t_cold_in_start=343.15,
+        t_cold_out_start=353.15,
+        p_hot_start=47000,
+        p_cold_start=120000) "Model of a flat plate heat exchanger. Condenser."
+        annotation (Placement(transformation(extent={{-88,-82},{88,60}})));
+
+      Design.Components.Flags.ADDCO HOT_OUT(
+        redeclare package Medium = Hot,
+        T=353.15,
+        h=-50078.8,
+        use_T=false,
+        use_h=true)
+        annotation (Placement(transformation(extent={{-133,-8},{-100,22}})));
+      Design.Components.Flags.ADDCO COLD_IN(
+        use_T=true,
+        use_p=true,
+        redeclare package Medium = Cold,
+        use_m_flow=true,
+        T=343.15,
+        p=120000,
+        m_flow=1.09)
+        annotation (Placement(transformation(extent={{-133,-116},{-104,-88}})));
+      Design.Components.Flags.ADDCO COLD_OUT(
+        redeclare package Medium = Cold,
+        T=553.15,
+        use_T=false)
+        annotation (Placement(transformation(extent={{79,-116},{108,-88}})));
+      Design.Components.Flags.ADDCO HOT_IN(
+        use_T=true,
+        use_p=true,
+        redeclare package Medium = Hot,
+        use_m_flow=true,
+        m_flow=0.0607628,
+        T=373.15,
+        p=47000)  annotation (Placement(transformation(extent={{49,100},{78,128}})));
+    equation
+      connect(HOT_OUT.node, COND.node_h_out) annotation (Line(
+          points={{-99.835,7},{-99.835,-53.6},{-88,-53.6}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(COLD_IN.node, COND.node_c_in) annotation (Line(
+          points={{-103.855,-102},{-104,-102},{-104,-75.61},{-88,-75.61}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(COND.node_c_out, COLD_OUT.node) annotation (Line(
+          points={{88,24.145},{130,24.145},{130,-102},{108.145,-102}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+      connect(HOT_IN.node, COND.node_h_in) annotation (Line(
+          points={{78.145,114},{130,114},{130,45.8},{88,45.8}},
+          color={0,0,0},
+          pattern=LinePattern.None,
+          smooth=Smooth.None));
+     annotation (Placement(transformation(extent={{-108,-74},{88,66}})),
+        experiment(__Dymola_NumberOfIntervals=1),
+        __Dymola_experimentSetupOutput,
+        Diagram(coordinateSystem(extent={{-160,-120},{140,140}},
+              preserveAspectRatio=false), graphics),
+        Icon(coordinateSystem(extent={{-160,-120},{140,140}})));
+    end Condenser;
+  end WHR_TRUCK;
+  annotation (uses(Modelica(version="3.2.1")));
 end Test;

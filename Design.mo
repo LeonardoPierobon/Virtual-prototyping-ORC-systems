@@ -391,7 +391,7 @@ package Design "Package for the component design"
                 color={85,170,255},
                 smooth=Smooth.None),                                                              Text(lineColor=
                     {0,0,0},                                                                                                    extent={{
-                    -100,15},{100,-15}},                                                                                                    textString = "%name",
+                    -100,15},{100,-15}},                                                                                                    textString=  "%name",
                 origin={0,64},
                 rotation=0)}));
       end shell_and_tube;
@@ -445,18 +445,29 @@ package Design "Package for the component design"
           "Mass flow start value hot side" annotation (Dialog(tab="Start"));
         parameter Modelica.SIunits.MassFlowRate mdot_cold_start
           "Mass flow start value cold side" annotation (Dialog(tab="Start"));
-        parameter Modelica.SIunits.SpecificEnthalpy h_hot_in_start=
-        Medium_hot.specificEnthalpy_pT(p_hot_start, t_hot_in_start)
-          "Inlet specific enthalpy start value hot side" annotation (Dialog(tab="Start"));
-        parameter Modelica.SIunits.SpecificEnthalpy h_hot_out_start=
-        Medium_hot.specificEnthalpy_pT(p_hot_start, t_hot_out_start)
-          "Outlet specific enthalpy start value hot side" annotation (Dialog(tab="Start"));
-        parameter Modelica.SIunits.SpecificEnthalpy h_cold_in_start=
-        Medium_cold.specificEnthalpy_pT(p_cold_start, t_cold_in_start)
+        parameter Medium_hot.ThermodynamicState state_hot_in_start=
+        Medium_hot.setState_pTX(p_hot_start, t_hot_in_start)
+          "Inlet specific enthalpy start value hot side"
+                                                       annotation (Dialog(tab="Start"));
+        parameter Medium_hot.ThermodynamicState state_hot_out_start=
+        Medium_hot.setState_pTX(p_hot_start, t_hot_out_start)
+          "Outlet specific enthalpy start value hot side"
+                                                        annotation (Dialog(tab="Start"));
+        parameter Medium_cold.ThermodynamicState state_cold_in_start=
+        Medium_cold.setState_pTX(p_cold_start, t_cold_in_start)
           "Inlet specific enthalpy start value cold side" annotation (Dialog(tab="Start"));
-        parameter Modelica.SIunits.SpecificEnthalpy h_cold_out_start=
-        Medium_cold.specificEnthalpy_pT(p_cold_start, t_cold_out_start)
+        parameter Medium_cold.ThermodynamicState state_cold_out_start=
+        Medium_cold.setState_pTX(p_cold_start, t_cold_out_start)
           "Outlet specific enthalpy start value cold side" annotation (Dialog(tab="Start"));
+        parameter Modelica.SIunits.SpecificEnthalpy h_hot_in_start=
+        state_hot_in_start.h "Inlet specific enthalpy start value hot side" annotation (Dialog(tab="Start"));
+        parameter Modelica.SIunits.SpecificEnthalpy h_hot_out_start=
+        state_hot_out_start.h "Outlet specific enthalpy start value hot side" annotation (Dialog(tab="Start"));
+        parameter Modelica.SIunits.SpecificEnthalpy h_cold_in_start=
+        state_cold_in_start.h "Inlet specific enthalpy start value cold side" annotation (Dialog(tab="Start"));
+        parameter Modelica.SIunits.SpecificEnthalpy h_cold_out_start=
+        state_cold_out_start.h "Outlet specific enthalpy start value cold side"
+                                                                                annotation (Dialog(tab="Start"));
         Modelica.SIunits.Length l(start = l_start, fixed = true) "Length";
         Modelica.SIunits.CoefficientOfHeatTransfer U
           "Global heat transfer coefficient";
@@ -665,10 +676,10 @@ package Design "Package for the component design"
                   G_tot[2, j, i]                = 1/(1/ht_hot.ht[j, i] +
                   1/ht_hot_f[j, i] + 1/ht_cold.ht[k1[j] - 1, k2[i]] +
                   1/ht_cold_f[k1[j] - 1, k2[i]] + 1/h_wall);
-                  //Check second principle of Thermodynamics
-                  assert(plate.state_hot[j, i].T > plate.state_cold[k1[j] - 1,
-                  k2[i]].T, "Second principle of Thermodynamics not respected",
-                  AssertionLevel.warning);
+      //             //Check second principle of Thermodynamics
+      //             assert(plate.state_hot[j, i].T > plate.state_cold[k1[j] - 1,
+      //             k2[i]].T, "Second principle of Thermodynamics not respected",
+      //             AssertionLevel.warning);
                 elseif (j == N_ch) then
                   G_tot[2, j, i]                = 0;
                   plate.qdot_wall[2, j, i]      = 0;
@@ -682,16 +693,16 @@ package Design "Package for the component design"
                   G_tot[2, j, i]                = 1/(1/ht_hot.ht[j, i] +
                   1/ht_hot_f[j, i] + 1/ht_cold.ht[k1[j], k2[i]] +
                   1/ht_cold_f[k1[j], k2[i]] + 1/h_wall);
-                  //Check second principle of Thermodynamics
-                  assert(plate.state_hot[j, i].T > plate.state_cold[k1[j] - 1,
-                  k2[i]].T, "Second principle of Thermodynamics not respected",
-                  AssertionLevel.warning);
+      //             //Check second principle of Thermodynamics
+      //             assert(plate.state_hot[j, i].T > plate.state_cold[k1[j] - 1,
+      //             k2[i]].T, "Second principle of Thermodynamics not respected",
+      //             AssertionLevel.warning);
                 end if;
 
-                //Check second principle of Thermodynamics
-                 assert(plate.state_hot[j, i].T > plate.state_cold[k1[j], k2[i]].T,
-                 "Second principle of Thermodynamics not respected",
-                 AssertionLevel.warning);
+      //           //Check second principle of Thermodynamics
+      //            assert(plate.state_hot[j, i].T > plate.state_cold[k1[j], k2[i]].T,
+      //            "Second principle of Thermodynamics not respected",
+      //            AssertionLevel.warning);
               end for;
             end for;
 
@@ -898,7 +909,7 @@ package Design "Package for the component design"
       end START;
 
       model ADDCO "Flag to impose and visualize the process variables"
-        replaceable package Medium = Media.OneRandomOrganicFluid constrainedby
+        replaceable package Medium = Test.Media.OneRandomOrganicFluid constrainedby
           Modelica.Media.Interfaces.PartialMedium "Medium model hot cells" annotation(choicesAllMatching = true);
         parameter Boolean visible = true "if true display mode on";
         parameter Modelica.SIunits.Temperature T = 298.15 "Temperature" annotation (Dialog(tab="Addco"));
@@ -915,11 +926,11 @@ package Design "Package for the component design"
               iconTransformation(extent={{91,-10},{111,10}})));
       equation
         //Component equations
-        state = Medium.setState_ph(node.p, node.h);
+        state = Medium.setState_phX(node.p, node.h);
 
         //Boundary equations
         if use_T then
-          node.h =  Medium.specificEnthalpy(Medium.setState_pT(node.p, T));
+          node.h =  Medium.specificEnthalpy(Medium.setState_pTX(node.p, T));
         end if;
         if use_p then
           p      = node.p;
@@ -930,6 +941,7 @@ package Design "Package for the component design"
         if use_m_flow then
           m_flow = node.m_flow;
         end if;
+
         annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
                   -100},{100,100}}), graphics), Icon(coordinateSystem(
                 preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics={
@@ -971,7 +983,6 @@ package Design "Package for the component design"
                 origin={-162,150.5},
                 rotation=0)}));
       end ADDCO;
-
     end Flags;
   end Components;
 
@@ -1248,7 +1259,7 @@ package Design "Package for the component design"
           h_out      = h[N_ch, N_cell_pc + 1];
         end if;
 
-        state_p[1] = Medium.setState_ph(p_in, h_in);
+        state_p[1] = Medium.setState_phX(p_in, h_in);
 
       end series;
 
@@ -1278,7 +1289,7 @@ package Design "Package for the component design"
           h_out      = sum(h[:, N_cell_pc + 1])/N_ch;
         end if;
 
-        state_p[1] = Medium.setState_ph(p_in, h_in);
+        state_p[1] = Medium.setState_phX(p_in, h_in);
 
       end parallel;
 
@@ -1319,9 +1330,9 @@ package Design "Package for the component design"
           if boundary then
             h_out = sum(h[1:N_ch_p, 1])/N_ch_p;
           end if;
-          state_p[1] = Medium.setState_ph(p_in, sum(h[N_ch_p + 1:N_ch, N_cell_pc + 1]
+          state_p[1] = Medium.setState_phX(p_in, sum(h[N_ch_p + 1:N_ch, N_cell_pc + 1]
           /N_ch_p));
-          state_p[2] = Medium.setState_ph(p_in, h_in);
+          state_p[2] = Medium.setState_phX(p_in, h_in);
         else
           for j in 1:N_ch loop
             for i in 1:N_cell_pc loop
@@ -1341,8 +1352,8 @@ package Design "Package for the component design"
           if boundary then
             h_out = sum(h[1:N_ch_p, N_cell_pc + 1])/N_ch_p;
           end if;
-          state_p[1] = Medium.setState_ph(p_in, sum(h[N_ch_p + 1:N_ch, 1])/N_ch_p);
-          state_p[2] = Medium.setState_ph(p_in, h_in);
+          state_p[1] = Medium.setState_phX(p_in, sum(h[N_ch_p + 1:N_ch, 1])/N_ch_p);
+          state_p[2] = Medium.setState_phX(p_in, h_in);
         end if;
 
       end two_pass_two_pass;
@@ -1449,7 +1460,7 @@ package Design "Package for the component design"
 
         for i in 1:Ncell loop
           qdot[i]           = pin*mdot*(h[i] - h[i + 1]);
-          state[i]          = Medium.setState_ph(p_in, 0.5*(h[i] + h[i + 1]));
+          state[i]          = Medium.setState_phX(p_in, 0.5*(h[i] + h[i + 1]));
         end for;
       annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},
                 {100,100}}), graphics={
@@ -1557,9 +1568,9 @@ package Design "Package for the component design"
               h_hot[j, i + 1]);
               qdot_cold[j, i]    = pin_cold[j, i]*mdot_cold*(h_cold[j, i + 1] -
               h_cold[j, i]);
-              state_hot[j, i]    = Medium_hot.setState_ph(p_hot_in,
+              state_hot[j, i]    = Medium_hot.setState_phX(p_hot_in,
                 0.5*(h_hot[j, i] + h_hot[j, i + 1]));
-              state_cold[j, i]   = Medium_cold.setState_ph(p_cold_in,
+              state_cold[j, i]   = Medium_cold.setState_phX(p_cold_in,
                 0.5*(h_cold[j, i] + h_cold[j, i + 1]));
             end for;
         end for;
@@ -1699,8 +1710,8 @@ package Design "Package for the component design"
 
       equation
           sat      = Medium.setSat_p(p_in);
-          state_l  = Medium.setState_ph(p_in, sat.hl);
-          state_v  = Medium.setState_ph(p_in, sat.hv);
+          state_l  = Medium.setState_phX(p_in, sat.hl);
+          state_v  = Medium.setState_phX(p_in, sat.hv);
         for i in 1:Ncell loop
           u[i]     = mdot/state[i].d/Aflow "tube velocity";
           Re[i]    = Miscellanea.numbers.Reynolds(
@@ -1921,8 +1932,8 @@ package Design "Package for the component design"
            Real b_l;
       equation
         sat       = Medium.setSat_p(p_in);
-        state_l   = Medium.setState_ph(p_in, sat.hl);
-        state_v   = Medium.setState_ph(p_in, sat.hv);
+        state_l   = Medium.setState_phX(p_in, sat.hl);
+        state_v   = Medium.setState_phX(p_in, sat.hv);
         u_l       = mdot/state_l.d/S_m;
         Y         = Miscellanea.sqrtReg(state_l.d/state_v.d)*(state_v.eta/state_l.eta)^0.23;
         Y_w       = Miscellanea.sqrtReg(state_l.d/state_v.d);
@@ -2334,8 +2345,8 @@ package Design "Package for the component design"
 
           homotopy(dp_tot, 0);
           sat     = Medium.setSat_p(p_in);
-          state_l = Medium.setState_ph(p_in, sat.hl);
-          state_v = Medium.setState_ph(p_in, sat.hv);
+          state_l = Medium.setState_phX(p_in, sat.hl);
+          state_v = Medium.setState_phX(p_in, sat.hv);
 
           for j in 1:N_ch loop
             dp_plates[j]   = sum(dp[j,:]);
@@ -2768,8 +2779,8 @@ package Design "Package for the component design"
 
       equation
           sat     = Medium.setSat_p(p_in);
-          state_l = Medium.setState_ph(p_in, sat.hl);
-          state_v = Medium.setState_ph(p_in, sat.hv);
+          state_l = Medium.setState_phX(p_in, sat.hl);
+          state_v = Medium.setState_phX(p_in, sat.hv);
           u_l     = mdot/state_l.d/Aflow;
           Re_l    = Miscellanea.numbers.Reynolds(u_l, state_l.d, state_l.eta, d_s_eq);
           Pr_l    = Miscellanea.numbers.Prandtl(state_l.cp, state_l.eta,
@@ -2943,8 +2954,8 @@ package Design "Package for the component design"
           Real a_l;
       equation
         sat     = Medium.setSat_p(p_in);
-        state_l = Medium.setState_ph(p_in, sat.hl);
-        state_v = Medium.setState_ph(p_in, sat.hv);
+        state_l = Medium.setState_phX(p_in, sat.hl);
+        state_v = Medium.setState_phX(p_in, sat.hv);
         u_l     = mdot/state_l.d/S_m;
         Re_l    = Miscellanea.numbers.Reynolds(u_l, state_l.d, state_l.eta, Dhyd_o);
         Pr_l    = Miscellanea.numbers.Prandtl(state_l.cp, state_l.eta,

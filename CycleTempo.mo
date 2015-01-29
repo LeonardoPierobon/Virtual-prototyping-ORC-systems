@@ -31,15 +31,15 @@ package CycleTempo "Cycle Tempo 2_0"
 
       connector Node_out "Fluid connector with filled icon"
         extends hp_mdot;
-        annotation(Diagram(coordinateSystem(preserveAspectRatio = true, extent = {{-100, -100}, {100, 100}}), graphics={  Ellipse(extent = {{-100, 100}, {100, -100}}, lineColor=
+        annotation(Diagram(coordinateSystem(preserveAspectRatio = true, extent = {{-100, -100}, {100, 100}}), graphics={  Ellipse(extent=  {{-100, 100}, {100, -100}}, lineColor=
                     {0,127,255},                                                                                                    fillColor=
                     {0,0,0},
-                  fillPattern=FillPattern.Solid),                                                                                                    Ellipse(extent = {{-100, 100}, {100, -100}}, lineColor=
+                  fillPattern=FillPattern.Solid),                                                                                                    Ellipse(extent=  {{-100, 100}, {100, -100}}, lineColor=
                     {0,0,0}),                                                                                                    Text(extent={{
-                    -94,192},{106,98}},                                                                                                    textString = "%name", lineColor=
-                    {0,0,0})}),                                                                                                    Icon(coordinateSystem(preserveAspectRatio = true, extent = {{-100, -100}, {100, 100}}), graphics={  Ellipse(extent = {{-100, 100}, {100, -100}},
+                    -94,192},{106,98}},                                                                                                    textString=  "%name", lineColor=
+                    {0,0,0})}),                                                                                                    Icon(coordinateSystem(preserveAspectRatio = true, extent = {{-100, -100}, {100, 100}}), graphics={  Ellipse(extent=  {{-100, 100}, {100, -100}},
                 pattern=LinePattern.None,
-                lineColor={0,0,0}),                                                                                                    Ellipse(extent = {{-100, 100}, {100, -100}}, lineColor=
+                lineColor={0,0,0}),                                                                                                    Ellipse(extent=  {{-100, 100}, {100, -100}}, lineColor=
                     {0,0,0},
                 fillColor={0,0,0},
                 fillPattern=FillPattern.Solid)}),                                                                                                    Documentation(info = "<html>Modelica.Media.Examples.Tests.Components.FluidPort_a
@@ -53,7 +53,7 @@ package CycleTempo "Cycle Tempo 2_0"
       connector terminal "Electric terminal"
         extends power;
         annotation(Diagram(coordinateSystem(preserveAspectRatio = true, extent = {{-100, -100}, {100, 100}}), graphics={         Text(extent={{
-                    -98,202},{102,108}},                                                                                                    textString = "%name", lineColor=
+                    -98,202},{102,108}},                                                                                                    textString=  "%name", lineColor=
                     {255,128,0}), Rectangle(
                 extent={{-100,100},{100,-100}},
                 lineColor={0,0,0},
@@ -126,8 +126,8 @@ package CycleTempo "Cycle Tempo 2_0"
         W              = terminal.W;
 
         //Component equations
-        s              = Medium.specificEntropy_ph(node_in.p, node_in.h);
-        h_is           = Medium.specificEnthalpy_ps(node_out.p, s);
+        s              = Medium.specificEntropy(Medium.setState_phX(node_in.p, node_in.h));
+        h_is           = Medium.specificEnthalpy(Medium.setState_psX(node_out.p, s));
         node_out.h     = (h_is - node_in.h)/eta_is + node_in.h;
 
         annotation(Documentation(info = "<HTML>
@@ -135,11 +135,11 @@ package CycleTempo "Cycle Tempo 2_0"
                                                                                               </html>"),  Icon(coordinateSystem(extent={{-100,
                   -100},{100,100}},                                                                                                    preserveAspectRatio=false,  initialScale = 0.1, grid = {2, 2}), graphics={                       Ellipse(
                                                                                                   extent={{
-                    -60,60},{60,-60}},                                                                                                    endAngle = 360,
+                    -60,60},{60,-60}},                                                                                                    endAngle=  360,
                 lineColor={0,0,0},
                 fillColor={255,255,255},
                 fillPattern=FillPattern.Solid),                                                                                                    Polygon(origin={
-                    -20.716,0.7156},                                                                                                    rotation = 180, fillColor=
+                    -20.716,0.7156},                                                                                                    rotation=  180, fillColor=
                     {255,255,255},
                   fillPattern=FillPattern.HorizontalCylinder,                                                                                                    points={{
                     19.284,42.7156},{19.284,-41.2844},{-80.7156,0.715564},{
@@ -205,8 +205,8 @@ package CycleTempo "Cycle Tempo 2_0"
         W              = terminal.W;
 
         //Component equations
-        s              = Medium.specificEntropy_ph(node_in.p, node_in.h);
-        h_is           = Medium.specificEnthalpy_ps(node_out.p, s);
+        s              = Medium.specificEntropy(Medium.setState_phX(node_in.p, node_in.h));
+        h_is           = Medium.specificEnthalpy(Medium.setState_psX(node_out.p, s));
         node_out.h     = node_in.h - (node_in.h - h_is)*eta_is;
         connect(node_out, node_out) annotation (Line(
             points={{14,-120},{42,-120},{42,-140},{44,-140},{44,-120},{14,
@@ -225,7 +225,7 @@ package CycleTempo "Cycle Tempo 2_0"
                 fillColor={255,255,255},
                 fillPattern=FillPattern.Solid),                                                   Text(lineColor=
                     {0,0,0},                                                                                                    extent={{
-                    -100,15},{100,-15}},                                                                                                    textString = "%name",
+                    -100,15},{100,-15}},                                                                                                    textString=  "%name",
                 origin={48,114},
                 rotation=0),
               Line(
@@ -270,8 +270,8 @@ package CycleTempo "Cycle Tempo 2_0"
         W              = terminal.W;
 
         //Component equations
-        s              = Medium.specificEntropy_ph(node_in.p, node_in.h);
-        h_is           = Medium.specificEnthalpy_ps(node_out.p, s);
+        s              = Medium.specificEntropy(Medium.setState_phX(node_in.p, node_in.h));
+        h_is           = Medium.specificEnthalpy(Medium.setState_psX(node_out.p, s));
         node_out.h     = (h_is - node_in.h)/eta_is + node_in.h;
 
         annotation(Documentation(info = "<HTML>
@@ -288,7 +288,7 @@ package CycleTempo "Cycle Tempo 2_0"
                 fillColor={255,255,255},
                 fillPattern=FillPattern.Solid),                                                   Text(lineColor=
                     {0,0,0},                                                                                                    extent={{
-                    -100,15},{100,-15}},                                                                                                    textString = "%name",
+                    -100,15},{100,-15}},                                                                                                    textString=  "%name",
                 origin={58,124},
                 rotation=0),
               Line(
@@ -339,7 +339,7 @@ package CycleTempo "Cycle Tempo 2_0"
             Real CT "Stodola constant calculated";
             Medium.ThermodynamicState state_in "Inlet thermodynamic state";
           equation
-            state_in = Medium.setState_ph(node_in.p, node_in.h);
+            state_in = Medium.setState_phX(node_in.p, node_in.h);
             CT       = node_in.m_flow*Design.Miscellanea.sqrtReg(state_in.T)/
             Design.Miscellanea.sqrtReg(node_in.p^2 - node_out.p^2);
 
@@ -401,7 +401,7 @@ package CycleTempo "Cycle Tempo 2_0"
               Medium.ThermodynamicState state_in
                 "Thermodynamic state at the in";
             equation
-              state_in = Medium.setState_ph(node_in.p, node_in.h);
+              state_in = Medium.setState_phX(node_in.p, node_in.h);
               V_flow   = node_in.m_flow/state_in.d;
               head     = (node_out.h - node_in.h)/g_n;
             end base;
@@ -419,10 +419,11 @@ package CycleTempo "Cycle Tempo 2_0"
         parameter Boolean use_dT_int = false
           "true if temperature difference at the inlet of the evaporator is given"
                                                                                    annotation (Dialog(tab="Addco"));
-        parameter Modelica.SIunits.SpecificEnthalpy hh_in_start=
-        Medium_h.specificEnthalpy_pT(1e5, 500)
+        parameter Modelica.SIunits.SpecificEnthalpy hh_in_start
           "Inlet enthalpy evaporator hot side start value" annotation (Dialog(tab="Start"));
-        Medium_c.SaturationProperties sat "Saturated state hot fluid";
+        Medium_c.SaturationProperties sat "Saturated state cold fluid";
+        Medium_h.ThermodynamicState hot_sat
+          "Hot fluid state corresponding to sat";
         Modelica.SIunits.SpecificEnthalpy hh_in_pre(start = hh_in_start)
           "Inlet enthalpy pre-heater hot side";
         Modelica.SIunits.SpecificEnthalpy hh_in_eva
@@ -440,13 +441,19 @@ package CycleTempo "Cycle Tempo 2_0"
 
         //Component equations
         sat              = Medium_c.setSat_p(node_c_in.p);
-        dT_eva           = Medium_h.temperature(Medium_h.setState_ph(node_h_in.p,
-                           hh_in_pre)) - sat.Tsat;
+        hot_sat          = Medium_h.setState_phX(node_h_in.p, hh_in_pre);
+        dT_eva           = hot_sat.T - sat.Tsat;
         qdot_pre         = node_c_in.m_flow*(sat.hl - node_c_in.h);
         qdot_eva         = node_c_in.m_flow*(sat.hv - sat.hl);
         qdot_sup         = node_c_in.m_flow*(node_c_out.h - sat.hv);
         qdot_pre         = node_h_in.m_flow*(hh_in_pre - node_h_out.h);
         qdot_eva         = node_h_in.m_flow*(hh_in_eva - hh_in_pre);
+
+        //Check second principle of Thermodynamics
+        assert(dT_eva > 0, "Second principle of Thermodynamics not respected");
+        assert(dT_eva > 5, "Internal temperature difference lower than 5 K",
+        AssertionLevel.warning);
+
         annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
                   -100},{100,100}}), graphics), Icon(coordinateSystem(
                 preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics));
@@ -459,8 +466,7 @@ package CycleTempo "Cycle Tempo 2_0"
         parameter Boolean use_dT_int = false
           "true if temperature difference at the inlet of the condensation region is given"
         annotation (Dialog(tab="Addco"));
-        parameter Modelica.SIunits.SpecificEnthalpy hc_in_start=
-        Medium_c.specificEnthalpy_pT(1e5, 298.15)
+        parameter Modelica.SIunits.SpecificEnthalpy hc_in_start
           "Inlet enthalpy condensation region cold side start value" annotation (Dialog(tab="Start"));
         Modelica.SIunits.SpecificEnthalpy hc_in_con( start = hc_in_start)
           "Inlet enthalpy condensation region cold side";
@@ -468,6 +474,8 @@ package CycleTempo "Cycle Tempo 2_0"
         Modelica.SIunits.TemperatureDifference dT_con
           "Temperature difference at the inlet of the condensation region";
         Medium_h.SaturationProperties sat "Saturated state hot fluid";
+        Medium_c.ThermodynamicState cold_sat
+          "Cold fluid state corresponing to sat";
       equation
 
         //Boundary equations
@@ -480,8 +488,14 @@ package CycleTempo "Cycle Tempo 2_0"
         node_h_out.h = sat.hl;
         qdot_con     = node_c_in.m_flow*(hc_in_con - node_c_in.h);
         qdot_con     = node_h_in.m_flow*(sat.hv - sat.hl);
-        dT_con       = sat.Tsat - Medium_c.temperature(Medium_c.setState_ph(node_c_in.p,
-                           hc_in_con));
+        cold_sat     = Medium_c.setState_phX(node_c_in.p, hc_in_con);
+        dT_con       = sat.Tsat - cold_sat.T;
+
+        //Check second principle of Thermodynamics
+        assert(dT_con > 0, "Second principle of Thermodynamics not respected");
+        assert(dT_con > 5, "Internal temperature difference lower than 5 K",
+        AssertionLevel.warning);
+
         annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,
                   -100},{100,100}}),       graphics));
       end Condenser;
@@ -550,14 +564,14 @@ package CycleTempo "Cycle Tempo 2_0"
         end if;
 
         if use_dT_in then
-          dT_in              = Medium_h.temperature(Medium_h.setState_ph(node_h_in.p,
-          node_h_in.h)) - Medium_c.temperature(Medium_c.setState_ph(node_c_out.p,
+          dT_in              = Medium_h.temperature(Medium_h.setState_phX(node_h_in.p,
+          node_h_in.h)) - Medium_c.temperature(Medium_c.setState_phX(node_c_out.p,
           node_c_out.h));
         end if;
 
         if use_dT_out then
-          dT_out             = Medium_h.temperature(Medium_h.setState_ph(node_h_out.p,
-          node_h_out.h)) - Medium_c.temperature(Medium_c.setState_ph(node_c_in.p,
+          dT_out             = Medium_h.temperature(Medium_h.setState_phX(node_h_out.p,
+          node_h_out.h)) - Medium_c.temperature(Medium_c.setState_phX(node_c_in.p,
           node_c_in.h));
         end if;
 
@@ -565,13 +579,13 @@ package CycleTempo "Cycle Tempo 2_0"
             points={{100,-60},{100,-60}},
             color={0,127,255},
             smooth=Smooth.None));
-        annotation(Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},
-                  {100,100}}),
+        annotation(Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
+                  -100},{100,100}}),
                            graphics), Icon(coordinateSystem(extent={{-100,
                   -100},{100,100}},                                                              preserveAspectRatio=false,  initialScale = 0.1, grid = {2, 2}), graphics={
                                                                                                   Text(lineColor=
                     {0,0,0},                                                                                                    extent={{
-                    -100,15},{100,-15}},                                                                                                    textString = "%name",
+                    -100,15},{100,-15}},                                                                                                    textString=  "%name",
                 origin={-128,134},
                 rotation=0),
               Rectangle(extent={{-100,100},{100,-100}}, lineColor={0,0,0},
@@ -661,11 +675,11 @@ package CycleTempo "Cycle Tempo 2_0"
               iconTransformation(extent={{91,-10},{111,10}})));
       equation
         //Component equations
-        state = Medium.setState_ph(node.p, node.h);
+        state = Medium.setState_phX(node.p, node.h);
 
         //Boundary equations
         if use_T then
-          node.h =  Medium.specificEnthalpy(Medium.setState_pT(node.p, T));
+          node.h =  Medium.specificEnthalpy(Medium.setState_pTX(node.p, T));
         end if;
         if use_p then
           p      = node.p;
@@ -714,7 +728,7 @@ package CycleTempo "Cycle Tempo 2_0"
                 lineColor={0,0,0},
                 textString="A"),                                                                  Text(lineColor=
                     {0,0,0},                                                                                                    extent={{
-                    -112,27.5},{112,-27.5}},                                                                                                textString = "%name",
+                    -112,27.5},{112,-27.5}},                                                                                                textString=  "%name",
                 origin={-162,150.5},
                 rotation=0)}));
       end ADDCO;
@@ -802,7 +816,7 @@ package CycleTempo "Cycle Tempo 2_0"
                                                                                               </html>"),  Icon(coordinateSystem(extent={{-100,
                   -100},{100,100}},                                                                                                    preserveAspectRatio=false,  initialScale = 0.1, grid = {2, 2}), graphics={                       Ellipse(
                                                                                                   extent={{
-                    -60,60},{60,-60}},                                                                                                    endAngle = 360,
+                    -60,60},{60,-60}},                                                                                                    endAngle=  360,
                 lineColor={0,0,0},
                 fillColor={255,255,255},
                 fillPattern=FillPattern.Solid),                                                                                   Text(lineColor=
@@ -831,7 +845,7 @@ package CycleTempo "Cycle Tempo 2_0"
                                                                                               </html>"),  Icon(coordinateSystem(extent={{-100,
                   -100},{100,100}},                                                                                                    preserveAspectRatio=false,  initialScale = 0.1, grid = {2, 2}), graphics={                       Ellipse(
                                                                                                   extent={{
-                    -60,60},{60,-60}},                                                                                                    endAngle = 360,
+                    -60,60},{60,-60}},                                                                                                    endAngle=  360,
                 lineColor={0,0,0},
                 fillColor={255,255,255},
                 fillPattern=FillPattern.Solid),                                                                                   Text(lineColor=
@@ -852,6 +866,220 @@ package CycleTempo "Cycle Tempo 2_0"
                   100}}), graphics));
       end Motor;
     end Electrics;
+
+    package Flow "Flow model"
+      model Mixer "Mixer model"
+        //Medium model
+        replaceable package Medium = Test.Media.OneRandomOrganicFluid constrainedby
+          Modelica.Media.Interfaces.PartialMedium "Medium model" annotation(choicesAllMatching = true);
+        Nodes.Node_in node_in_1(redeclare package Medium = Medium)
+          "Inlet node 1"                                                          annotation (Placement(transformation(extent={{50,-110},
+                  {70,-90}}),
+              iconTransformation(
+              extent={{-10,-10},{10,10}},
+              rotation=-90,
+              origin={40,-100})));
+        Nodes.Node_in node_in_2(redeclare package Medium = Medium)
+          "Inlet node 2"                                                          annotation (Placement(transformation(extent={{-70,-110},
+                  {-50,-90}}),
+              iconTransformation(
+              extent={{-10,-10},{10,10}},
+              rotation=-90,
+              origin={-40,-100})));
+        Nodes.Node_out node_out(redeclare package Medium = Medium)
+          "Outlet node"                                                          annotation (Placement(transformation(extent={{-10,-10},
+                  {10,10}}), iconTransformation(
+              extent={{-10,-10},{10,10}},
+              rotation=-90,
+              origin={0,20})));
+      equation
+        node_out.p      = node_in_1.p;
+        node_out.m_flow = node_in_1.m_flow + node_in_2.m_flow;
+        node_out.h      = (node_in_1.m_flow*node_in_1.h +
+        node_in_2.m_flow*node_in_2.h)/node_out.m_flow;
+        connect(node_out, node_out) annotation (Line(
+            points={{0,0},{4,0},{4,0},{0,0}},
+            color={0,0,0},
+            pattern=LinePattern.None,
+            smooth=Smooth.None));
+        annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
+                  -100},{100,100}}), graphics), Icon(coordinateSystem(
+                preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics={
+              Line(
+                points={{-50,-100},{-50,10}},
+                color={0,0,0},
+                smooth=Smooth.None),
+              Line(
+                points={{0,30},{-50,10}},
+                color={0,0,0},
+                smooth=Smooth.None),
+              Line(
+                points={{50,-100},{50,10}},
+                color={0,0,0},
+                smooth=Smooth.None),
+              Line(
+                points={{-30,-100},{-30,-10}},
+                color={0,0,0},
+                smooth=Smooth.None),
+              Line(
+                points={{0,10},{-30,-10}},
+                color={0,0,0},
+                smooth=Smooth.None),
+              Line(
+                points={{30,-100},{30,-10}},
+                color={0,0,0},
+                smooth=Smooth.None),
+              Line(
+                points={{0,10},{30,-10}},
+                color={0,0,0},
+                smooth=Smooth.None),
+              Line(
+                points={{0,30},{50,10}},
+                color={0,0,0},
+                smooth=Smooth.None),
+              Line(points={{40,-40},{40,-76}}, color={0,0,0}),
+              Line(points={{40,-40},{48,-54}}, color={0,0,0}),
+              Line(points={{40,-40},{32,-54}}, color={0,0,0}),
+              Line(points={{-40,-40},{-40,-76}},
+                                               color={0,0,0}),
+              Line(points={{-40,-40},{-32,-54}},
+                                               color={0,0,0}),
+              Line(points={{-40,-40},{-48,-54}},
+                                               color={0,0,0})}));
+      end Mixer;
+
+      model Splitter "Splitter model"
+        //Medium model
+        replaceable package Medium = Test.Media.OneRandomOrganicFluid constrainedby
+          Modelica.Media.Interfaces.PartialMedium "Medium model" annotation(choicesAllMatching = true);
+        Nodes.Node_out node_out_1(redeclare package Medium = Medium)
+          "Outlet node 1"
+          annotation (Placement(transformation(extent={{50,-110},{70,-90}}),
+              iconTransformation(
+              extent={{-10,-10},{10,10}},
+              rotation=-90,
+              origin={40,-100})));
+        Nodes.Node_out node_out_2(redeclare package Medium = Medium)
+          "Outlet node 2"
+          annotation (Placement(transformation(extent={{-70,-110},{-50,-90}}),
+              iconTransformation(
+              extent={{-10,-10},{10,10}},
+              rotation=-90,
+              origin={-40,-100})));
+        Nodes.Node_in node_in(redeclare package Medium = Medium) "Inlet node"
+          annotation (Placement(transformation(extent={{-10,-10},{10,10}}),
+              iconTransformation(
+              extent={{-10,-10},{10,10}},
+              rotation=-90,
+              origin={0,20})));
+      equation
+        node_in.m_flow = node_out_1.m_flow + node_out_2.m_flow;
+        node_in.p      = node_out_1.p;
+        node_in.p      = node_out_2.p;
+        node_in.h      = node_out_1.h;
+        node_in.h      = node_out_2.h;
+
+        connect(node_in, node_in) annotation (Line(
+            points={{0,0},{0,0}},
+            color={0,0,0},
+            pattern=LinePattern.None,
+            smooth=Smooth.None));
+        annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
+                  -100},{100,100}}), graphics), Icon(coordinateSystem(
+                preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics={
+              Line(
+                points={{-50,-100},{-50,10}},
+                color={0,0,0},
+                smooth=Smooth.None),
+              Line(
+                points={{0,30},{-50,10}},
+                color={0,0,0},
+                smooth=Smooth.None),
+              Line(
+                points={{50,-100},{50,10}},
+                color={0,0,0},
+                smooth=Smooth.None),
+              Line(
+                points={{-30,-100},{-30,-10}},
+                color={0,0,0},
+                smooth=Smooth.None),
+              Line(
+                points={{0,10},{-30,-10}},
+                color={0,0,0},
+                smooth=Smooth.None),
+              Line(
+                points={{30,-100},{30,-10}},
+                color={0,0,0},
+                smooth=Smooth.None),
+              Line(
+                points={{0,10},{30,-10}},
+                color={0,0,0},
+                smooth=Smooth.None),
+              Line(
+                points={{0,30},{50,10}},
+                color={0,0,0},
+                smooth=Smooth.None),
+              Line(points={{40,-40},{40,-76}}, color={0,0,0}),
+              Line(points={{40,-76},{48,-62}}, color={0,0,0}),
+              Line(points={{40,-76},{32,-62}}, color={0,0,0}),
+              Line(points={{-40,-40},{-40,-76}},
+                                               color={0,0,0}),
+              Line(points={{-40,-76},{-32,-62}},
+                                               color={0,0,0}),
+              Line(points={{-40,-76},{-48,-62}},
+                                               color={0,0,0})}));
+      end Splitter;
+    end Flow;
+
+    package Mechanics "Package containing mechanic components"
+
+      model GearBox "Gear box model"
+        parameter Real eta_m "Mechanical efficiency";
+        Nodes.terminal terminal_in "Inlet terminal"
+          annotation (Placement(transformation(extent={{-108,-10},{-88,10}}),
+              iconTransformation(extent={{-110,0},{-90,20}})));
+        Nodes.terminal terminal_out "Outlet terminal"
+          annotation (Placement(transformation(extent={{90,-10},{110,10}}),
+              iconTransformation(extent={{110,0},{130,20}})));
+      equation
+        terminal_out.W = terminal_in.W*eta_m;
+        annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},
+                  {100,100}}), graphics={
+            Rectangle(origin={30,10},
+              lineColor={64,64,64},
+              fillColor={192,192,192},
+              fillPattern=FillPattern.HorizontalCylinder,
+              extent={{-120.0,-10.0},{-80.0,10.0}}),
+            Polygon(fillColor={192,192,192},
+              fillPattern=FillPattern.HorizontalCylinder,
+              points={{-50,20},{-50,30},{-30,50},{-30,-30},{-50,-10},{-50,20}}),
+            Rectangle(lineColor={64,64,64},
+              fillColor={255,255,255},
+              fillPattern=FillPattern.HorizontalCylinder,
+              extent={{-30,-50},{50,70}},
+              radius=10.0),
+            Rectangle(lineColor={64,64,64},
+              fillPattern=FillPattern.None,
+              extent={{-30,-50},{50,70}},
+              radius=10.0),
+            Polygon(fillColor={192,192,192},
+              fillPattern=FillPattern.HorizontalCylinder,
+              points={{70,30},{50,50},{50,-30},{70,-10},{70,30}}),
+            Rectangle(origin={-10,10},
+              lineColor={64,64,64},
+              fillColor={192,192,192},
+              fillPattern=FillPattern.HorizontalCylinder,
+              extent={{80.0,-10.0},{120.0,10.0}}),
+            Polygon(origin={10,20},
+              fillColor={64,64,64},
+              fillPattern=FillPattern.Solid,
+              points={{-60.0,-90.0},{-50.0,-90.0},{-20.0,-30.0},{20.0,-30.0},{48.0,-90.0},{60.0,-90.0},{60.0,-100.0},{-60.0,-100.0},{-60.0,-90.0}}),
+                                        Text(
+                    extent={{-140,160},{160,120}},
+                    lineColor={0,0,0},
+                textString="%name")}));
+      end GearBox;
+    end Mechanics;
   end Components;
   annotation (uses(Modelica(version="3.2.1")));
 end CycleTempo;
